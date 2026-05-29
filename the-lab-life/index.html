@@ -409,6 +409,37 @@
   .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
+  /* ── ACCORDION ── */
+  .flow-card { cursor: pointer; user-select: none; }
+  .flow-arrow {
+    display: inline-block;
+    font-size: 14px;
+    color: #1A8FBF;
+    transition: transform 0.3s ease;
+    margin-left: 8px;
+    vertical-align: middle;
+    line-height: 1;
+  }
+  .flow-card.featured .flow-arrow { color: #6DCDF0; }
+  .flow-card.open .flow-arrow { transform: rotate(-180deg); }
+  .flow-steps { display: none; }
+  .flow-card.open .flow-steps { display: flex; }
+
+  /* ── SPARK NOTE ── */
+  .spark-note {
+    margin-top: 28px; margin-bottom: 4px;
+    background-color: #F2F6FA;
+    border: 1px solid #D8E4F0;
+    border-left: 3px solid #33B5E8;
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-size: 13px;
+    color: #4A5F82;
+    line-height: 1.65;
+    font-style: italic;
+    max-width: 700px;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     nav { padding: 14px 20px; }
@@ -464,7 +495,6 @@
     <li><a href="#overview">Overview</a></li>
     <li><a href="#ghl-build">GHL Build</a></li>
     <li><a href="#klaviyo">Klaviyo Layer</a></li>
-    <li><a href="#why-us">Why Us</a></li>
     <li><a href="#next-steps">Next Steps</a></li>
   </ul>
   <span class="nav-badge">Klaviyo Platinum Partner</span>
@@ -552,8 +582,10 @@
 <!-- GHL FLOWS -->
 <section class="flows-section">
   <div class="eyebrow-light">Month 1 · GoHighLevel</div>
-  <h2 class="title-dark">9 flows. 40+ touchpoints.<br><em>Built in GoHighLevel.</em></h2>
+  <h2 class="title-dark">9 flows.<br><em>Built in GoHighLevel.</em></h2>
   <p class="body-lg-dark reveal">Every flow is triggered by real behavior — a booking, an attendance check, a pipeline stage change. This isn't a batch-and-blast strategy. It's a system that responds to what each family actually does.</p>
+
+  <div class="spark-note reveal" style="transition-delay:0.08s">The exact trigger logic and flow architecture gets locked in a kickoff session with your team — this is our strategic blueprint based on what we've seen so far.</div>
 
   <div class="flows-grid reveal" style="transition-delay:0.1s">
 
@@ -761,45 +793,6 @@
   </div>
 </section>
 
-<!-- WHY DIGITSUP -->
-<section id="why-us" class="bring-section">
-  <div class="eyebrow-light">Why DigitsUp</div>
-  <h2 class="title-dark">What we bring<br><em>to the table.</em></h2>
-  <p class="body-lg-dark reveal">We're a Klaviyo Platinum Partner — the highest tier — and we work exclusively in lifecycle and retention marketing. No ads, no SEO, no generalist approach. Just the systems that keep families coming back and revenue compounding.</p>
-
-  <div class="bring-grid reveal" style="transition-delay:0.1s">
-    <div class="bring-card">
-      <div class="bring-num">Expertise</div>
-      <div class="bring-title">GoHighLevel × Klaviyo</div>
-      <div class="bring-desc">We know both platforms and how to make them work together. GoHighLevel for the pipeline, CRM, and transactional flows. Klaviyo for lifecycle marketing and campaigns at scale. Most agencies pick one. We build the stack.</div>
-    </div>
-    <div class="bring-card">
-      <div class="bring-num">Philosophy</div>
-      <div class="bring-title">Retention Over Acquisition</div>
-      <div class="bring-desc">Every agency talks acquisition. We talk retention — because keeping a member costs a fraction of acquiring one, and even small improvements compound dramatically over time. We build for the long game.</div>
-    </div>
-    <div class="bring-card">
-      <div class="bring-num">Approach</div>
-      <div class="bring-title">Systems, Not Sends</div>
-      <div class="bring-desc">Every flow responds to real behavior. Every campaign is tied to your business calendar. We don't build one-off emails — we build infrastructure that runs, adapts, and compounds over time.</div>
-    </div>
-    <div class="bring-card">
-      <div class="bring-num">Reporting</div>
-      <div class="bring-title">Revenue You Can See</div>
-      <div class="bring-desc">Monthly reporting showing exactly what the system drove. Every flow and campaign is tracked. No vanity metrics — dollars attributed, every month, so you always know what's working.</div>
-    </div>
-  </div>
-
-  <div class="platinum-wrap reveal" style="transition-delay:0.2s">
-    <div class="platinum-icon">🏆</div>
-    <div>
-      <div class="platinum-label">DigitsUp Agency</div>
-      <div class="platinum-title">Klaviyo Platinum Partner</div>
-      <div class="platinum-desc">Platinum is Klaviyo's highest partner tier — awarded to agencies that demonstrate sustained performance, technical depth, and measurable client results. We hold it because our clients see returns that make it defensible every quarter. For The LAB, that means working with a team that has genuinely done this before.</div>
-    </div>
-  </div>
-</section>
-
 <!-- NEXT STEPS -->
 <section id="next-steps" class="closing-section">
   <div class="eyebrow-dark">Let's Build</div>
@@ -868,6 +861,20 @@
       if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
     });
   }, { threshold: 0.07, rootMargin: '0px 0px -32px 0px' });
+
+  // Accordion: inject arrow + toggle on click
+  document.querySelectorAll('.flow-card').forEach(card => {
+    const trigger = card.querySelector('.flow-trigger');
+    if (trigger) {
+      const arrow = document.createElement('span');
+      arrow.className = 'flow-arrow';
+      arrow.textContent = '▾';
+      trigger.appendChild(arrow);
+    }
+    card.addEventListener('click', () => {
+      card.classList.toggle('open');
+    });
+  });
 </script>
 </body>
 </html>
