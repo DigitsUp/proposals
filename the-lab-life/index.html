@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme: light;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>The LAB Life × DigitsUp — GHL Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Nunito+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:      #0D1B4B;
+    --navy-dk:   #0A1538;
+    --cyan:      #33B5E8;
+    --cyan-dark: #1A8FBF;
+    --white:     #FFFFFF;
+    --light:     #F2F6FA;
+    --border:    #D8E4F0;
+    --text-dark: #0D1B4B;
+    --text-mid:  #4A5F82;
+    --text-light:#FFFFFF;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; color-scheme: light; }
+
+  body {
+    background-color: #FFFFFF;
+    color: #0D1B4B;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 52px;
+    background-color: rgba(255,255,255,0.96);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid #D8E4F0;
+  }
+  .nav-brand { display: flex; align-items: center; gap: 14px; }
+  .nav-lab {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: 22px; letter-spacing: 0.05em;
+    color: #0D1B4B;
+  }
+  .nav-sep { width: 1px; height: 20px; background: #D8E4F0; }
+  .nav-digits {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 14px; letter-spacing: 0.12em;
+    color: #4A5F82; text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
+    color: #4A5F82; text-decoration: none; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: #0D1B4B; }
+  .nav-badge {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    color: #FFFFFF; background-color: #33B5E8;
+    padding: 7px 16px; border-radius: 30px; text-transform: uppercase;
+  }
+
+  /* ── HERO — dark bg, light text ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 140px 52px 88px;
+    position: relative; overflow: hidden;
+    background-color: #0A1538;
+  }
+  .hero-dots {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(51,181,232,0.15) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+  }
+  .hero-glow {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 55% 50% at 80% 25%, rgba(51,181,232,0.2) 0%, transparent 65%),
+      radial-gradient(ellipse 35% 45% at 15% 75%, rgba(51,181,232,0.1) 0%, transparent 60%),
+      linear-gradient(to bottom, transparent 45%, rgba(10,21,56,0.7) 100%);
+  }
+  .hero-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.22em;
+    color: #33B5E8; text-transform: uppercase;
+    margin-bottom: 22px;
+    display: flex; align-items: center; gap: 10px;
+    position: relative; z-index: 2;
+  }
+  .hero-eyebrow::before { content: ''; display: block; width: 24px; height: 2px; background-color: #33B5E8; border-radius: 2px; }
+  .hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(64px, 11vw, 148px);
+    font-weight: 900; line-height: 0.9; letter-spacing: -0.01em;
+    text-transform: uppercase; color: #FFFFFF;
+    position: relative; z-index: 2;
+    opacity: 0; animation: fadeUp 0.85s ease forwards 0.1s;
+  }
+  .hero-title span { color: #33B5E8; }
+  .hero-sub {
+    font-size: clamp(13px, 1.5vw, 16px); font-weight: 600; letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.5); text-transform: uppercase;
+    margin-top: 20px; position: relative; z-index: 2;
+    opacity: 0; animation: fadeUp 0.85s ease forwards 0.35s;
+  }
+  .hero-intro {
+    margin-top: 48px; max-width: 580px;
+    font-size: 17px; line-height: 1.7; color: rgba(255,255,255,0.6);
+    position: relative; z-index: 2;
+    opacity: 0; animation: fadeUp 0.85s ease forwards 0.5s;
+  }
+  .hero-intro strong { color: #33B5E8; font-weight: 700; }
+  .hero-pills {
+    margin-top: 40px; display: flex; flex-wrap: wrap; gap: 10px;
+    position: relative; z-index: 2;
+    opacity: 0; animation: fadeUp 0.85s ease forwards 0.65s;
+  }
+  .hero-pill {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.07em;
+    color: #0D1B4B; background-color: #33B5E8;
+    padding: 8px 18px; border-radius: 30px; text-transform: uppercase;
+  }
+  .hero-pill.outline {
+    background-color: transparent; color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 96px 52px; border-bottom: 1px solid #D8E4F0; }
+
+  /* Eyebrow on LIGHT backgrounds */
+  .eyebrow-light {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
+    color: #1A8FBF; text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow-light::before { content: ''; display: block; width: 20px; height: 2px; background-color: #1A8FBF; border-radius: 2px; }
+
+  /* Eyebrow on DARK backgrounds */
+  .eyebrow-dark {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
+    color: #33B5E8; text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow-dark::before { content: ''; display: block; width: 20px; height: 2px; background-color: #33B5E8; border-radius: 2px; }
+
+  .title-dark {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(36px, 4.8vw, 62px);
+    font-weight: 900; line-height: 0.95; letter-spacing: -0.01em;
+    text-transform: uppercase; color: #0D1B4B; margin-bottom: 28px;
+  }
+  .title-dark em { color: #1A8FBF; font-style: normal; }
+
+  .title-light {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(36px, 4.8vw, 62px);
+    font-weight: 900; line-height: 0.95; letter-spacing: -0.01em;
+    text-transform: uppercase; color: #FFFFFF; margin-bottom: 28px;
+  }
+  .title-light em { color: #33B5E8; font-style: normal; }
+
+  .body-lg-dark  { font-size: 17px; line-height: 1.72; color: #4A5F82; max-width: 640px; }
+  .body-lg-light { font-size: 17px; line-height: 1.72; color: rgba(255,255,255,0.5); max-width: 640px; }
+
+  /* ── WHAT YOU'VE BUILT — light section ── */
+  .built-section { background-color: #FFFFFF; }
+
+  .built-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 56px; }
+  .built-card {
+    background-color: #F2F6FA; border: 1px solid #D8E4F0;
+    border-radius: 14px; padding: 32px 36px;
+    display: flex; flex-direction: column; gap: 12px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .built-card:hover { border-color: #33B5E8; box-shadow: 0 0 0 3px rgba(51,181,232,0.08); }
+  .built-card-label { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: #1A8FBF; text-transform: uppercase; }
+  .built-card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 900; text-transform: uppercase; color: #0D1B4B; line-height: 1.05; }
+  .built-card-desc { font-size: 14px; color: #4A5F82; line-height: 1.65; }
+
+  /* ── WHAT WE FOUND — dark section ── */
+  .audit-section { background-color: #0A1538; }
+
+  .audit-cols {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+    margin-top: 56px;
+  }
+  .audit-col-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .audit-col-label.running { color: #33B5E8; }
+  .audit-col-label.running::before { content: ''; display: block; width: 16px; height: 2px; background-color: #33B5E8; border-radius: 2px; }
+  .audit-col-label.adding { color: rgba(255,255,255,0.35); }
+  .audit-col-label.adding::before { content: ''; display: block; width: 16px; height: 2px; background-color: rgba(255,255,255,0.2); border-radius: 2px; }
+  .audit-list { display: flex; flex-direction: column; gap: 10px; }
+  .audit-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 14px; line-height: 1.55;
+  }
+  .audit-item.active { color: rgba(255,255,255,0.7); }
+  .audit-item.add    { color: rgba(255,255,255,0.45); }
+  .audit-dot {
+    width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 6px;
+  }
+  .audit-dot.cyan  { background-color: #33B5E8; }
+  .audit-dot.ghost { background-color: rgba(255,255,255,0.2); }
+
+  /* ── FLOWS — light section ── */
+  .flows-section { background-color: #FFFFFF; }
+
+  .flows-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 56px; }
+  .flow-card {
+    background-color: #F2F6FA; border: 1px solid #D8E4F0;
+    border-radius: 14px; padding: 32px 36px;
+    display: flex; flex-direction: column; gap: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .flow-card:hover { border-color: #33B5E8; box-shadow: 0 0 0 3px rgba(51,181,232,0.08); }
+  .flow-pill {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    color: #FFFFFF; background-color: #33B5E8;
+    padding: 4px 12px; border-radius: 30px; text-transform: uppercase;
+    display: inline-block; width: fit-content;
+  }
+  .flow-pill.special { background-color: #0D1B4B; color: #33B5E8; }
+  .flow-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px; font-weight: 900; text-transform: uppercase;
+    color: #0D1B4B; line-height: 1.05;
+  }
+  .flow-trigger { font-size: 12px; font-weight: 700; color: #1A8FBF; display: flex; align-items: center; gap: 6px; }
+  .flow-trigger::before { content: '→'; font-size: 14px; }
+  .flow-steps { display: flex; flex-direction: column; gap: 8px; }
+  .flow-step { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: #4A5F82; }
+  .flow-step-n {
+    font-size: 11px; font-weight: 800; color: #FFFFFF;
+    background-color: #33B5E8; min-width: 20px; height: 20px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; flex-shrink: 0; margin-top: 2px;
+  }
+  .flow-channels { display: flex; gap: 6px; margin-bottom: 2px; }
+  .ch { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 3px 9px; border-radius: 30px; }
+  .ch-email { background-color: #0D1B4B; color: #33B5E8; }
+  .ch-sms   { background-color: #C2E4D4; color: #1A5C40; }
+  .flow-footer { margin-top: 4px; padding-top: 14px; border-top: 1px solid #D8E4F0; display: flex; justify-content: space-between; align-items: center; }
+  .flow-footer-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; color: #4A5F82; text-transform: uppercase; }
+  .flow-footer-val { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 900; color: #1A8FBF; }
+
+  /* Featured flow — dark card */
+  .flow-card.featured {
+    background-color: #0A1538; border-color: transparent; grid-column: span 2;
+  }
+  .flow-card.featured:hover { border-color: #33B5E8; }
+  .flow-card.featured .flow-pill { background-color: #33B5E8; color: #0D1B4B; }
+  .flow-card.featured .flow-title { color: #FFFFFF; font-size: 30px; }
+  .flow-card.featured .flow-trigger { color: #6DCDF0; }
+  .flow-card.featured .flow-step { color: rgba(255,255,255,0.45); }
+  .flow-card.featured .flow-footer { border-top-color: rgba(255,255,255,0.1); }
+  .flow-card.featured .flow-footer-label { color: rgba(255,255,255,0.4); }
+  .flow-card.featured .flow-footer-val { color: #33B5E8; }
+  .flow-card.featured .ch-email { background-color: #33B5E8; color: #0D1B4B; }
+  .flow-card.featured .ch-sms   { background-color: #C2E4D4; color: #1A5C40; }
+
+  /* ── KLAVIYO LAYER — dark section ── */
+  .klaviyo-section { background-color: #0D1B4B; }
+
+  .klaviyo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 56px; }
+  .klaviyo-card {
+    background-color: rgba(51,181,232,0.07); border: 1px solid rgba(51,181,232,0.15);
+    border-radius: 14px; padding: 32px;
+    display: flex; flex-direction: column; gap: 12px;
+    transition: border-color 0.2s;
+  }
+  .klaviyo-card:hover { border-color: rgba(51,181,232,0.4); }
+  .klaviyo-card-label { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: rgba(51,181,232,0.6); text-transform: uppercase; }
+  .klaviyo-card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 900; text-transform: uppercase; color: #FFFFFF; }
+  .klaviyo-card-desc { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.65; }
+
+  .klaviyo-note {
+    margin-top: 40px;
+    background-color: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 24px 32px;
+    font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.65;
+    font-style: italic;
+  }
+
+  /* ── WHY DIGITSUP — light section ── */
+  .bring-section { background-color: #FFFFFF; }
+
+  .bring-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 56px; }
+  .bring-card {
+    background-color: #F2F6FA; border: 1px solid #D8E4F0;
+    border-radius: 14px; padding: 32px 36px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .bring-num { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: #1A8FBF; text-transform: uppercase; }
+  .bring-title { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 900; text-transform: uppercase; color: #0D1B4B; }
+  .bring-desc { font-size: 14px; color: #4A5F82; line-height: 1.65; }
+
+  .platinum-wrap {
+    margin-top: 48px; background-color: #0A1538; border-radius: 16px;
+    padding: 44px 52px; display: flex; align-items: center; gap: 40px;
+  }
+  .platinum-icon { font-size: 52px; flex-shrink: 0; }
+  .platinum-label { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(51,181,232,0.5); margin-bottom: 6px; }
+  .platinum-title { font-family: 'Barlow Condensed', sans-serif; font-size: 30px; font-weight: 900; text-transform: uppercase; color: #33B5E8; margin-bottom: 10px; }
+  .platinum-desc { font-size: 15px; color: rgba(255,255,255,0.5); line-height: 1.65; max-width: 540px; }
+
+  /* ── CLOSING — dark section ── */
+  .closing-section { background-color: #0A1538; }
+
+  .convo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 56px; }
+  .convo-card {
+    background-color: rgba(51,181,232,0.07); border: 1px solid rgba(51,181,232,0.15);
+    border-radius: 14px; padding: 32px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .convo-n { font-family: 'Barlow Condensed', sans-serif; font-size: 40px; font-weight: 900; color: rgba(51,181,232,0.25); line-height: 1; }
+  .convo-title { font-size: 15px; font-weight: 700; color: #FFFFFF; line-height: 1.3; }
+  .convo-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+  .cta-block {
+    margin-top: 64px; text-align: center;
+  }
+  .cta-question {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 900; text-transform: uppercase;
+    color: rgba(255,255,255,0.7); margin-bottom: 16px;
+  }
+  .cta-email {
+    font-size: 20px; font-weight: 700; color: #33B5E8; text-decoration: none;
+    letter-spacing: 0.04em;
+  }
+  .cta-email:hover { color: #6DCDF0; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 48px 52px; display: flex; justify-content: space-between; align-items: center;
+    background-color: #0D1B4B; border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .footer-logo { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 900; letter-spacing: 0.16em; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+  .footer-logo span { color: #33B5E8; }
+  .footer-note { font-size: 12px; color: rgba(255,255,255,0.25); }
+  .footer-contact { font-size: 13px; color: rgba(255,255,255,0.4); text-align: right; }
+  .footer-contact a { color: #33B5E8; text-decoration: none; }
+
+  /* ── HERO AMBIENT LIGHT ── */
+  .hero-ambient {
+    position: absolute; inset: 0;
+    pointer-events: none; z-index: 1;
+    overflow: hidden;
+  }
+  .amb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(55px);
+    opacity: 0;
+    animation: ambDrift ease-in-out infinite;
+  }
+  .amb-1 {
+    width: 580px; height: 580px;
+    background: radial-gradient(circle, rgba(51,181,232,0.22) 0%, transparent 65%);
+    top: -10%; left: 15%;
+    animation-duration: 18s;
+    animation-delay: 0s;
+  }
+  .amb-2 {
+    width: 460px; height: 460px;
+    background: radial-gradient(circle, rgba(51,181,232,0.16) 0%, transparent 65%);
+    top: 25%; left: 55%;
+    animation-duration: 22s;
+    animation-delay: -8s;
+  }
+  .amb-3 {
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(51,181,232,0.13) 0%, transparent 65%);
+    top: 50%; left: -5%;
+    animation-duration: 20s;
+    animation-delay: -13s;
+  }
+  @keyframes ambDrift {
+    0%   { opacity: 0;    transform: translate(0px, 0px); }
+    6%   { opacity: 1; }
+    30%  { transform: translate(50px, -40px); }
+    55%  { transform: translate(-25px, 55px); }
+    75%  { transform: translate(35px, 15px); }
+    94%  { opacity: 1; }
+    100% { opacity: 0;    transform: translate(0px, 0px); }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    section { padding: 60px 20px; }
+    .hero { padding: 120px 20px 60px; }
+    .flows-grid, .bring-grid { grid-template-columns: 1fr; }
+    .flow-card.featured { grid-column: span 1; }
+    .built-grid, .klaviyo-grid, .audit-cols { grid-template-columns: 1fr; }
+    .convo-grid { grid-template-columns: 1fr; }
+    .platinum-wrap { flex-direction: column; gap: 20px; padding: 32px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+    .footer-contact { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="password-gate" style="
+  position:fixed; inset:0; z-index:9999;
+  background-color:#0A1538;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:32px;
+  padding:40px;
+">
+  <div style="background-image:radial-gradient(rgba(51,181,232,0.12) 1.5px,transparent 1.5px);background-size:28px 28px;position:absolute;inset:0;pointer-events:none;"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(51,181,232,0.12) 0%,transparent 70%);"></div>
+  <div style="position:relative;z-index:2;text-align:center;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:56px;letter-spacing:-0.01em;color:#FFFFFF;text-transform:uppercase;line-height:1;margin-bottom:8px;">The <span style="color:#33B5E8;">LAB</span></div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.22em;color:rgba(51,181,232,0.6);text-transform:uppercase;">GHL Strategy · DigitsUp</div>
+  </div>
+  <div style="position:relative;z-index:2;width:100%;max-width:340px;display:flex;flex-direction:column;gap:12px;">
+    <input id="pw-input" type="password" placeholder="Enter password" autocomplete="off"
+      onkeydown="if(event.key==='Enter')checkPassword()"
+      style="width:100%;padding:16px 20px;background-color:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:10px;outline:none;font-family:'Nunito Sans',sans-serif;font-size:16px;font-weight:600;color:#FFFFFF;letter-spacing:0.12em;text-align:center;"/>
+    <button onclick="checkPassword()" style="width:100%;padding:16px;background-color:#33B5E8;border:none;border-radius:10px;font-family:'Nunito Sans',sans-serif;font-size:14px;font-weight:800;letter-spacing:0.1em;color:#0D1B4B;text-transform:uppercase;cursor:pointer;">View Proposal</button>
+    <div id="pw-error" style="font-size:13px;font-weight:600;color:#FF6B6B;text-align:center;opacity:0;transition:opacity 0.3s;min-height:20px;">Incorrect password — try again.</div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main-content" style="display:none;">
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <span class="nav-lab">LAB</span>
+    <div class="nav-sep"></div>
+    <span class="nav-digits">DigitsUp</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#ghl-build">GHL Build</a></li>
+    <li><a href="#klaviyo">Klaviyo Layer</a></li>
+    <li><a href="#why-us">Why Us</a></li>
+    <li><a href="#next-steps">Next Steps</a></li>
+  </ul>
+  <span class="nav-badge">Klaviyo Platinum Partner</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-ambient"><div class="amb amb-1"></div><div class="amb amb-2"></div><div class="amb amb-3"></div></div>
+  <div class="hero-eyebrow">GoHighLevel Strategy · May 2026</div>
+  <h1 class="hero-title">The<br><span>LAB</span><br>Life.</h1>
+  <p class="hero-sub">Stronger Kids. Closer Families. Bigger Business.</p>
+  <p class="hero-intro">
+    The LAB has built something genuinely special — a 25,000 sq ft experience that transforms how families move, compete, and connect. <strong>This is the system we'd build to make sure every family that finds The LAB, stays for life.</strong>
+  </p>
+  <div class="hero-pills">
+    <span class="hero-pill">GHL Automation</span>
+    <span class="hero-pill">9 Lifecycle Flows</span>
+    <span class="hero-pill">Campaign Engine</span>
+    <span class="hero-pill">Email + SMS</span>
+    <span class="hero-pill outline">Klaviyo Migration</span>
+    <span class="hero-pill outline">Constant Contact</span>
+    <span class="hero-pill outline">Member Retention</span>
+  </div>
+</section>
+
+<!-- WHAT YOU'VE BUILT -->
+<section id="overview" class="built-section">
+  <div class="eyebrow-light">The Foundation</div>
+  <h2 class="title-dark">You've built the experience.<br><em>Now let's build the system.</em></h2>
+  <p class="body-lg-dark reveal">The LAB's in-person product is exceptional — gamified fitness, structured progression, family community, and a concept that genuinely doesn't exist anywhere else at this scale. The opportunity in front of us is building a digital infrastructure that matches that same level of energy and intention. GoHighLevel is already in place. The audience is warm. The timing is right.</p>
+
+  <div class="built-grid reveal" style="transition-delay:0.1s">
+    <div class="built-card">
+      <div class="built-card-label">The Concept</div>
+      <div class="built-card-title">Gamified Fitness Meets Family Community</div>
+      <div class="built-card-desc">A product parents believe in and kids love — ninja courses, airbags, treadmills that only work when you're moving, birthday parties, summer camps. A concept that doesn't exist anywhere else at this scale.</div>
+    </div>
+    <div class="built-card">
+      <div class="built-card-label">The Platform</div>
+      <div class="built-card-title">GoHighLevel Is Already Running</div>
+      <div class="built-card-desc">We're not starting from scratch — we're leveling it up. The CRM foundation is in place. The pipeline is live. What's next is building the full lifecycle system that runs on top of it.</div>
+    </div>
+    <div class="built-card">
+      <div class="built-card-label">The Audience</div>
+      <div class="built-card-title">A Warm, Engaged Community</div>
+      <div class="built-card-desc">A warm, engaged community of families who've already raised their hand. 33,000 contacts in Constant Contact, barely touched. The audience is ready. The moment to activate it is now.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT WE FOUND -->
+<section id="ghl-build" class="audit-section">
+  <div class="eyebrow-dark">The GHL Audit</div>
+  <h2 class="title-light">We went in.<br><em>Here's what we saw.</em></h2>
+  <p class="body-lg-light reveal">RV (our systems lead) did a full audit of The LAB's GoHighLevel account. The pipeline staging is solid. The foundation is there. What's missing is the full lifecycle system — the flows that run between every stage of the parent journey, from first inquiry to long-term member.</p>
+
+  <div class="audit-cols reveal" style="transition-delay:0.1s">
+    <div>
+      <div class="audit-col-label running">What's running</div>
+      <div class="audit-list">
+        <div class="audit-item active"><div class="audit-dot cyan"></div>Trial booking confirmations</div>
+        <div class="audit-item active"><div class="audit-dot cyan"></div>No-show follow-up (SMS)</div>
+        <div class="audit-item active"><div class="audit-dot cyan"></div>VIP pass workflows</div>
+        <div class="audit-item active"><div class="audit-dot cyan"></div>Internal pipeline notifications</div>
+      </div>
+    </div>
+    <div>
+      <div class="audit-col-label adding">What we'd add</div>
+      <div class="audit-list">
+        <div class="audit-item add"><div class="audit-dot ghost"></div>Full inquiry nurture sequence</div>
+        <div class="audit-item add"><div class="audit-dot ghost"></div>Pre-trial attendance experience</div>
+        <div class="audit-item add"><div class="audit-dot ghost"></div>Post-trial membership conversion</div>
+        <div class="audit-item add"><div class="audit-dot ghost"></div>New member onboarding (90 days)</div>
+        <div class="audit-item add"><div class="audit-dot ghost"></div>Long-term retention + re-engagement</div>
+        <div class="audit-item add"><div class="audit-dot ghost"></div>Winback for inactive families</div>
+        <div class="audit-item add"><div class="audit-dot ghost"></div>Birthday party → trial funnel</div>
+        <div class="audit-item add"><div class="audit-dot ghost"></div>Summer camp → membership conversion</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GHL FLOWS -->
+<section class="flows-section">
+  <div class="eyebrow-light">Month 1 · GoHighLevel</div>
+  <h2 class="title-dark">9 flows. 40+ touchpoints.<br><em>Built in GoHighLevel.</em></h2>
+  <p class="body-lg-dark reveal">Every flow is triggered by real behavior — a booking, an attendance check, a pipeline stage change. This isn't a batch-and-blast strategy. It's a system that responds to what each family actually does.</p>
+
+  <div class="flows-grid reveal" style="transition-delay:0.1s">
+
+    <!-- FLOW 01 — FEATURED -->
+    <div class="flow-card featured">
+      <div class="flow-pill">Flow 01 · Highest Impact</div>
+      <div class="flow-channels"><span class="ch ch-email">Email</span><span class="ch ch-sms">SMS</span></div>
+      <div class="flow-title">Lead Capture / Inquiry Nurture</div>
+      <div class="flow-trigger">Website inquiry, Facebook lead form, summer camp inquiry, waiver completed without booking</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-n">1</div>Immediate · SMS — Fast reassurance. Speed-to-lead.</div>
+        <div class="flow-step"><div class="flow-step-n">2</div>+2 Hours · Email — Welcome to The LAB. Emotional trust building.</div>
+        <div class="flow-step"><div class="flow-step-n">3</div>Day 1 · SMS — Parent social proof. Community reassurance.</div>
+        <div class="flow-step"><div class="flow-step-n">4</div>Day 2 · Email — Transformation stories. Identity + progress.</div>
+        <div class="flow-step"><div class="flow-step-n">5</div>Day 4 · Email — Programs + experience education.</div>
+        <div class="flow-step"><div class="flow-step-n">6</div>Day 6 · SMS — Simple direct CTA. Low friction.</div>
+        <div class="flow-step"><div class="flow-step-n">7</div>Day 8 · Email — Momentum + urgency. Schedule first class.</div>
+      </div>
+      <div class="flow-footer">
+        <div class="flow-footer-label">Primary goal</div>
+        <div class="flow-footer-val">Booked trial class</div>
+      </div>
+    </div>
+
+    <!-- FLOW 02 -->
+    <div class="flow-card">
+      <div class="flow-pill">Flow 02</div>
+      <div class="flow-channels"><span class="ch ch-email">Email</span><span class="ch ch-sms">SMS</span></div>
+      <div class="flow-title">Trial Booked Experience</div>
+      <div class="flow-trigger">Trial class booked · Pipeline: Trial Booked</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-n">1</div>Immediately · Email — Trial confirmation + excitement</div>
+        <div class="flow-step"><div class="flow-step-n">2</div>Immediately · SMS — "We're excited to meet you"</div>
+        <div class="flow-step"><div class="flow-step-n">3</div>2 Days Before · Email — What to expect. Reduce uncertainty.</div>
+        <div class="flow-step"><div class="flow-step-n">4</div>1 Day Before · SMS — Attendance reminder</div>
+        <div class="flow-step"><div class="flow-step-n">5</div>1 Day Before · Email — Meet the coaches. Human connection.</div>
+        <div class="flow-step"><div class="flow-step-n">6</div>3 Hours Before · SMS — Final reminder</div>
+        <div class="flow-step"><div class="flow-step-n">7</div>Evening · SMS — Low pressure membership CTA</div>
+      </div>
+      <div class="flow-footer">
+        <div class="flow-footer-label">Primary goal</div>
+        <div class="flow-footer-val">Show up ready</div>
+      </div>
+    </div>
+
+    <!-- FLOW 03 -->
+    <div class="flow-card">
+      <div class="flow-pill">Flow 03</div>
+      <div class="flow-channels"><span class="ch ch-email">Email</span><span class="ch ch-sms">SMS</span></div>
+      <div class="flow-title">No Show Recovery</div>
+      <div class="flow-trigger">Pipeline moved to No Show</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-n">1</div>2 Hours After · SMS — Empathy follow-up. Warm recovery.</div>
+        <div class="flow-step"><div class="flow-step-n">2</div>Next Morning · Email — "We'd still love to meet you"</div>
+        <div class="flow-step"><div class="flow-step-n">3</div>Day 2 · SMS — Easy rebooking. Low friction.</div>
+        <div class="flow-step"><div class="flow-step-n">4</div>Day 4 · Email — Student success stories. Reignite excitement.</div>
+      </div>
+      <div class="flow-footer">
+        <div class="flow-footer-label">Primary goal</div>
+        <div class="flow-footer-val">Rebooked trial</div>
+      </div>
+    </div>
+
+    <!-- FLOW 04 -->
+    <div class="flow-card">
+      <div class="flow-pill">Flow 04</div>
+      <div class="flow-channels"><span class="ch ch-email">Email</span><span class="ch ch-sms">SMS</span></div>
+      <div class="flow-title">Membership Conversion</div>
+      <div class="flow-trigger">Trial attended · Pipeline: Trial Attended</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-n">1</div>Day 0 · SMS — "Your child did amazing." Confidence reinforcement.</div>
+        <div class="flow-step"><div class="flow-step-n">2</div>Day 1 · Email — Student confidence recap. Transformation positioning.</div>
+        <div class="flow-step"><div class="flow-step-n">3</div>Day 3 · Email — Parent testimonials. Social proof.</div>
+        <div class="flow-step"><div class="flow-step-n">4</div>Day 5 · Email — Program roadmap. Progression + future vision.</div>
+        <div class="flow-step"><div class="flow-step-n">5</div>Day 6 · SMS — Enrollment reminder. Gentle urgency.</div>
+        <div class="flow-step"><div class="flow-step-n">6</div>Day 9 · Email — Final invitation. Join The LAB family.</div>
+      </div>
+      <div class="flow-footer">
+        <div class="flow-footer-label">Primary goal</div>
+        <div class="flow-footer-val">Membership purchased</div>
+      </div>
+    </div>
+
+    <!-- FLOW 05 -->
+    <div class="flow-card">
+      <div class="flow-pill">Flow 05</div>
+      <div class="flow-channels"><span class="ch ch-email">Email</span><span class="ch ch-sms">SMS</span></div>
+      <div class="flow-title">New Member Onboarding</div>
+      <div class="flow-trigger">Membership purchased · Pipeline: Closed Won</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-n">1</div>Day 0 · Email — Welcome to The LAB family. Belonging.</div>
+        <div class="flow-step"><div class="flow-step-n">2</div>Day 2 · SMS — Attendance encouragement. Routine building.</div>
+        <div class="flow-step"><div class="flow-step-n">3</div>Week 1 · Email — What success looks like. Expectation setting.</div>
+        <div class="flow-step"><div class="flow-step-n">4</div>Week 2 · Email — Parent expectations. Alignment.</div>
+        <div class="flow-step"><div class="flow-step-n">5</div>Week 3 · Email — Community involvement. Family integration.</div>
+        <div class="flow-step"><div class="flow-step-n">6</div>Month 1 · SMS — Milestone celebration.</div>
+      </div>
+      <div class="flow-footer">
+        <div class="flow-footer-label">Primary goal</div>
+        <div class="flow-footer-val">First 90-day retention</div>
+      </div>
+    </div>
+
+    <!-- FLOW 06 -->
+    <div class="flow-card">
+      <div class="flow-pill">Flow 06</div>
+      <div class="flow-channels"><span class="ch ch-email">Email</span><span class="ch ch-sms">SMS</span></div>
+      <div class="flow-title">Engagement & Retention</div>
+      <div class="flow-trigger">Member active 30+ days</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-n">1</div>Monthly · Email — Student achievements + recognition</div>
+        <div class="flow-step"><div class="flow-step-n">2</div>Monthly · Email — Community spotlights</div>
+        <div class="flow-step"><div class="flow-step-n">3</div>Bi-Weekly · SMS — Attendance nudge. Consistency reinforcement.</div>
+        <div class="flow-step"><div class="flow-step-n">4</div>Monthly · Email — Referral opportunity</div>
+      </div>
+      <div class="flow-footer">
+        <div class="flow-footer-label">Primary goal</div>
+        <div class="flow-footer-val">Long-term member retention</div>
+      </div>
+    </div>
+
+    <!-- FLOW 07 -->
+    <div class="flow-card">
+      <div class="flow-pill">Flow 07</div>
+      <div class="flow-channels"><span class="ch ch-email">Email</span><span class="ch ch-sms">SMS</span></div>
+      <div class="flow-title">Winback / Reactivation</div>
+      <div class="flow-trigger">Membership inactive · No attendance 30–60 days</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-n">1</div>Day 0 · Email — "We miss seeing your family." Emotional reconnection.</div>
+        <div class="flow-step"><div class="flow-step-n">2</div>Day 2 · SMS — Friendly check-in</div>
+        <div class="flow-step"><div class="flow-step-n">3</div>Day 4 · Email — Student progress reminder. Momentum.</div>
+        <div class="flow-step"><div class="flow-step-n">4</div>Day 7 · Email — Easy restart offer</div>
+        <div class="flow-step"><div class="flow-step-n">5</div>Day 10 · Email — Limited-time incentive. Urgency.</div>
+      </div>
+      <div class="flow-footer">
+        <div class="flow-footer-label">Primary goal</div>
+        <div class="flow-footer-val">Re-enrollment</div>
+      </div>
+    </div>
+
+    <!-- FLOW 08 — SPECIAL -->
+    <div class="flow-card">
+      <div class="flow-pill special">Special Flow</div>
+      <div class="flow-channels"><span class="ch ch-email">Email</span><span class="ch ch-sms">SMS</span></div>
+      <div class="flow-title">Birthday Party → Membership Funnel</div>
+      <div class="flow-trigger">Waiver signed at party · Party attended</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-n">1</div>Day 0 · Email — Thank you recap. Event memory reinforcement.</div>
+        <div class="flow-step"><div class="flow-step-n">2</div>Day 1 · SMS — Trial invitation. "Would your child love classes too?"</div>
+        <div class="flow-step"><div class="flow-step-n">3</div>Day 3 · Email — Parent testimonials. Trust building.</div>
+      </div>
+      <div class="flow-footer">
+        <div class="flow-footer-label">Primary goal</div>
+        <div class="flow-footer-val">New trial bookings from every event</div>
+      </div>
+    </div>
+
+    <!-- FLOW 09 — SPECIAL -->
+    <div class="flow-card">
+      <div class="flow-pill special">Special Flow</div>
+      <div class="flow-channels"><span class="ch ch-email">Email</span><span class="ch ch-sms">SMS</span></div>
+      <div class="flow-title">Summer Camp → Membership Conversion</div>
+      <div class="flow-trigger">Summer camp completed · Camp participant tagged</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-n">1</div>Day 0 · Email — Camp highlights. Positive emotional recap.</div>
+        <div class="flow-step"><div class="flow-step-n">2</div>Day 2 · Email — Student transformation. Growth reinforcement.</div>
+        <div class="flow-step"><div class="flow-step-n">3</div>Day 4 · SMS — Keep the momentum going</div>
+        <div class="flow-step"><div class="flow-step-n">4</div>Day 6 · Email — Membership invitation. Become a member.</div>
+      </div>
+      <div class="flow-footer">
+        <div class="flow-footer-label">Primary goal</div>
+        <div class="flow-footer-val">Camp → member conversion</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- KLAVIYO LAYER -->
+<section id="klaviyo" class="klaviyo-section">
+  <div class="eyebrow-dark">Month 2 · The Klaviyo Layer</div>
+  <h2 class="title-light">33,000 warm contacts.<br><em>A campaign engine to match.</em></h2>
+  <p class="body-lg-light reveal">The LAB's Constant Contact list is one of the most underleveraged assets in the business. Month 2, we migrate it to Klaviyo — warming the list properly, setting up domain authentication, and building the campaign infrastructure that turns that audience into consistent revenue.</p>
+
+  <div class="klaviyo-grid reveal" style="transition-delay:0.1s">
+    <div class="klaviyo-card">
+      <div class="klaviyo-card-label">Migration</div>
+      <div class="klaviyo-card-title">List Migration</div>
+      <div class="klaviyo-card-desc">Full Constant Contact → Klaviyo migration. Clean data, proper warm-up, domain setup done right. No burned sender reputation, no deliverability surprises.</div>
+    </div>
+    <div class="klaviyo-card">
+      <div class="klaviyo-card-label">Campaigns</div>
+      <div class="klaviyo-card-title">Campaign Engine</div>
+      <div class="klaviyo-card-desc">Seasonal pushes, enrollment drives, camp promotions, referral campaigns. The right message at the right moment — tied to The LAB's business calendar, not a generic send schedule.</div>
+    </div>
+    <div class="klaviyo-card">
+      <div class="klaviyo-card-label">Integration</div>
+      <div class="klaviyo-card-title">GHL + Klaviyo</div>
+      <div class="klaviyo-card-desc">Both systems talk to each other. GHL handles the pipeline and transactional side. Klaviyo handles marketing campaigns and lifecycle at scale. One stack, built to work together.</div>
+    </div>
+  </div>
+
+  <div class="klaviyo-note reveal" style="transition-delay:0.2s">
+    Month 1 may include light test sends from Constant Contact to keep the audience warm while we build. Timeline is flexible based on what makes most sense for your current season.
+  </div>
+</section>
+
+<!-- WHY DIGITSUP -->
+<section id="why-us" class="bring-section">
+  <div class="eyebrow-light">Why DigitsUp</div>
+  <h2 class="title-dark">What we bring<br><em>to the table.</em></h2>
+  <p class="body-lg-dark reveal">We're a Klaviyo Platinum Partner — the highest tier — and we work exclusively in lifecycle and retention marketing. No ads, no SEO, no generalist approach. Just the systems that keep families coming back and revenue compounding.</p>
+
+  <div class="bring-grid reveal" style="transition-delay:0.1s">
+    <div class="bring-card">
+      <div class="bring-num">Expertise</div>
+      <div class="bring-title">GoHighLevel × Klaviyo</div>
+      <div class="bring-desc">We know both platforms and how to make them work together. GoHighLevel for the pipeline, CRM, and transactional flows. Klaviyo for lifecycle marketing and campaigns at scale. Most agencies pick one. We build the stack.</div>
+    </div>
+    <div class="bring-card">
+      <div class="bring-num">Philosophy</div>
+      <div class="bring-title">Retention Over Acquisition</div>
+      <div class="bring-desc">Every agency talks acquisition. We talk retention — because keeping a member costs a fraction of acquiring one, and even small improvements compound dramatically over time. We build for the long game.</div>
+    </div>
+    <div class="bring-card">
+      <div class="bring-num">Approach</div>
+      <div class="bring-title">Systems, Not Sends</div>
+      <div class="bring-desc">Every flow responds to real behavior. Every campaign is tied to your business calendar. We don't build one-off emails — we build infrastructure that runs, adapts, and compounds over time.</div>
+    </div>
+    <div class="bring-card">
+      <div class="bring-num">Reporting</div>
+      <div class="bring-title">Revenue You Can See</div>
+      <div class="bring-desc">Monthly reporting showing exactly what the system drove. Every flow and campaign is tracked. No vanity metrics — dollars attributed, every month, so you always know what's working.</div>
+    </div>
+  </div>
+
+  <div class="platinum-wrap reveal" style="transition-delay:0.2s">
+    <div class="platinum-icon">🏆</div>
+    <div>
+      <div class="platinum-label">DigitsUp Agency</div>
+      <div class="platinum-title">Klaviyo Platinum Partner</div>
+      <div class="platinum-desc">Platinum is Klaviyo's highest partner tier — awarded to agencies that demonstrate sustained performance, technical depth, and measurable client results. We hold it because our clients see returns that make it defensible every quarter. For The LAB, that means working with a team that has genuinely done this before.</div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT STEPS -->
+<section id="next-steps" class="closing-section">
+  <div class="eyebrow-dark">Let's Build</div>
+  <h2 class="title-light">Ready when<br><em>you are.</em></h2>
+
+  <div class="convo-grid reveal" style="transition-delay:0.1s">
+    <div class="convo-card">
+      <div class="convo-n">01</div>
+      <div class="convo-title">Month 1</div>
+      <div class="convo-desc">GHL audit review + full 9-flow build. Email design, SMS sequences, pipeline integration. We go to town.</div>
+    </div>
+    <div class="convo-card">
+      <div class="convo-n">02</div>
+      <div class="convo-title">Month 2</div>
+      <div class="convo-desc">Constant Contact → Klaviyo migration. List warm-up, domain setup, campaign calendar live.</div>
+    </div>
+    <div class="convo-card">
+      <div class="convo-n">03</div>
+      <div class="convo-title">Ongoing</div>
+      <div class="convo-desc">Monthly reporting, campaign execution, flow optimization. A system that compounds over time.</div>
+    </div>
+  </div>
+
+  <div class="cta-block reveal" style="transition-delay:0.2s">
+    <div class="cta-question">Questions? Let's talk.</div>
+    <a href="mailto:mike@digitsup.com" class="cta-email">mike@digitsup.com</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Digits<span>Up</span> — Klaviyo Platinum Partner</div>
+  <div class="footer-note">Prepared for The LAB Life · May 2026</div>
+  <div class="footer-contact"><a href="mailto:mike@digitsup.com">mike@digitsup.com</a></div>
+</footer>
+
+</div><!-- /main-content -->
+
+<script>
+  function checkPassword() {
+    const val = document.getElementById('pw-input').value.trim().toUpperCase();
+    const err = document.getElementById('pw-error');
+    if (val === 'LABLIFE') {
+      const gate = document.getElementById('password-gate');
+      gate.style.transition = 'opacity 0.6s ease';
+      gate.style.opacity = '0';
+      setTimeout(() => {
+        gate.style.display = 'none';
+        const main = document.getElementById('main-content');
+        main.style.display = 'block';
+        // kick off scroll observer after reveal
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+      }, 600);
+    } else {
+      err.style.opacity = '1';
+      document.getElementById('pw-input').style.borderColor = '#FF6B6B';
+      setTimeout(() => {
+        err.style.opacity = '0';
+        document.getElementById('pw-input').style.borderColor = 'rgba(255,255,255,0.15)';
+      }, 2500);
+    }
+  }
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.07, rootMargin: '0px 0px -32px 0px' });
+</script>
+</body>
+</html>
