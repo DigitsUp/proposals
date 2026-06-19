@@ -343,50 +343,47 @@
     margin-bottom: 52px;
   }
 
-  /* ─── ABOUT SECTION ─── */
-  #about .section-body {
-    margin-top: 0;
+  /* ─── EDITORIAL IMAGE LAYOUTS ─── */
+
+  /* 2-col: text + image side by side */
+  .section-with-img {
+    display: grid;
+    align-items: center;
+    gap: 64px;
+  }
+  .section-with-img.text-left  { grid-template-columns: 55fr 45fr; }
+  .section-with-img.text-right { grid-template-columns: 45fr 55fr; }
+
+  /* On text-right, image comes first in DOM but visually first (left) */
+  .section-with-img.text-right .section-img-col { order: -1; }
+
+  .section-img-col img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
   }
 
-  /* ─── BRAND IMAGE GALLERY ─── */
-  .brand-gallery {
-    padding: 60px 52px;
-  }
-  .brand-gallery-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
+  /* Full-width editorial image above cards/card */
+  .section-img-full {
     width: 100%;
-  }
-  .gallery-col {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .gallery-img {
-    width: 100%;
-    display: block;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 12px;
+    display: block;
+    margin-bottom: 48px;
   }
-  .gallery-img--tall {
-    height: 100%;
-    min-height: 400px;
-    max-height: 640px;
-  }
-  .gallery-img--square {
-    flex: 1;
-    min-height: 180px;
-    max-height: 310px;
-  }
-  @media (max-width: 640px) {
-    .brand-gallery { padding: 40px 24px; }
-    .brand-gallery-inner {
-      grid-template-columns: 1fr;
-    }
-    .gallery-col { flex-direction: column; }
-    .gallery-img--tall { min-height: 280px; max-height: 380px; }
-    .gallery-img--square { min-height: 220px; max-height: 300px; }
+  .section-img-full--scope     { height: 320px; }
+  .section-img-full--investment { height: 280px; }
+
+  @media (max-width: 800px) {
+    .section-with-img,
+    .section-with-img.text-left,
+    .section-with-img.text-right { grid-template-columns: 1fr; gap: 36px; }
+    .section-with-img.text-right .section-img-col { order: 1; }
+    .section-img-col img { height: auto; max-height: 340px; }
+    .section-img-full--scope,
+    .section-img-full--investment { height: auto; max-height: 260px; }
   }
 
   /* ─── SCOPE CARDS MOSAIC GRID ─── */
@@ -717,33 +714,21 @@
 
   <!-- ─── ABOUT ONZE ─── -->
   <section id="about">
-    <div class="section-label reveal">The Brand</div>
-    <h2 class="section-h reveal">Thirty-Five Years of <em>Knowing Her</em></h2>
-    <div class="section-body reveal">
-      <p>Onze Montréal has spent 35 years in the Plateau building something rare: a brand that actually understands the women who wear it. Modest. Professional. High-quality. Vertically integrated. Rarely discounted — because the product earns its price.</p>
-      <p>Your current agency gets the technical side right. But email for Onze Montréal isn't a technical problem — it's a cultural one. Ninety percent of your audience is Francophone. They know when something was translated by a machine or written by someone who doesn't understand Montreal. They feel it immediately.</p>
-      <p>That's the problem we're here to solve.</p>
+    <div class="section-with-img text-left">
+      <div class="section-text-col">
+        <div class="section-label reveal">The Brand</div>
+        <h2 class="section-h reveal">Thirty-Five Years of <em>Knowing Her</em></h2>
+        <div class="section-body reveal">
+          <p>Onze Montréal has spent 35 years in the Plateau building something rare: a brand that actually understands the women who wear it. Modest. Professional. High-quality. Vertically integrated. Rarely discounted — because the product earns its price.</p>
+          <p>Your current agency gets the technical side right. But email for Onze Montréal isn't a technical problem — it's a cultural one. Ninety percent of your audience is Francophone. They know when something was translated by a machine or written by someone who doesn't understand Montreal. They feel it immediately.</p>
+          <p>That's the problem we're here to solve.</p>
+        </div>
+      </div>
+      <div class="section-img-col reveal">
+        <img src="onze-img-1.jpg" alt="Woman in red polka dot dress on balcony" />
+      </div>
     </div>
   </section>
-
-  <div class="divider"></div>
-
-  <!-- ─── BRAND IMAGE GALLERY ─── -->
-  <div class="brand-gallery">
-    <div class="brand-gallery-inner">
-      <div class="gallery-col gallery-col--left">
-        <img src="onze-img-1.jpg" alt="Woman in red polka dot dress on balcony" class="gallery-img gallery-img--tall" />
-      </div>
-      <div class="gallery-col gallery-col--center">
-        <img src="onze-img-2.jpg" alt="Woman with scarf in vintage car, coastal" class="gallery-img gallery-img--square" />
-        <img src="onze-img-3.jpg" alt="Woman in floral dress, warm light, back view" class="gallery-img gallery-img--square" />
-      </div>
-      <div class="gallery-col gallery-col--right">
-        <img src="onze-img-4.jpg" alt="Woman in floral print dress at window" class="gallery-img gallery-img--square" />
-        <img src="onze-img-5.jpg" alt="Woman in black dress on city street" class="gallery-img gallery-img--square" />
-      </div>
-    </div>
-  </div>
 
   <div class="divider"></div>
 
@@ -752,6 +737,8 @@
     <div class="section-label reveal">Scope of Work</div>
     <h2 class="section-h reveal">Everything Your Email Program Needs. <em>Nothing It Doesn't.</em></h2>
     <p class="scope-intro reveal">This isn't a creative retainer where you send us assets and we make them pretty. This is full program ownership — from calendar to send.</p>
+
+    <img src="onze-img-2.jpg" alt="Woman with scarf in vintage car, coastal" class="section-img-full section-img-full--scope reveal" />
 
     <div class="scope-grid">
 
@@ -807,38 +794,52 @@
 
   <!-- ─── THE FRENCH QUESTION ─── -->
   <section id="french">
-    <div class="section-label reveal">The Differentiator</div>
-    <h2 class="section-h reveal">Bad French Is <em>Worse Than No French</em></h2>
-    <div class="section-body reveal">
-      <p>Your 90% Francophone audience doesn't just read French — they feel it. A poorly translated email doesn't just miss the mark, it signals that the brand doesn't really know them.</p>
-      <p>Sylvie is a native Quebecois French speaker and our translation partner on this account. Every English email gets adapted — not just translated. The rhythm, the idioms, the register. It sounds like someone who lives in Montréal wrote it. Because she does.</p>
+    <div class="section-with-img text-right">
+      <div class="section-text-col">
+        <div class="section-label reveal">The Differentiator</div>
+        <h2 class="section-h reveal">Bad French Is <em>Worse Than No French</em></h2>
+        <div class="section-body reveal">
+          <p>Your 90% Francophone audience doesn't just read French — they feel it. A poorly translated email doesn't just miss the mark, it signals that the brand doesn't really know them.</p>
+          <p>Sylvie is a native Quebecois French speaker and our translation partner on this account. Every English email gets adapted — not just translated. The rhythm, the idioms, the register. It sounds like someone who lives in Montréal wrote it. Because she does.</p>
+        </div>
+        <blockquote class="pull-quote reveal">Not translated. <em>Adapted.</em></blockquote>
+      </div>
+      <div class="section-img-col reveal">
+        <img src="onze-img-3.jpg" alt="Woman in floral dress, warm light, back view" />
+      </div>
     </div>
-    <blockquote class="pull-quote reveal">Not translated. <em>Adapted.</em></blockquote>
   </section>
 
   <div class="divider"></div>
 
   <!-- ─── ABOUT DIGITSUP ─── -->
   <section id="digitsup">
-    <div class="section-label reveal">About DigitsUp</div>
-    <h2 class="section-h reveal">We've Done This <em>Before</em></h2>
-    <div class="section-body reveal">
-      <p>DigitsUp is a retention marketing agency specializing in email, SMS, and lifecycle programs for premium ecommerce brands. We are a Klaviyo Platinum Partner with 11+ years of experience and 45+ brands scaled.</p>
-      <p>We don't run campaigns for brands we don't understand. Before we write a word for Onze Montréal, we read the brand, study the audience, and learn what she responds to.</p>
-      <p>This proposal is proof of that.</p>
-    </div>
-    <div class="stat-chips reveal">
-      <div class="chip">
-        <span class="chip-val">11+</span>
-        <span class="chip-lbl">Years</span>
+    <div class="section-with-img text-left">
+      <div class="section-text-col">
+        <div class="section-label reveal">About DigitsUp</div>
+        <h2 class="section-h reveal">We've Done This <em>Before</em></h2>
+        <div class="section-body reveal">
+          <p>DigitsUp is a retention marketing agency specializing in email, SMS, and lifecycle programs for premium ecommerce brands. We are a Klaviyo Platinum Partner with 11+ years of experience and 45+ brands scaled.</p>
+          <p>We don't run campaigns for brands we don't understand. Before we write a word for Onze Montréal, we read the brand, study the audience, and learn what she responds to.</p>
+          <p>This proposal is proof of that.</p>
+        </div>
+        <div class="stat-chips reveal">
+          <div class="chip">
+            <span class="chip-val">11+</span>
+            <span class="chip-lbl">Years</span>
+          </div>
+          <div class="chip">
+            <span class="chip-val">45+</span>
+            <span class="chip-lbl">Brands</span>
+          </div>
+          <div class="chip">
+            <span class="chip-val">Platinum</span>
+            <span class="chip-lbl">Klaviyo Partner</span>
+          </div>
+        </div>
       </div>
-      <div class="chip">
-        <span class="chip-val">45+</span>
-        <span class="chip-lbl">Brands</span>
-      </div>
-      <div class="chip">
-        <span class="chip-val">Platinum</span>
-        <span class="chip-lbl">Klaviyo Partner</span>
+      <div class="section-img-col reveal">
+        <img src="onze-img-4.jpg" alt="Woman in floral print dress at window" />
       </div>
     </div>
   </section>
@@ -850,6 +851,8 @@
     <div class="section-label reveal">Investment</div>
     <h2 class="section-h reveal" style="text-align:center;">The Program. <em>The Price. The Terms.</em></h2>
     <p class="section-intro reveal" style="max-width:480px; margin-left:auto; margin-right:auto; text-align:center;">One engagement. Everything included. No surprises.</p>
+
+    <img src="onze-img-5.jpg" alt="Woman in black dress on city street" class="section-img-full section-img-full--investment reveal" />
 
     <div class="investment-card reveal">
       <div class="investment-price">
