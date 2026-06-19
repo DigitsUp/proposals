@@ -348,7 +348,48 @@
     margin-top: 0;
   }
 
-  /* ─── SCOPE CARDS 2×3 GRID ─── */
+  /* ─── BRAND IMAGE GALLERY ─── */
+  .brand-gallery {
+    padding: 60px 52px;
+  }
+  .brand-gallery-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+  }
+  .gallery-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .gallery-img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  .gallery-img--tall {
+    height: 100%;
+    min-height: 400px;
+    max-height: 640px;
+  }
+  .gallery-img--square {
+    flex: 1;
+    min-height: 180px;
+    max-height: 310px;
+  }
+  @media (max-width: 640px) {
+    .brand-gallery { padding: 40px 24px; }
+    .brand-gallery-inner {
+      grid-template-columns: 1fr;
+    }
+    .gallery-col { flex-direction: column; }
+    .gallery-img--tall { min-height: 280px; max-height: 380px; }
+    .gallery-img--square { min-height: 220px; max-height: 300px; }
+  }
+
+  /* ─── SCOPE CARDS MOSAIC GRID ─── */
   .scope-intro {
     font-size: 16px;
     color: var(--muted);
@@ -359,10 +400,15 @@
   }
   .scope-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(6, 1fr);
     gap: 12px;
   }
-  @media (max-width: 640px) { .scope-grid { grid-template-columns: 1fr; } }
+  .scope-card { grid-column: span 3; }
+  .scope-card.span-2 { grid-column: span 2; }
+  @media (max-width: 640px) {
+    .scope-grid { grid-template-columns: 1fr; }
+    .scope-card, .scope-card.span-2 { grid-column: span 1; }
+  }
 
   .scope-card {
     background: var(--card-bg);
@@ -514,14 +560,6 @@
     font-size: 12px;
     margin-top: 2px;
   }
-  .investment-overage {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 36px;
-    font-weight: 300;
-    font-style: italic;
-    line-height: 1.6;
-  }
   .btn-primary {
     display: block;
     width: 100%;
@@ -657,7 +695,7 @@
     <p class="hero-sub reveal">A full-service email program built around Onze Montréal's 35-year identity, your campaign calendar, and an audience that deserves more than a bad translation.</p>
     <div class="hero-stats reveal">
       <div class="hero-stat">
-        <span class="val">8</span>
+        <span class="val">8–10</span>
         <span class="lbl">Emails / Month</span>
       </div>
       <div class="hero-stat">
@@ -690,6 +728,25 @@
 
   <div class="divider"></div>
 
+  <!-- ─── BRAND IMAGE GALLERY ─── -->
+  <div class="brand-gallery">
+    <div class="brand-gallery-inner">
+      <div class="gallery-col gallery-col--left">
+        <img src="onze-img-1.jpg" alt="Woman in red polka dot dress on balcony" class="gallery-img gallery-img--tall" />
+      </div>
+      <div class="gallery-col gallery-col--center">
+        <img src="onze-img-2.jpg" alt="Woman with scarf in vintage car, coastal" class="gallery-img gallery-img--square" />
+        <img src="onze-img-3.jpg" alt="Woman in floral dress, warm light, back view" class="gallery-img gallery-img--square" />
+      </div>
+      <div class="gallery-col gallery-col--right">
+        <img src="onze-img-4.jpg" alt="Woman in floral print dress at window" class="gallery-img gallery-img--square" />
+        <img src="onze-img-5.jpg" alt="Woman in black dress on city street" class="gallery-img gallery-img--square" />
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
   <!-- ─── SCOPE OF WORK ─── -->
   <section id="scope">
     <div class="section-label reveal">Scope of Work</div>
@@ -698,6 +755,7 @@
 
     <div class="scope-grid">
 
+      <!-- Row 1: 2 cards (span 3 each of 6-col grid) -->
       <div class="scope-card reveal">
         <span class="scope-card-icon">📅</span>
         <div class="scope-card-title">Campaign Calendar</div>
@@ -710,18 +768,26 @@
         <div class="scope-card-desc">Every campaign starts with a brief. We define the angle, the audience, and the objective before we write a single word.</div>
       </div>
 
-      <div class="scope-card reveal">
+      <!-- Row 2: 3 cards (span 2 each of 6-col grid) -->
+      <div class="scope-card span-2 reveal">
         <span class="scope-card-icon">🌐</span>
         <div class="scope-card-title">Copy & Translation</div>
-        <div class="scope-card-desc">English copy written in-house. Quebecois French adapted by Sylvie Ropesh — a native translator who understands the nuance your audience hears.</div>
+        <div class="scope-card-desc">English copy written in-house. Quebecois French adapted by Sylvie — a native translator who understands the nuance your audience hears.</div>
       </div>
 
-      <div class="scope-card reveal">
+      <div class="scope-card span-2 reveal">
         <span class="scope-card-icon">🖋</span>
         <div class="scope-card-title">Design</div>
         <div class="scope-card-desc">Emails designed to match the Onze Montréal aesthetic. Clean. Refined. Never generic.</div>
       </div>
 
+      <div class="scope-card span-2 reveal">
+        <span class="scope-card-icon">🎯</span>
+        <div class="scope-card-title">Audience Segmentation</div>
+        <div class="scope-card-desc">We identify and build the right segments for each campaign — new subscribers, loyal customers, lapsed buyers — so every email reaches the right person.</div>
+      </div>
+
+      <!-- Row 3: 2 cards (span 3 each of 6-col grid) -->
       <div class="scope-card reveal">
         <span class="scope-card-icon">⚙️</span>
         <div class="scope-card-title">Build & Schedule</div>
@@ -745,7 +811,7 @@
     <h2 class="section-h reveal">Bad French Is <em>Worse Than No French</em></h2>
     <div class="section-body reveal">
       <p>Your 90% Francophone audience doesn't just read French — they feel it. A poorly translated email doesn't just miss the mark, it signals that the brand doesn't really know them.</p>
-      <p>Sylvie Ropesh is a native Quebecois French speaker and our translation partner on this account. Every English email gets adapted — not just translated. The rhythm, the idioms, the register. It sounds like someone who lives in Montréal wrote it. Because she does.</p>
+      <p>Sylvie is a native Quebecois French speaker and our translation partner on this account. Every English email gets adapted — not just translated. The rhythm, the idioms, the register. It sounds like someone who lives in Montréal wrote it. Because she does.</p>
     </div>
     <blockquote class="pull-quote reveal">Not translated. <em>Adapted.</em></blockquote>
   </section>
@@ -795,14 +861,13 @@
         <li>Campaign calendar ownership</li>
         <li>Creative briefs for every send</li>
         <li>English copy</li>
-        <li>Quebecois French adaptation (Sylvie Ropesh)</li>
+        <li>Quebecois French adaptation (Sylvie)</li>
         <li>Email design</li>
         <li>Build + QA</li>
         <li>Scheduling</li>
         <li>Monthly performance report</li>
         <li>Weekly syncs (first 30 days)</li>
       </ul>
-      <p class="investment-overage">Additional sends beyond 8/month billed at $400 CAD per email.</p>
       <a href="mailto:mike@digitsup.com" class="btn-primary">Ready to Start — Let's Talk</a>
     </div>
   </section>
