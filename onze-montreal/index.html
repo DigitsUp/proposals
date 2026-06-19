@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DigitsUp × Onze Montréal — Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream:      #FEFAF4;
+    --card-bg:    #FFFFFF;
+    --card-soft:  #F5F0E8;
+    --ink:        #1A1A1A;
+    --ink-deep:   #000000;
+    --muted:      #6B6B6B;
+    --border:     rgba(0,0,0,0.08);
+    --border-hi:  rgba(0,0,0,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* ─── PASSWORD GATE ─── */
+  #gate {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+  #gate.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .gate-box {
+    width: 100%;
+    max-width: 400px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 56px 48px 48px;
+    text-align: center;
+    animation: fadeUp 0.7s ease both;
+  }
+  .gate-logo-wrap {
+    margin-bottom: 36px;
+    display: flex;
+    justify-content: center;
+  }
+  .gate-logo-wrap img {
+    width: 140px;
+    height: auto;
+  }
+  .gate-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--ink-deep);
+    margin-bottom: 6px;
+  }
+  .gate-sub {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    margin-bottom: 36px;
+  }
+  .gate-input {
+    width: 100%;
+    background: var(--cream);
+    border: 1px solid var(--border-hi);
+    border-radius: 2px;
+    padding: 14px 18px;
+    color: var(--ink-deep);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 6px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 12px;
+  }
+  .gate-input:focus { border-color: var(--ink-deep); }
+  .gate-input::placeholder { letter-spacing: 3px; color: #BBBBBB; }
+  .gate-btn {
+    width: 100%;
+    background: var(--ink-deep);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 2px;
+    padding: 15px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, opacity 0.2s;
+  }
+  .gate-btn:hover { opacity: 0.82; }
+  .gate-btn:active { opacity: 0.65; }
+  .gate-error {
+    margin-top: 14px;
+    font-size: 11px;
+    color: #B04040;
+    letter-spacing: 0.03em;
+    min-height: 16px;
+  }
+  .gate-credit {
+    margin-top: 40px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #C8C2B8;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ─── MAIN ─── */
+  #main { display: none; }
+  #main.visible { display: block; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 52px;
+    height: 64px;
+  }
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .nav-logo img {
+    width: 72px;
+    height: auto;
+    display: block;
+  }
+  .nav-divider {
+    font-size: 16px;
+    color: var(--border-hi);
+    font-weight: 200;
+    line-height: 1;
+  }
+  .nav-agency {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink-deep); }
+  @media (max-width: 800px) { .nav-links { display: none; } nav { padding: 0 28px; } }
+
+  /* ─── HERO ─── */
+  .hero {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 120px 52px 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-label::after {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 1px;
+    background: var(--muted);
+    opacity: 0.5;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(44px, 6.5vw, 80px);
+    font-weight: 600;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: var(--ink-deep);
+    margin-bottom: 28px;
+    max-width: 720px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 300;
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 580px;
+    line-height: 1.78;
+    font-weight: 300;
+    margin-bottom: 64px;
+  }
+  .hero-stats {
+    display: flex;
+    width: 100%;
+    max-width: 680px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--border);
+    gap: 1px;
+  }
+  .hero-stat {
+    flex: 1;
+    background: var(--card-bg);
+    padding: 26px 18px;
+    text-align: center;
+  }
+  .hero-stat .val {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--ink-deep);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .hero-stat .lbl {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 400;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 80px 24px 72px; }
+    .hero-stats { flex-wrap: wrap; }
+    .hero-stat { flex: 0 0 50%; }
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 52px;
+  }
+  @media (max-width: 640px) { .divider { margin: 0 24px; } }
+
+  /* ─── SECTIONS ─── */
+  section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 100px 52px;
+  }
+  @media (max-width: 640px) { section { padding: 72px 24px; } }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 0 0 36px;
+    height: 1px;
+    background: var(--muted);
+    opacity: 0.45;
+  }
+
+  .section-h {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(32px, 4.5vw, 54px);
+    font-weight: 600;
+    line-height: 1.08;
+    color: var(--ink-deep);
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .section-h em {
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .section-body {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 640px;
+    line-height: 1.85;
+    font-weight: 300;
+  }
+  .section-body p + p { margin-top: 18px; }
+
+  .section-intro {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 640px;
+    line-height: 1.82;
+    font-weight: 300;
+    margin-bottom: 52px;
+  }
+
+  /* ─── ABOUT SECTION ─── */
+  #about .section-body {
+    margin-top: 0;
+  }
+
+  /* ─── SCOPE CARDS 2×3 GRID ─── */
+  .scope-intro {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.82;
+    font-weight: 300;
+    margin-bottom: 52px;
+  }
+  .scope-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 640px) { .scope-grid { grid-template-columns: 1fr; } }
+
+  .scope-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 32px 30px;
+    transition: border-color 0.25s;
+  }
+  .scope-card:hover { border-color: var(--border-hi); }
+  .scope-card-icon {
+    font-size: 20px;
+    margin-bottom: 16px;
+    display: block;
+    line-height: 1;
+  }
+  .scope-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink-deep);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .scope-card-desc {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  /* ─── FRENCH SECTION ─── */
+  #french .pull-quote {
+    display: block;
+    margin: 48px 0 0;
+    padding: 36px 44px;
+    background: var(--card-soft);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 300;
+    color: var(--ink-deep);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    max-width: 560px;
+  }
+  #french .pull-quote em {
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  /* ─── ABOUT DIGITSUP ─── */
+  .stat-chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 48px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 14px 22px;
+  }
+  .chip-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ink-deep);
+    line-height: 1;
+  }
+  .chip-lbl {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    font-weight: 400;
+  }
+
+  /* ─── INVESTMENT ─── */
+  .investment-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-hi);
+    border-radius: 3px;
+    padding: 56px 52px;
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .investment-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 7vw, 80px);
+    font-weight: 300;
+    color: var(--ink-deep);
+    line-height: 1;
+    margin-bottom: 6px;
+    letter-spacing: -0.03em;
+  }
+  .investment-price sup {
+    font-size: 0.4em;
+    vertical-align: super;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+  .investment-price sub {
+    font-size: 0.25em;
+    vertical-align: baseline;
+    color: var(--muted);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    letter-spacing: 2px;
+  }
+  .investment-term {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 44px;
+  }
+  .investment-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 36px;
+  }
+  .investment-list {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 36px;
+  }
+  .investment-list li {
+    font-size: 14px;
+    color: var(--ink);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  .investment-list li:last-child { border-bottom: none; }
+  .investment-list li::before {
+    content: '—';
+    color: var(--muted);
+    flex-shrink: 0;
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  .investment-overage {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 36px;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.6;
+  }
+  .btn-primary {
+    display: block;
+    width: 100%;
+    background: var(--ink-deep);
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 18px 36px;
+    border-radius: 2px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.82; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 52px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .footer-wordmark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink-deep);
+    letter-spacing: 2px;
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .footer-links a {
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--ink-deep); }
+  .footer-dot {
+    width: 3px;
+    height: 3px;
+    background: var(--border-hi);
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .footer-logo-wrap {
+    margin-top: 8px;
+    opacity: 0.4;
+  }
+  .footer-logo-wrap img {
+    width: 60px;
+    height: auto;
+  }
+  .footer-credit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #C0BAB2;
+  }
+  @media (max-width: 640px) { footer { padding: 40px 24px; } }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- ─────────────────── PASSWORD GATE ─────────────────── -->
+<div id="gate">
+  <div class="gate-box">
+    <div class="gate-logo-wrap">
+      <img src="onze-logo.webp" alt="Onze Montréal" />
+    </div>
+    <div class="gate-title">Proposal for Onze Montréal</div>
+    <div class="gate-sub">Prepared by DigitsUp</div>
+    <input id="gate-input" class="gate-input" type="password" placeholder="· · · · · · · ·" autocomplete="off" />
+    <button class="gate-btn" onclick="checkPass()">View Proposal</button>
+    <div class="gate-error" id="gate-err"></div>
+    <div class="gate-credit">Confidential · June 2026</div>
+  </div>
+</div>
+
+<!-- ─────────────────── MAIN CONTENT ─────────────────── -->
+<div id="main">
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-left">
+      <div class="nav-logo">
+        <img src="onze-logo.webp" alt="Onze Montréal" />
+      </div>
+      <div class="nav-divider">×</div>
+      <div class="nav-agency">DigitsUp</div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#scope">Scope</a></li>
+      <li><a href="#investment">Investment</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <div class="hero" id="overview">
+    <div class="hero-label reveal">A Proposal for Onze Montréal</div>
+    <h1 class="reveal">Email That Speaks <em>to Her</em> — In Both Languages.</h1>
+    <p class="hero-sub reveal">A full-service email program built around Onze Montréal's 35-year identity, your campaign calendar, and an audience that deserves more than a bad translation.</p>
+    <div class="hero-stats reveal">
+      <div class="hero-stat">
+        <span class="val">8</span>
+        <span class="lbl">Emails / Month</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val">2</span>
+        <span class="lbl">Languages</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val">20k</span>
+        <span class="lbl">Subscribers</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val">90</span>
+        <span class="lbl">Day Engagement</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ─── ABOUT ONZE ─── -->
+  <section id="about">
+    <div class="section-label reveal">The Brand</div>
+    <h2 class="section-h reveal">Thirty-Five Years of <em>Knowing Her</em></h2>
+    <div class="section-body reveal">
+      <p>Onze Montréal has spent 35 years in the Plateau building something rare: a brand that actually understands the women who wear it. Modest. Professional. High-quality. Vertically integrated. Rarely discounted — because the product earns its price.</p>
+      <p>Your current agency gets the technical side right. But email for Onze Montréal isn't a technical problem — it's a cultural one. Ninety percent of your audience is Francophone. They know when something was translated by a machine or written by someone who doesn't understand Montreal. They feel it immediately.</p>
+      <p>That's the problem we're here to solve.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── SCOPE OF WORK ─── -->
+  <section id="scope">
+    <div class="section-label reveal">Scope of Work</div>
+    <h2 class="section-h reveal">Everything Your Email Program Needs. <em>Nothing It Doesn't.</em></h2>
+    <p class="scope-intro reveal">This isn't a creative retainer where you send us assets and we make them pretty. This is full program ownership — from calendar to send.</p>
+
+    <div class="scope-grid">
+
+      <div class="scope-card reveal">
+        <span class="scope-card-icon">📅</span>
+        <div class="scope-card-title">Campaign Calendar</div>
+        <div class="scope-card-desc">We build and own the monthly send calendar — aligned to your product drops, seasonal moments, and inventory priorities.</div>
+      </div>
+
+      <div class="scope-card reveal">
+        <span class="scope-card-icon">✍️</span>
+        <div class="scope-card-title">Creative Briefs</div>
+        <div class="scope-card-desc">Every campaign starts with a brief. We define the angle, the audience, and the objective before we write a single word.</div>
+      </div>
+
+      <div class="scope-card reveal">
+        <span class="scope-card-icon">🌐</span>
+        <div class="scope-card-title">Copy & Translation</div>
+        <div class="scope-card-desc">English copy written in-house. Quebecois French adapted by Sylvie Ropesh — a native translator who understands the nuance your audience hears.</div>
+      </div>
+
+      <div class="scope-card reveal">
+        <span class="scope-card-icon">🖋</span>
+        <div class="scope-card-title">Design</div>
+        <div class="scope-card-desc">Emails designed to match the Onze Montréal aesthetic. Clean. Refined. Never generic.</div>
+      </div>
+
+      <div class="scope-card reveal">
+        <span class="scope-card-icon">⚙️</span>
+        <div class="scope-card-title">Build & Schedule</div>
+        <div class="scope-card-desc">We build in your existing email platform, QA every send, and schedule with precision.</div>
+      </div>
+
+      <div class="scope-card reveal">
+        <span class="scope-card-icon">📊</span>
+        <div class="scope-card-title">Monthly Reporting</div>
+        <div class="scope-card-desc">A clean monthly review of what worked, what didn't, and what we're testing next. Weekly check-ins during the first 30 days to align quickly.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── THE FRENCH QUESTION ─── -->
+  <section id="french">
+    <div class="section-label reveal">The Differentiator</div>
+    <h2 class="section-h reveal">Bad French Is <em>Worse Than No French</em></h2>
+    <div class="section-body reveal">
+      <p>Your 90% Francophone audience doesn't just read French — they feel it. A poorly translated email doesn't just miss the mark, it signals that the brand doesn't really know them.</p>
+      <p>Sylvie Ropesh is a native Quebecois French speaker and our translation partner on this account. Every English email gets adapted — not just translated. The rhythm, the idioms, the register. It sounds like someone who lives in Montréal wrote it. Because she does.</p>
+    </div>
+    <blockquote class="pull-quote reveal">Not translated. <em>Adapted.</em></blockquote>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── ABOUT DIGITSUP ─── -->
+  <section id="digitsup">
+    <div class="section-label reveal">About DigitsUp</div>
+    <h2 class="section-h reveal">We've Done This <em>Before</em></h2>
+    <div class="section-body reveal">
+      <p>DigitsUp is a retention marketing agency specializing in email, SMS, and lifecycle programs for premium ecommerce brands. We are a Klaviyo Platinum Partner with 11+ years of experience and 45+ brands scaled.</p>
+      <p>We don't run campaigns for brands we don't understand. Before we write a word for Onze Montréal, we read the brand, study the audience, and learn what she responds to.</p>
+      <p>This proposal is proof of that.</p>
+    </div>
+    <div class="stat-chips reveal">
+      <div class="chip">
+        <span class="chip-val">11+</span>
+        <span class="chip-lbl">Years</span>
+      </div>
+      <div class="chip">
+        <span class="chip-val">45+</span>
+        <span class="chip-lbl">Brands</span>
+      </div>
+      <div class="chip">
+        <span class="chip-val">Platinum</span>
+        <span class="chip-lbl">Klaviyo Partner</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── INVESTMENT ─── -->
+  <section id="investment">
+    <div class="section-label reveal">Investment</div>
+    <h2 class="section-h reveal" style="text-align:center;">The Program. <em>The Price. The Terms.</em></h2>
+    <p class="section-intro reveal" style="max-width:480px; margin-left:auto; margin-right:auto; text-align:center;">One engagement. Everything included. No surprises.</p>
+
+    <div class="investment-card reveal">
+      <div class="investment-price">
+        <sup>$</sup>4,000<sub>&nbsp;CAD / MO</sub>
+      </div>
+      <div class="investment-term">90-Day Engagement</div>
+      <div class="investment-divider"></div>
+      <ul class="investment-list">
+        <li>Campaign calendar ownership</li>
+        <li>Creative briefs for every send</li>
+        <li>English copy</li>
+        <li>Quebecois French adaptation (Sylvie Ropesh)</li>
+        <li>Email design</li>
+        <li>Build + QA</li>
+        <li>Scheduling</li>
+        <li>Monthly performance report</li>
+        <li>Weekly syncs (first 30 days)</li>
+      </ul>
+      <p class="investment-overage">Additional sends beyond 8/month billed at $400 CAD per email.</p>
+      <a href="mailto:mike@digitsup.com" class="btn-primary">Ready to Start — Let's Talk</a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-wordmark">DigitsUp</div>
+    <div class="footer-links">
+      <a href="mailto:mike@digitsup.com">mike@digitsup.com</a>
+      <span class="footer-dot"></span>
+      <a href="https://digitsup.com" target="_blank">digitsup.com</a>
+    </div>
+    <div class="footer-credit">Prepared for Onze Montréal · June 2026</div>
+    <div class="footer-logo-wrap">
+      <img src="onze-logo.webp" alt="Onze Montréal" />
+    </div>
+  </footer>
+
+</div><!-- /#main -->
+
+<script>
+  function checkPass() {
+    const val = document.getElementById('gate-input').value.trim().toUpperCase();
+    const err = document.getElementById('gate-err');
+    if (val === 'ONZE2026') {
+      document.getElementById('gate').classList.add('hidden');
+      const main = document.getElementById('main');
+      main.classList.add('visible');
+      setTimeout(initReveal, 80);
+    } else {
+      err.textContent = 'Incorrect code. Please try again.';
+      const input = document.getElementById('gate-input');
+      input.style.borderColor = '#B04040';
+      setTimeout(() => {
+        err.textContent = '';
+        input.style.borderColor = '';
+      }, 2200);
+    }
+  }
+
+  document.getElementById('gate-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') checkPass();
+  });
+
+  function initReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.07 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+</script>
+
+</body>
+</html>
