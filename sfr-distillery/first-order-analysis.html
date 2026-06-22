@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SFR Distillery — First-Order Customer Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #1a1a2e;
+      --surface: #16213e;
+      --surface2: #1e2d4a;
+      --teal: #00b4d8;
+      --teal-dim: rgba(0, 180, 216, 0.15);
+      --teal-border: rgba(0, 180, 216, 0.35);
+      --white: #f0f4f8;
+      --muted: #8899aa;
+      --warning: #f4a261;
+      --warning-dim: rgba(244, 162, 97, 0.12);
+      --success: #52d9a0;
+      --success-dim: rgba(82, 217, 160, 0.12);
+      --red: #e76f7a;
+      --red-dim: rgba(231, 111, 122, 0.12);
+      --border: rgba(255,255,255,0.07);
+      --radius: 10px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── HEADER ─────────────────────────────────── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 0 36px;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--teal-dim);
+      border: 1px solid var(--teal-border);
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+
+    .header-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--teal);
+      border-radius: 50%;
+    }
+
+    header h1 {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    header h1 span {
+      color: var(--teal);
+    }
+
+    .header-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 14px;
+      width: fit-content;
+    }
+
+    .header-meta::before {
+      content: 'ℹ';
+      color: var(--teal);
+      font-size: 13px;
+    }
+
+    /* ── MAIN CONTENT ───────────────────────────── */
+    main {
+      padding: 48px 0 80px;
+    }
+
+    section {
+      margin-bottom: 60px;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 20px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+
+    /* ── STAT CARDS ─────────────────────────────── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .stat-card:hover {
+      border-color: var(--teal-border);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--teal);
+      opacity: 0.5;
+    }
+
+    .stat-card.highlight::before {
+      opacity: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-value.teal { color: var(--teal); }
+    .stat-value.warning { color: var(--warning); }
+    .stat-value.red { color: var(--red); }
+
+    .stat-sub {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* ── INSIGHTS ───────────────────────────────── */
+    .insights-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .insight-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .insight-card.teal { border-left: 3px solid var(--teal); }
+    .insight-card.warning { border-left: 3px solid var(--warning); }
+    .insight-card.red { border-left: 3px solid var(--red); }
+    .insight-card.success { border-left: 3px solid var(--success); }
+    .insight-card.muted { border-left: 3px solid var(--muted); }
+
+    .insight-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+
+    .insight-card.teal .insight-tag { background: var(--teal-dim); color: var(--teal); }
+    .insight-card.warning .insight-tag { background: var(--warning-dim); color: var(--warning); }
+    .insight-card.red .insight-tag { background: var(--red-dim); color: var(--red); }
+    .insight-card.success .insight-tag { background: var(--success-dim); color: var(--success); }
+    .insight-card.muted .insight-tag { background: rgba(136,153,170,0.1); color: var(--muted); }
+
+    .insight-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .insight-body {
+      font-size: 13.5px;
+      color: rgba(240,244,248,0.75);
+      line-height: 1.65;
+    }
+
+    .insight-implication {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 6px;
+      font-size: 12.5px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .insight-implication strong {
+      color: var(--white);
+      font-style: normal;
+    }
+
+    .insight-card.full-width {
+      grid-column: 1 / -1;
+    }
+
+    /* ── PRODUCT BREAKDOWN ──────────────────────── */
+    .product-list {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .product-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    .product-row:last-child { border-bottom: none; }
+    .product-row:hover { background: var(--surface2); }
+
+    .product-rank {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      width: 24px;
+      text-align: center;
+    }
+
+    .product-rank.top { color: var(--teal); }
+
+    .product-name {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--white);
+    }
+
+    .product-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .product-bar-track {
+      flex: 1;
+      height: 6px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .product-bar-fill {
+      height: 100%;
+      background: var(--teal);
+      border-radius: 3px;
+      opacity: 0.7;
+    }
+
+    .product-count {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--teal);
+      min-width: 36px;
+      text-align: right;
+    }
+
+    /* ── TABLE ──────────────────────────────────── */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead {
+      background: var(--surface2);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    thead th {
+      padding: 12px 14px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.15s;
+    }
+
+    thead th:hover { color: var(--teal); }
+    thead th.sort-asc::after { content: ' ↑'; color: var(--teal); }
+    thead th.sort-desc::after { content: ' ↓'; color: var(--teal); }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+    tbody tr:hover { background: var(--surface2); }
+
+    td {
+      padding: 11px 14px;
+      color: rgba(240,244,248,0.85);
+      vertical-align: top;
+    }
+
+    td.name { font-weight: 600; color: var(--white); white-space: nowrap; }
+    td.email { color: var(--muted); font-size: 12px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    td.date { white-space: nowrap; color: var(--muted); }
+    td.value { font-weight: 600; color: var(--teal); white-space: nowrap; }
+    td.products { max-width: 220px; font-size: 12px; line-height: 1.5; }
+
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .badge-pos { background: rgba(82,217,160,0.12); color: var(--success); }
+    .badge-online { background: var(--teal-dim); color: var(--teal); }
+    .badge-code { background: rgba(244,162,97,0.1); color: var(--warning); font-size: 9px; letter-spacing: 0; text-transform: none; font-weight: 500; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
+    .badge-none { color: var(--muted); font-size: 12px; }
+    .check { color: var(--success); font-size: 16px; }
+    .dash { color: rgba(255,255,255,0.15); }
+
+    /* ── NEXT STEPS ─────────────────────────────── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: border-color 0.2s;
+    }
+
+    .step-card:hover { border-color: var(--teal-border); }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      border-radius: 50%;
+      background: var(--teal-dim);
+      border: 1px solid var(--teal-border);
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-content { flex: 1; }
+
+    .step-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── FOOTER ─────────────────────────────────── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-brand {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: 0.05em;
+    }
+
+    .footer-meta {
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+
+    /* ── PRINT ──────────────────────────────────── */
+    @media print {
+      body { background: #fff; color: #111; }
+      header, footer { background: #f5f5f5; }
+      .stat-card, .insight-card, .step-card, .product-list, .table-wrap {
+        background: #fff;
+        border: 1px solid #ccc;
+        break-inside: avoid;
+      }
+      :root {
+        --teal: #007a99;
+        --white: #111;
+        --muted: #555;
+        --bg: #fff;
+        --surface: #f9f9f9;
+        --surface2: #f0f0f0;
+        --border: #ddd;
+      }
+      thead { background: #eee; }
+      tbody tr:nth-child(even) { background: #fafafa; }
+    }
+
+    /* ── RESPONSIVE ─────────────────────────────── */
+    @media (max-width: 768px) {
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .insights-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      header h1 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-badge">DigitsUp · SFR Distillery · Strategist Onboarding</div>
+    <h1>SFR Distillery — <span>First-Order</span> Customer Analysis</h1>
+    <p class="header-subtitle">Last 50 first-time customers &middot; Pulled from Klaviyo &middot; June 2026</p>
+    <div class="header-meta">First-order detection methodology: customer account created within 2 hours of order placement</div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+
+    <!-- SECTION 1: KEY METRICS -->
+    <section>
+      <div class="section-label">Section 01 &nbsp; Key Metrics</div>
+      <div class="stat-grid">
+        <div class="stat-card highlight">
+          <div class="stat-label">Customers Analyzed</div>
+          <div class="stat-value teal">50</div>
+          <div class="stat-sub">First-time buyers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Revenue</div>
+          <div class="stat-value">$3,546</div>
+          <div class="stat-sub">CAD &middot; .65 cents</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Avg Order Value</div>
+          <div class="stat-value">$70.93</div>
+          <div class="stat-sub">CAD per first order</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Online Orders</div>
+          <div class="stat-value teal">12</div>
+          <div class="stat-sub">24% of all first orders</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">POS Orders</div>
+          <div class="stat-value warning">38</div>
+          <div class="stat-sub">76% of all first orders</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">SMS Opt-in Rate</div>
+          <div class="stat-value red">8%</div>
+          <div class="stat-sub">4 of 50 customers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Marketing Opt-in</div>
+          <div class="stat-value red">8%</div>
+          <div class="stat-sub">4 of 50 customers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Used Discount Code</div>
+          <div class="stat-value warning">52%</div>
+          <div class="stat-sub">26 of 50 customers</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: STRATEGIC INSIGHTS -->
+    <section>
+      <div class="section-label">Section 02 &nbsp; Strategic Insights</div>
+      <div class="insights-grid">
+
+        <div class="insight-card warning">
+          <div class="insight-tag">Acquisition Channel</div>
+          <div class="insight-title">POS-Dominant Acquisition (76%)</div>
+          <div class="insight-body">
+            Three in four new customers are walking into a physical location — a tasting room or retail outlet — before they ever receive an email. By the time we have their address, they've already held the bottle, tasted the product, and made a purchase. This is a fundamentally different starting point than a cold online acquisition.
+          </div>
+          <div class="insight-implication">
+            <strong>Implication:</strong> Welcome flows must lead with warmth and craft story, not a discount offer. Discounting a customer who already bought at full POS price is a margin leak and signals poor personalization. The welcome series should deepen the brand relationship, not incentivize a second purchase they might have made anyway.
+          </div>
+        </div>
+
+        <div class="insight-card red">
+          <div class="insight-tag">Data Quality Risk</div>
+          <div class="insight-title">Email Capture Quality: 8% Opt-in Rate</div>
+          <div class="insight-body">
+            Both SMS and marketing opt-in rates sit at exactly 8% — 4 customers out of 50. The remaining 92% are in the Klaviyo profile list but have <em>not</em> consented to marketing. This is a structural problem that limits lifecycle revenue from day one. Flows can be built, but the audience to send them to is almost nonexistent without tackling opt-in first.
+          </div>
+          <div class="insight-implication">
+            <strong>Implication:</strong> Before any lifecycle flow can generate meaningful revenue, an opt-in re-engagement sequence is required. This should be one of the first things built — likely a transactional-style email that directs customers to opt in, framed around exclusive content or early access rather than a discount.
+          </div>
+        </div>
+
+        <div class="insight-card warning">
+          <div class="insight-tag">Acquisition Economics</div>
+          <div class="insight-title">Discount Dependency (52%)</div>
+          <div class="insight-body">
+            Half of all first-time customers used a discount code on their first purchase. Most of these appear to be TIS-prefixed codes consistent with Toki-style referral/POS attribution codes, suggesting a systematic incentive layer baked into the POS acquisition channel. Two customers explicitly show "Toki code" as the discount source.
+          </div>
+          <div class="insight-implication">
+            <strong>Implication:</strong> Worth investigating whether discounted first-order customers have lower repeat purchase rates vs non-discounted ones. If discounted cohorts don't repeat, the acquisition economics look much worse than the headline CAC suggests. This is a cohort analysis to build once there's 90+ days of repeat data.
+          </div>
+        </div>
+
+        <div class="insight-card teal">
+          <div class="insight-tag">Revenue Opportunity</div>
+          <div class="insight-title">Low AOV Signals High Cross-Sell Upside</div>
+          <div class="insight-body">
+            The $70.93 average order value reflects a customer base that is mostly buying single SKUs — SFR Whisky at $39.95–$67.93, individual liqueurs at $30–$45. The catalog has meaningful breadth (gin, vodka, brandy, herbal liqueurs, sampler sets), but first-order customers are rarely discovering more than one product.
+          </div>
+          <div class="insight-implication">
+            <strong>Implication:</strong> Post-purchase cross-sell is one of the highest-leverage flows available here. A customer who buys SFR Whisky should be introduced to the Trickster's Orange Liqueur or Monk's Secret within 7 days. Pair products strategically — whisky buyers → sampler set or gin; liqueur buyers → Apple Brandy or Maple Eau-de-vie.
+          </div>
+        </div>
+
+        <div class="insight-card muted full-width">
+          <div class="insight-tag">Context</div>
+          <div class="insight-title">This Is the Baseline — Flows Don't Exist Yet</div>
+          <div class="insight-body">
+            The data spans primarily April–June 2026. SFR is in early-stage DTC growth — email and lifecycle automation is either nonexistent or in very early form. The 50 customers in this dataset represent the foundation we're building from. There is no existing welcome series, post-purchase flow, or winback sequence generating revenue in the background. Everything we build from here is additive.
+          </div>
+          <div class="insight-implication">
+            <strong>Implication:</strong> The opportunity is large precisely because nothing is automated yet. Even a modest welcome series and post-purchase flow would generate revenue that currently goes completely uncaptured. Start with high-confidence, high-impact flows — welcome + post-purchase — before building anything sophisticated.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 3: PRODUCT BREAKDOWN -->
+    <section>
+      <div class="section-label">Section 03 &nbsp; Product Breakdown</div>
+      <div class="section-title">Top Products by First-Order Frequency</div>
+      <div class="product-list" id="product-list">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- SECTION 4: CUSTOMER TABLE -->
+    <section>
+      <div class="section-label">Section 04 &nbsp; Customer Table</div>
+      <div class="section-title">All 50 First-Order Customers <span style="font-size:13px;font-weight:400;color:var(--muted)">— click column headers to sort</span></div>
+      <div class="table-wrap">
+        <table id="customer-table">
+          <thead>
+            <tr>
+              <th data-col="name">Name</th>
+              <th data-col="email">Email</th>
+              <th data-col="date">Order Date</th>
+              <th data-col="value">Order Value</th>
+              <th data-col="products">Products</th>
+              <th data-col="source">Source</th>
+              <th data-col="code">Discount Code</th>
+              <th data-col="sms">SMS</th>
+              <th data-col="marketing">Mktg Opt-in</th>
+            </tr>
+          </thead>
+          <tbody id="customer-tbody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 5: NEXT STEPS -->
+    <section>
+      <div class="section-label">Section 05 &nbsp; Recommended Next Steps</div>
+      <div class="section-title">What This Data Tells Us to Build First</div>
+      <div class="steps-grid">
+
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Welcome Flow — POS-Triggered, Warmth-First</div>
+            <div class="step-desc">76% of new customers are coming from physical retail. The welcome sequence should open with the brand story, the craft, the people behind it — not a discount. They've already bought. Earn the next one through relationship, not incentive.</div>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Opt-in Capture Sequence</div>
+            <div class="step-desc">92% of captured profiles haven't consented to marketing. Without solving this, lifecycle revenue is structurally capped. Build a re-consent sequence framed around value — early access, exclusive content, or first-look on new releases — not a discount pitch.</div>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">Post-Purchase Cross-Sell (7-Day Window)</div>
+            <div class="step-desc">Most first orders are single-SKU at $35–$70. The catalog depth is there — customers just aren't seeing it. A product-pairing email within 7 days of first purchase (whisky → liqueurs, gin → sampler set) is high-conversion, low-effort lift.</div>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <div class="step-title">First-Purchase Winback — 60-Day Re-engagement</div>
+            <div class="step-desc">Given there's no active lifecycle program, a large share of these 50 customers have likely gone silent. A winback sequence at 60 days post-purchase — with a compelling reason to return (seasonal release, craft story, new product) — should run immediately.</div>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <div class="step-title">Discount-Free Acquisition Test</div>
+            <div class="step-desc">52% of first orders used a discount code. The hypothesis to test: do discounted first-order customers have lower LTV than non-discounted ones? Track the two cohorts over 90 days. If the data confirms it, that's a case to reduce discount dependency at POS acquisition.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">DigitsUp</div>
+    <div class="footer-meta">Prepared for SFR Distillery Strategist Onboarding &middot; June 2026 &middot; Data source: Klaviyo API &middot; Read-only access</div>
+  </div>
+</footer>
+
+<script>
+const customers = [
+  {"first_name":"Renée","last_name":"Dufour","email":"renee.dufour@gmail.com","order_date":"2026-06-19","order_value":"$123.86 CAD","products":"Apple Brandy, SFR Whisky","source":"Online","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"David","last_name":"Walters","email":"walters.dave86@gmail.com","order_date":"2026-06-16","order_value":"$67.93 CAD","products":"SFR Whisky","source":"Online","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":true},
+  {"first_name":"Mitch","last_name":"Cuming","email":"mitchcuming17@gmail.com","order_date":"2026-06-08","order_value":"$100.00 CAD","products":"Jacked Chili Liqueur, Trickster's Orange Liqueur","source":"POS","discount_codes":"TISMMSvtd1J","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Charley","last_name":"Wharrie","email":"cwharriewd@gmail.com","order_date":"2026-06-07","order_value":"$39.95 CAD","products":"SFR Whisky","source":"POS","discount_codes":"TISju4NvAyZ","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Tim","last_name":"Dennis","email":"t2dennis@icloud.com","order_date":"2026-05-31","order_value":"$40.00 CAD","products":"Bierschnapps - Batch 3","source":"POS","discount_codes":"TISeAMqgR14","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Steven","last_name":"Griffin","email":"steve.griff1317@gmail.com","order_date":"2026-05-30","order_value":"$30.00 CAD","products":"Jacked Chili Liqueur","source":"POS","discount_codes":"TISBKOGgGZW","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Christian","last_name":"Adm","email":"chrisadm@hotmail.com","order_date":"2026-05-24","order_value":"$80.00 CAD","products":"SFR Vodka, Maple Eau-de-vie","source":"POS","discount_codes":"TISgLOLfA99","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Matthew","last_name":"Forgie","email":"matthew.forgie@gmail.com","order_date":"2026-05-24","order_value":"$39.95 CAD","products":"Monk's Secret","source":"POS","discount_codes":"TISuJbimFPL","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Duncan","last_name":"Gibbons","email":"djgibbons@rogers.com","order_date":"2026-05-24","order_value":"$124.95 CAD","products":"Signature Canadian Whisky, SFR Whisky","source":"POS","discount_codes":"TIS3-40p44J","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Isaac","last_name":"Luchini","email":"isaacluchini@gmail.com","order_date":"2026-05-21","order_value":"$63.20 CAD","products":"SFR Whisky","source":"Online","discount_codes":"None","opted_in_sms":true,"marketing_opt_in":false},
+  {"first_name":"Angelo","last_name":"Fantuz","email":"angeonnet@aol.com","order_date":"2026-05-19","order_value":"$45.00 CAD","products":"SFR Dry Gin","source":"POS","discount_codes":"TISSfbwKfBk","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Althea","last_name":"Rothwell","email":"althearothwell@hotmail.com","order_date":"2026-05-19","order_value":"$40.00 CAD","products":"Bierschnapps - Batch 3","source":"POS","discount_codes":"TISDbXAOqae","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Dr William D","last_name":"Walker","email":"wdwalker11@sympatico.ca","order_date":"2026-05-13","order_value":"$175.00 CAD","products":"Jacked Chili Liqueur, Trickster's Orange Liqueur","source":"POS","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Cyril","last_name":"Hotz","email":"cyrilhotz@gmail.com","order_date":"2026-05-10","order_value":"$45.00 CAD","products":"SFR Sampler Set – 6 x 60ml","source":"POS","discount_codes":"TIS6uEL7dVY","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"JDana","last_name":"Szabadi","email":"darna2ca@hotmail.com","order_date":"2026-05-10","order_value":"$60.00 CAD","products":"Apple Brandy","source":"POS","discount_codes":"TISnatZRGN-","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Janice","last_name":"Weizenbach","email":"jweizenbach@gmail.com","order_date":"2026-05-09","order_value":"$30.00 CAD","products":"Trickster's Orange Liqueur","source":"POS","discount_codes":"TISkTJPVzhD","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Stephanie","last_name":"Zellerer","email":"zellerz_zee@hotmail.com","order_date":"2026-05-09","order_value":"$39.95 CAD","products":"Monk's Secret","source":"POS","discount_codes":"TISLrwlz45c","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Annie","last_name":"Bellemare","email":"any1999@hotmail.com","order_date":"2026-05-09","order_value":"$30.00 CAD","products":"Trickster's Orange Liqueur","source":"POS","discount_codes":"TISlj-ZqPOW","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Kevin","last_name":"Magee-Bell","email":"mageebell4@gmail.com","order_date":"2026-05-09","order_value":"$39.95 CAD","products":"Monk's Secret","source":"POS","discount_codes":"Toki code","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Vishal","last_name":"Gill","email":"vishal_s_gill@yahoo.ca","order_date":"2026-05-09","order_value":"$39.95 CAD","products":"SFR Whisky","source":"POS","discount_codes":"Toki code","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Greg","last_name":"M","email":"gregm1985@yahoo.com","order_date":"2026-05-09","order_value":"$89.90 CAD","products":"SFR Whisky","source":"POS","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Julien","last_name":"Gagnon","email":"gagnonju@gmail.com","order_date":"2026-05-06","order_value":"$65.00 CAD","products":"Trickster's Orange Liqueur","source":"POS","discount_codes":"TISdnVZ-lOW","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Robert","last_name":"Soule","email":"rsoule3@yahoo.com","order_date":"2026-05-03","order_value":"$135.00 CAD","products":"Maple Eau-de-vie","source":"Online","discount_codes":"None","opted_in_sms":true,"marketing_opt_in":false},
+  {"first_name":"Brian","last_name":"Aylward","email":"brian_aylward@hotmail.com","order_date":"2026-05-03","order_value":"$84.95 CAD","products":"SFR Whisky, SFR Sampler Set – 6 x 60ml","source":"POS","discount_codes":"$5OFFSAMPLER","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Colleen P","last_name":"Beere","email":"colleenbeere@gmail.com","order_date":"2026-05-01","order_value":"$100.00 CAD","products":"Trickster's Orange Liqueur","source":"POS","discount_codes":"TISa_T60Nmm","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"R","last_name":"V","email":"vaderr@rogers.com","order_date":"2026-04-28","order_value":"$84.90 CAD","products":"SFR Whisky","source":"POS","discount_codes":"TISJRAuw2BI","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Cole","last_name":"Zervos","email":"colezervos@gmail.com","order_date":"2026-04-26","order_value":"$40.00 CAD","products":"SFR Vodka","source":"POS","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"O","last_name":"J","email":"golalel620@ryzid.com","order_date":"2026-04-26","order_value":"$44.95 CAD","products":"SFR Whisky","source":"POS","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"—","last_name":"","email":"kim.jarvo@hotmail.com","order_date":"2026-04-25","order_value":"$109.95 CAD","products":"SFR Whisky, Apple Brandy","source":"POS","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"—","last_name":"","email":"davidsawatzky57@gmail.com","order_date":"2026-04-25","order_value":"$94.95 CAD","products":"SFR Whisky, SFR Dry Gin","source":"POS","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"—","last_name":"","email":"linda.blackwell@sympatico.ca","order_date":"2026-04-25","order_value":"$44.95 CAD","products":"SFR Whisky","source":"POS","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"—","last_name":"","email":"vickydstone@yahoo.ca","order_date":"2026-04-25","order_value":"$35.00 CAD","products":"Trickster's Orange Liqueur","source":"POS","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"—","last_name":"","email":"cleverdontom@gmaiil.com","order_date":"2026-04-25","order_value":"$44.95 CAD","products":"SFR Whisky","source":"POS","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"—","last_name":"","email":"sprashker@gmail.com","order_date":"2026-04-25","order_value":"$45.00 CAD","products":"Maple Eau-de-vie","source":"POS","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Jason","last_name":"Palidwar","email":"Jdpalidwar@gmail.com","order_date":"2026-04-19","order_value":"$109.95 CAD","products":"Apple Brandy, SFR Whisky","source":"Online","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Sarah","last_name":"O'Neill","email":"saracmd@gmail.com","order_date":"2026-04-18","order_value":"$84.90 CAD","products":"SFR Whisky, Monk's Secret","source":"POS","discount_codes":"TISIltsciy0","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Todd","last_name":"Bosik","email":"tbosik2@gmail.com","order_date":"2026-04-18","order_value":"$30.00 CAD","products":"Jacked Chili Liqueur","source":"POS","discount_codes":"TISEmltZ4zu","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Kate","last_name":"Berry","email":"katelberry@yahoo.com","order_date":"2026-04-17","order_value":"$39.95 CAD","products":"SFR Whisky","source":"POS","discount_codes":"TISf_EpvON5","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Ryan","last_name":"Parker","email":"rh_parker@hotmail.com","order_date":"2026-04-17","order_value":"$129.95 CAD","products":"Pot Still Gin, Traditional Poitín, Monk's Secret","source":"Online","discount_codes":"None","opted_in_sms":true,"marketing_opt_in":false},
+  {"first_name":"Nhien","last_name":"Nguyen","email":"tunhien29@gmail.com","order_date":"2026-04-16","order_value":"$30.00 CAD","products":"Jacked Chili Liqueur","source":"POS","discount_codes":"TISVNX0bnIV","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Anna","last_name":"Tran","email":"hello@annatran.com","order_date":"2026-04-16","order_value":"$35.00 CAD","products":"SFR Vodka","source":"POS","discount_codes":"TIS9UpmwUj8","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Manfred","last_name":"Mueller","email":"manfredm@magma.ca","order_date":"2026-04-15","order_value":"$94.95 CAD","products":"SFR Dry Gin, SFR Whisky","source":"Online","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":true},
+  {"first_name":"Michele","last_name":"McCashion","email":"mmccashion@hotmail.com","order_date":"2026-04-15","order_value":"$112.06 CAD","products":"SFR Whisky","source":"Online","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":true},
+  {"first_name":"Melanie","last_name":"—","email":"melanie.macguigan@gmail.com","order_date":"2026-04-12","order_value":"$44.95 CAD","products":"Monk's Secret","source":"POS","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Jillian","last_name":"Leggatt","email":"jillianandbrian@sent.com","order_date":"2026-04-11","order_value":"$134.85 CAD","products":"Monk's Secret","source":"Online","discount_codes":"None","opted_in_sms":true,"marketing_opt_in":true},
+  {"first_name":"Ivan","last_name":"Duguay","email":"ivanduguay@gmail.com","order_date":"2026-04-11","order_value":"$107.63 CAD","products":"SFR Whisky, Traditional Poitín","source":"Online","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Ted","last_name":"Czachowski","email":"jubileejack3@gmail.com","order_date":"2026-04-10","order_value":"$40.00 CAD","products":"SFR Vodka","source":"POS","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Kenneth","last_name":"Knechtel","email":"Ken.knechtel@gmail.com","order_date":"2026-04-10","order_value":"$134.85 CAD","products":"SFR Whisky","source":"Online","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Andre","last_name":"Albuquerque","email":"andre.dias.albuquerque@gmail.com","order_date":"2026-04-09","order_value":"$63.42 CAD","products":"Monk's Secret","source":"Online","discount_codes":"None","opted_in_sms":false,"marketing_opt_in":false},
+  {"first_name":"Keiron","last_name":"Dominelli","email":"keiron.dominelli@gmail.com","order_date":"2026-04-07","order_value":"$80.00 CAD","products":"Signature Canadian Whisky","source":"POS","discount_codes":"TISTyhQGW0u","opted_in_sms":false,"marketing_opt_in":false}
+];
+
+// ── PRODUCT BREAKDOWN ──────────────────────────────────────────────────────
+function buildProductBreakdown() {
+  const counts = {};
+  customers.forEach(c => {
+    const prods = c.products.split(',').map(p => p.trim());
+    prods.forEach(p => {
+      if (!p) return;
+      counts[p] = (counts[p] || 0) + 1;
+    });
+  });
+
+  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const max = sorted[0][1];
+
+  const container = document.getElementById('product-list');
+  sorted.forEach(([name, count], i) => {
+    const pct = (count / max) * 100;
+    const row = document.createElement('div');
+    row.className = 'product-row';
+    row.innerHTML = `
+      <div class="product-rank ${i < 3 ? 'top' : ''}">${i + 1}</div>
+      <div class="product-name">${name}</div>
+      <div class="product-bar-wrap">
+        <div class="product-bar-track"><div class="product-bar-fill" style="width:${pct}%"></div></div>
+        <div class="product-count">${count}</div>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+// ── CUSTOMER TABLE ─────────────────────────────────────────────────────────
+let sortCol = 'date';
+let sortDir = 1;
+
+function formatDate(d) {
+  const [y, m, day] = d.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[parseInt(m)-1]} ${parseInt(day)}, ${y}`;
+}
+
+function sortValue(c, col) {
+  switch(col) {
+    case 'name': return ((c.first_name === '—' ? '' : c.first_name) + ' ' + (c.last_name || '')).trim().toLowerCase();
+    case 'email': return c.email.toLowerCase();
+    case 'date': return c.order_date;
+    case 'value': return parseFloat(c.order_value.replace(/[^0-9.]/g, ''));
+    case 'products': return c.products.toLowerCase();
+    case 'source': return c.source;
+    case 'code': return c.discount_codes === 'None' ? '' : c.discount_codes.toLowerCase();
+    case 'sms': return c.opted_in_sms ? 1 : 0;
+    case 'marketing': return c.marketing_opt_in ? 1 : 0;
+    default: return '';
+  }
+}
+
+function renderTable() {
+  const sorted = [...customers].sort((a, b) => {
+    const av = sortValue(a, sortCol);
+    const bv = sortValue(b, sortCol);
+    if (av < bv) return -1 * sortDir;
+    if (av > bv) return 1 * sortDir;
+    return 0;
+  });
+
+  const tbody = document.getElementById('customer-tbody');
+  tbody.innerHTML = '';
+
+  sorted.forEach(c => {
+    const name = (c.first_name === '—' || c.first_name === null)
+      ? '<span style="color:var(--muted);font-style:italic;font-weight:400">No name</span>'
+      : `${c.first_name}${c.last_name && c.last_name !== '—' ? ' ' + c.last_name : ''}`;
+
+    const code = c.discount_codes === 'None'
+      ? '<span class="badge-none">—</span>'
+      : `<span class="badge badge-code" title="${c.discount_codes}">${c.discount_codes}</span>`;
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="name">${name}</td>
+      <td class="email" title="${c.email}">${c.email}</td>
+      <td class="date">${formatDate(c.order_date)}</td>
+      <td class="value">${c.order_value}</td>
+      <td class="products">${c.products}</td>
+      <td><span class="badge ${c.source === 'POS' ? 'badge-pos' : 'badge-online'}">${c.source}</span></td>
+      <td>${code}</td>
+      <td style="text-align:center">${c.opted_in_sms ? '<span class="check">✓</span>' : '<span class="dash">—</span>'}</td>
+      <td style="text-align:center">${c.marketing_opt_in ? '<span class="check">✓</span>' : '<span class="dash">—</span>'}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // update header classes
+  document.querySelectorAll('#customer-table thead th').forEach(th => {
+    th.classList.remove('sort-asc', 'sort-desc');
+    if (th.dataset.col === sortCol) {
+      th.classList.add(sortDir === 1 ? 'sort-asc' : 'sort-desc');
+    }
+  });
+}
+
+function initTableSort() {
+  document.querySelectorAll('#customer-table thead th').forEach(th => {
+    th.addEventListener('click', () => {
+      const col = th.dataset.col;
+      if (sortCol === col) {
+        sortDir *= -1;
+      } else {
+        sortCol = col;
+        sortDir = 1;
+      }
+      renderTable();
+    });
+  });
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  buildProductBreakdown();
+  renderTable();
+  initTableSort();
+});
+</script>
+
+</body>
+</html>
