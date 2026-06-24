@@ -1,1000 +1,456 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OhSnap — Post-Purchase Flow · Creative Image Brief</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OhSnap — Post-Purchase Flow · Creative Image Brief</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#f4f4f1;--card:#ffffff;--ink:#111111;--soft:#4a4a48;--faint:#8a8a85;
+  --line:#e6e6e1;--lime:#b8f034;--lime-text:#2e3d05;--lime-wash:#f3fce8;
+  --radius:14px;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+}
+html{font-size:16px;}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55;padding:0 0 80px;}
 
-    :root {
-      --bg: #f4f4f1;
-      --card: #ffffff;
-      --ink: #111111;
-      --soft: #4a4a48;
-      --faint: #8a8a85;
-      --lime: #b8f034;
-      --radius: 14px;
-      --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    }
+/* PAGE HEADER */
+.page-header{background:var(--ink);color:#fff;padding:56px 48px 52px;position:relative;overflow:hidden;}
+.page-header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--lime);}
+.wordmark{font-family:var(--sans);font-size:2.4rem;font-weight:900;font-style:italic;letter-spacing:-0.02em;color:var(--lime);display:block;margin-bottom:16px;}
+.page-header h1{font-family:var(--sans);font-size:clamp(1.4rem,3vw,2.2rem);font-weight:800;text-transform:uppercase;letter-spacing:-0.02em;line-height:1.1;color:#fff;margin-bottom:12px;}
+.page-header .subtitle{font-family:var(--mono);font-size:0.82rem;color:rgba(255,255,255,0.5);}
 
-    html { font-size: 16px; }
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--mono);
-      line-height: 1.6;
-      padding: 0 0 80px;
-    }
+/* SECTION */
+.section{max-width:980px;margin:0 auto;padding:60px 24px 0;}
+.section-title{font-family:var(--mono);font-size:0.7rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);display:flex;align-items:center;gap:8px;margin-bottom:20px;}
+.section-title::before{content:'';width:7px;height:7px;border-radius:2px;background:var(--lime);flex:none;}
+.section-lead{font-family:var(--mono);font-size:0.85rem;color:var(--soft);margin-bottom:28px;line-height:1.7;}
 
-    /* ─── PAGE HEADER ──────────────────────────────────────── */
-    .page-header {
-      background: var(--ink);
-      color: #fff;
-      padding: 60px 48px 56px;
-      position: relative;
-      overflow: hidden;
-    }
-    .page-header::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: var(--lime);
-    }
-    .wordmark {
-      font-family: var(--sans);
-      font-size: 2.6rem;
-      font-weight: 900;
-      font-style: italic;
-      letter-spacing: -0.02em;
-      color: var(--lime);
-      margin-bottom: 18px;
-      display: block;
-    }
-    .page-header h1 {
-      font-family: var(--sans);
-      font-size: clamp(1.5rem, 3vw, 2.4rem);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      color: #fff;
-      margin-bottom: 14px;
-    }
-    .page-header .subtitle {
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.55);
-      letter-spacing: 0.02em;
-    }
-    .header-meta {
-      margin-top: 32px;
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-    .header-pill {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 999px;
-      padding: 6px 16px;
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.65);
-      letter-spacing: 0.04em;
-    }
-    .header-pill span {
-      color: var(--lime);
-      font-weight: 700;
-    }
+/* ANATOMY */
+.anatomy-grid{display:grid;grid-template-columns:320px 1fr;gap:36px;align-items:start;}
+@media(max-width:700px){.anatomy-grid{grid-template-columns:1fr;}}
 
-    /* ─── SECTION WRAPPER ──────────────────────────────────── */
-    .section {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 64px 24px 0;
-    }
-    .section-label {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--faint);
-      margin-bottom: 8px;
-    }
-    .section-title {
-      font-family: var(--sans);
-      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      color: var(--ink);
-      margin-bottom: 20px;
-    }
-    .section-intro {
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      color: var(--soft);
-      max-width: 640px;
-      line-height: 1.7;
-      margin-bottom: 40px;
-    }
+/* Phone mock */
+.phone-mock{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;max-width:320px;}
+.mock-head{background:var(--ink);color:#fff;text-align:center;padding:12px;font-style:italic;font-weight:800;font-size:15px;font-family:var(--sans);}
+.mock-hero{background:var(--ink);color:#fff;outline:2px solid var(--lime);outline-offset:-2px;}
+.mock-hero-img{height:110px;background:#1c1c1c;border-bottom:2px solid var(--lime);display:flex;align-items:center;justify-content:center;color:#5a5a56;font-size:10px;font-family:var(--mono);text-align:center;padding:0 16px;position:relative;}
+.mock-img-tag{position:absolute;top:8px;left:10px;font-size:8px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--lime);background:rgba(0,0,0,0.5);padding:2px 5px;border-radius:3px;}
+.mock-hero-body{padding:14px 16px 16px;}
+.mock-eyebrow{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--lime);margin-bottom:5px;}
+.mock-title{font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:-0.02em;line-height:1.1;}
+.mock-bar{height:2px;width:30px;background:var(--lime);border-radius:2px;margin:8px 0 9px;}
+.mock-body{font-family:var(--mono);font-size:9.5px;color:#d8d8d2;line-height:1.6;}
+.mock-prod-row{display:flex;gap:10px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);background:#f3fce8;border-left:3px solid var(--lime);}
+.mock-prod-img{flex:none;width:48px;height:48px;border-radius:6px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:7px;font-family:var(--mono);text-align:center;border:1px solid var(--line);}
+.mock-prod-name{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:-0.01em;color:var(--ink);}
+.mock-prod-text{font-family:var(--mono);font-size:9px;color:var(--soft);margin-top:2px;}
+.mock-other{padding:9px 14px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:9px;color:var(--faint);background:#fff;}
+.mock-other:last-child{border-bottom:none;}
+.mock-footer-bar{background:var(--ink);padding:10px 14px;font-family:var(--mono);font-size:8px;color:#6a6a65;text-align:center;}
 
-    /* ─── ANATOMY SECTION ──────────────────────────────────── */
-    .anatomy-layout {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 32px;
-      align-items: start;
-    }
-    @media (max-width: 720px) {
-      .anatomy-layout { grid-template-columns: 1fr; }
-    }
+/* Callout list */
+.callout-list{list-style:none;}
+.callout-item{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--line);}
+.callout-item:last-child{border-bottom:none;}
+.callout-num{flex:none;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:var(--sans);}
+.z1{background:var(--lime);color:var(--lime-text);}
+.z2{background:#2db4ff22;color:#2db4ff;border:1px solid #2db4ff55;}
+.z-other{background:var(--bg);color:var(--faint);border:1px solid var(--line);}
+.zone-tag{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;padding:2px 8px;border-radius:4px;margin-bottom:5px;}
+.zone-tag.t1{background:var(--lime);color:var(--lime-text);}
+.zone-tag.t2{background:#2db4ff15;color:#1a90cc;border:1px solid #2db4ff44;}
+.callout-label{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+.callout-desc{font-family:var(--mono);font-size:12px;color:var(--soft);line-height:1.55;}
 
-    .email-mock {
-      background: var(--card);
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 1px solid #e8e8e4;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-    }
-    .mock-module {
-      padding: 14px 16px;
-      border-bottom: 1px solid #f0f0ec;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--faint);
-      position: relative;
-    }
-    .mock-module:last-child { border-bottom: none; }
+/* PERSONA CARDS */
+.persona-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:660px){.persona-grid{grid-template-columns:1fr;}}
+.persona-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+.persona-card-top{padding:16px 18px 14px;border-bottom:1px solid var(--line);}
+.persona-num{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;}
+.persona-name{font-size:17px;font-weight:800;letter-spacing:-0.02em;color:var(--ink);}
+.persona-card-body{padding:16px 18px 18px;}
 
-    .mock-module.zone-hero {
-      background: #f0ffd4;
-      border-color: var(--lime);
-      border-left: 3px solid var(--lime);
-      border-bottom: 1px solid #e0f4b0;
-    }
-    .mock-module.zone-hero .mod-label { color: var(--ink); font-weight: 700; }
+/* IMAGE BRIEF */
+.image-brief{background:var(--lime-wash);border:1px solid #c8e878;border-radius:10px;padding:12px 14px;margin-bottom:14px;}
+.image-brief-label{font-family:var(--mono);font-size:9.5px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--lime-text);margin-bottom:6px;display:flex;align-items:center;gap:5px;}
+.image-brief-text{font-family:var(--mono);font-size:11.5px;color:#2a380a;line-height:1.6;}
 
-    .mock-module.zone-products {
-      background: #f5f3ff;
-      border-left: 3px solid #cdb8ff;
-      border-bottom: 1px solid #ece8ff;
-    }
-    .mock-module.zone-products .mod-label { color: var(--ink); font-weight: 700; }
+/* HERO BLOCK */
+.hero-block{background:var(--ink);border-radius:10px;overflow:hidden;margin-bottom:14px;}
+.hero-img-slot{height:78px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:0.03em;text-align:center;padding:0 14px;color:#5a5a56;background:#1c1c1c;border-bottom:2px solid;position:relative;}
+.hero-img-tag{position:absolute;top:7px;left:10px;font-size:8px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#46463f;}
+.hero-content{padding:14px 16px 16px;color:#fff;}
+.hero-eyebrow{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:5px;}
+.hero-title{font-family:var(--sans);font-size:19px;font-weight:800;text-transform:uppercase;letter-spacing:-0.02em;line-height:1.1;}
+.hero-accent-bar{height:3px;width:30px;border-radius:2px;margin:10px 0 11px;}
+.hero-copy{font-family:var(--mono);font-size:11px;color:#d8d8d2;line-height:1.65;}
+.hero-copy strong{color:#fff;}
 
-    .mock-module.zone-header {
-      background: #f8f8f6;
-    }
+/* PRODUCTS */
+.products-label{font-family:var(--mono);font-size:9.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--faint);margin-bottom:7px;}
+.product-chips{display:flex;flex-wrap:wrap;gap:5px;}
+.product-chip{font-family:var(--mono);font-size:10.5px;padding:3px 9px;background:var(--bg);border:1px solid var(--line);border-radius:5px;color:var(--soft);}
 
-    .zone-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      font-size: 0.65rem;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-    .zone-badge.z1 { background: var(--lime); color: var(--ink); }
-    .zone-badge.z2 { background: #cdb8ff; color: #3d2e80; }
-    .zone-badge.copy { background: #e8e8e4; color: var(--faint); }
-    .zone-badge.header-badge { background: var(--ink); color: #fff; }
+/* TABLE */
+.table-wrap{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+.summary-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.summary-table th{font-family:var(--mono);font-size:9.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--faint);text-align:left;padding:11px 14px;border-bottom:2px solid var(--line);}
+.summary-table td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--soft);}
+.summary-table tr:last-child td{border-bottom:none;}
+.summary-table td:first-child{font-family:var(--mono);font-weight:700;color:var(--faint);font-size:11px;}
+.summary-table td b{color:var(--ink);}
+.accent-dot{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:middle;margin-right:5px;}
 
-    .mod-label { color: var(--soft); }
-
-    /* anatomy callouts */
-    .anatomy-callouts {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .callout-card {
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 24px;
-      border: 1px solid #e8e8e4;
-    }
-    .callout-card.c-hero { border-top: 3px solid var(--lime); }
-    .callout-card.c-products { border-top: 3px solid #cdb8ff; }
-    .callout-card.c-copy {
-      background: transparent;
-      border: 1px dashed #d8d8d4;
-    }
-
-    .callout-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    .callout-number {
-      font-family: var(--sans);
-      font-size: 1.2rem;
-      font-weight: 900;
-      line-height: 1;
-    }
-    .callout-title {
-      font-family: var(--sans);
-      font-size: 0.85rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .callout-card ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .callout-card ul li {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      color: var(--soft);
-      padding-left: 14px;
-      position: relative;
-    }
-    .callout-card ul li::before {
-      content: '→';
-      position: absolute;
-      left: 0;
-      color: var(--faint);
-      font-size: 0.72rem;
-    }
-    .callout-card.c-hero ul li::before { color: #8ab800; }
-    .callout-card.c-products ul li::before { color: #9d8fe0; }
-
-    .copy-modules-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
-    }
-    .copy-tag {
-      background: #f0f0ec;
-      border-radius: 6px;
-      padding: 4px 10px;
-      font-size: 0.72rem;
-      color: var(--faint);
-      font-family: var(--mono);
-    }
-
-    /* ─── PERSONA CARDS ────────────────────────────────────── */
-    .personas-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-      gap: 24px;
-      margin-top: 8px;
-    }
-    @media (max-width: 500px) {
-      .personas-grid { grid-template-columns: 1fr; }
-    }
-
-    .persona-card {
-      background: var(--card);
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 1px solid #e8e8e4;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-    .persona-card-top {
-      padding: 24px 24px 20px;
-      border-bottom: 1px solid #f0f0ec;
-      position: relative;
-    }
-    .persona-accent-bar {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-    }
-    .persona-number {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
-      color: var(--faint);
-      margin-bottom: 6px;
-    }
-    .persona-name {
-      font-family: var(--sans);
-      font-size: 1.2rem;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
-      line-height: 1.1;
-      margin-bottom: 14px;
-    }
-    .persona-subject {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      background: var(--bg);
-      border-radius: 8px;
-      padding: 10px 12px;
-    }
-    .subject-label {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--faint);
-      white-space: nowrap;
-      padding-top: 1px;
-      flex-shrink: 0;
-    }
-    .subject-text {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--ink);
-      font-style: italic;
-      line-height: 1.4;
-    }
-
-    .persona-card-body {
-      padding: 20px 24px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .hero-brief-block {
-      background: var(--bg);
-      border-radius: 10px;
-      padding: 16px;
-      border-left: 3px solid var(--lime);
-      position: relative;
-    }
-    .hero-brief-label {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: #8ab800;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .hero-brief-label::before {
-      content: '①';
-      font-size: 0.8rem;
-    }
-    .hero-brief-text {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--ink);
-      line-height: 1.65;
-    }
-
-    .tone-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .tone-label {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--faint);
-    }
-    .tone-chip {
-      display: inline-block;
-      border-radius: 999px;
-      padding: 3px 10px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      font-family: var(--mono);
-    }
-
-    .products-row {
-      border-top: 1px solid #f0f0ec;
-      padding-top: 16px;
-    }
-    .products-label {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--faint);
-      margin-bottom: 8px;
-    }
-    .products-label span {
-      color: #9d8fe0;
-      margin-left: 4px;
-    }
-    .product-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .product-tag {
-      background: var(--bg);
-      border: 1px solid #e0e0db;
-      border-radius: 6px;
-      padding: 4px 10px;
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--soft);
-    }
-
-    /* ─── SUMMARY TABLE ────────────────────────────────────── */
-    .table-wrap {
-      overflow-x: auto;
-      border-radius: var(--radius);
-      border: 1px solid #e8e8e4;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: var(--card);
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      min-width: 680px;
-    }
-    thead tr {
-      background: var(--ink);
-    }
-    thead th {
-      padding: 14px 18px;
-      text-align: left;
-      color: rgba(255,255,255,0.6);
-      font-weight: 600;
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      white-space: nowrap;
-    }
-    thead th:first-child { border-radius: var(--radius) 0 0 0; }
-    thead th:last-child { border-radius: 0 var(--radius) 0 0; }
-    tbody tr {
-      border-bottom: 1px solid #f0f0ec;
-      transition: background 0.12s;
-    }
-    tbody tr:hover { background: #f9f9f7; }
-    tbody tr:last-child { border-bottom: none; }
-    tbody td {
-      padding: 14px 18px;
-      color: var(--soft);
-      vertical-align: top;
-      line-height: 1.5;
-    }
-    .td-num {
-      font-weight: 700;
-      color: var(--faint);
-      font-size: 0.7rem;
-      letter-spacing: 0.06em;
-    }
-    .td-persona {
-      font-weight: 700;
-      color: var(--ink);
-      white-space: nowrap;
-    }
-    .td-accent-dot {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin-right: 6px;
-      vertical-align: middle;
-      flex-shrink: 0;
-    }
-    .td-products {
-      color: var(--faint);
-      font-size: 0.72rem;
-    }
-
-    /* ─── FOOTER ───────────────────────────────────────────── */
-    .page-footer {
-      max-width: 960px;
-      margin: 80px auto 0;
-      padding: 32px 24px;
-      border-top: 1px solid #e0e0dc;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: gap;
-      gap: 16px;
-    }
-    .footer-left {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--faint);
-    }
-    .footer-wordmark {
-      font-family: var(--sans);
-      font-weight: 900;
-      font-style: italic;
-      color: var(--ink);
-    }
-    .footer-dot {
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--lime);
-      margin: 0 8px;
-      vertical-align: middle;
-    }
-
-    /* ─── DIVIDER ──────────────────────────────────────────── */
-    .lime-divider {
-      max-width: 960px;
-      margin: 56px auto 0;
-      padding: 0 24px;
-    }
-    .lime-divider-inner {
-      height: 2px;
-      background: linear-gradient(90deg, var(--lime) 0%, transparent 80%);
-      border-radius: 1px;
-      opacity: 0.4;
-    }
-
-    /* ─── RESPONSIVE ───────────────────────────────────────── */
-    @media (max-width: 720px) {
-      .page-header { padding: 40px 24px 36px; }
-      .section { padding: 48px 16px 0; }
-    }
-    @media (max-width: 600px) {
-      .personas-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+/* FOOTER */
+.page-footer{text-align:center;font-family:var(--mono);font-size:11.5px;color:var(--faint);padding:48px 24px 0;}
+</style>
 </head>
 <body>
 
-<!-- ─────────────────────────────────────────── PAGE HEADER -->
-<header class="page-header">
+<!-- HEADER -->
+<div class="page-header">
   <span class="wordmark">ohsnap!</span>
-  <h1>Post-Purchase Flow<br>Creative Image Brief</h1>
-  <p class="subtitle">7 persona emails &nbsp;·&nbsp; 2 image zones per email &nbsp;·&nbsp; hero shots are custom per persona</p>
-  <div class="header-meta">
-    <div class="header-pill">For <span>JD</span> — Creative Director</div>
-    <div class="header-pill"><span>7</span> hero shots needed</div>
-    <div class="header-pill">Product cards from <span>existing library</span></div>
+  <h1>Post-Purchase Flow — Creative Image Brief</h1>
+  <p class="subtitle">7 persona-driven emails &nbsp;·&nbsp; hero shots custom per persona &nbsp;·&nbsp; product shots from existing library</p>
+</div>
+
+<!-- ANATOMY -->
+<div class="section">
+  <div class="section-title">Email Anatomy — Where Your Images Live</div>
+  <p class="section-lead">Every email uses the same master template. Your creative lands in two zones — the hero and the product cards. Everything else is copy only.</p>
+
+  <div class="anatomy-grid">
+    <div class="phone-mock">
+      <div class="mock-head">ohsnap!</div>
+      <div class="mock-hero">
+        <div class="mock-hero-img">
+          <span class="mock-img-tag">① ZONE 1 — Hero image</span>
+          Persona-specific lifestyle shot
+        </div>
+        <div class="mock-hero-body">
+          <div class="mock-eyebrow">Thank you for your order</div>
+          <div class="mock-title">Hero title here</div>
+          <div class="mock-bar"></div>
+          <div class="mock-body">Body copy in monospace — sets the tone for the persona. Pulls the reader into their world.</div>
+        </div>
+      </div>
+      <div class="mock-prod-row">
+        <div class="mock-prod-img">② Prod shot</div>
+        <div><div class="mock-prod-name">Product Name</div><div class="mock-prod-text">Hook line. Existing library.</div></div>
+      </div>
+      <div class="mock-prod-row">
+        <div class="mock-prod-img">② Prod shot</div>
+        <div><div class="mock-prod-name">Product Name</div><div class="mock-prod-text">Hook line. Existing library.</div></div>
+      </div>
+      <div class="mock-prod-row">
+        <div class="mock-prod-img">② Prod shot</div>
+        <div><div class="mock-prod-name">Product Name</div><div class="mock-prod-text">Hook line. Existing library.</div></div>
+      </div>
+      <div class="mock-other">★★★★★ &nbsp; Testimonial — copy only</div>
+      <div class="mock-other">👍 &nbsp; Trust block — copy only</div>
+      <div class="mock-other">✉ &nbsp; Got questions? — copy only</div>
+      <div class="mock-footer-bar">Footer — copy only</div>
+    </div>
+
+    <ul class="callout-list">
+      <li class="callout-item">
+        <span class="callout-num z1">①</span>
+        <div>
+          <div class="zone-tag t1">Custom per persona</div>
+          <div class="callout-label">Hero Image</div>
+          <div class="callout-desc">Full-width lifestyle shot. Sets the scene and emotional tone for the entire email. One unique hero shot per persona — 7 total. Each persona's image brief is detailed on the cards below.</div>
+        </div>
+      </li>
+      <li class="callout-item">
+        <span class="callout-num z2">②</span>
+        <div>
+          <div class="zone-tag t2">Existing library</div>
+          <div class="callout-label">Product Cards ×3–4</div>
+          <div class="callout-desc">One product shot per card, 3–4 per email. Pull from OhSnap's existing product photography — no custom shots needed here. Products per persona are listed on each card below.</div>
+        </div>
+      </li>
+      <li class="callout-item">
+        <span class="callout-num z-other">—</span>
+        <div>
+          <div class="callout-label" style="color:var(--faint);">Remaining modules</div>
+          <div class="callout-desc">Testimonial · Trust block · Email-us bar · Footer — all copy only. No creative needed.</div>
+        </div>
+      </li>
+    </ul>
   </div>
-</header>
+</div>
 
+<!-- 7 PERSONA HERO BRIEFS -->
+<div class="section">
+  <div class="section-title">The 7 Emails — Hero Shot Briefs</div>
+  <p class="section-lead">Each email targets a distinct buyer persona. The hero image sets the entire tone — it should feel like we found the person in their natural environment, not a product shoot.</p>
 
-<!-- ─────────────────────────────────────────── EMAIL ANATOMY -->
-<section class="section">
-  <p class="section-label">Section 02</p>
-  <h2 class="section-title">Email Anatomy — Where Your Images Live</h2>
-  <p class="section-intro">
-    Every email in this flow uses the same template structure. Your creative lands in two zones — the hero and the product cards. Everything else (testimonial, trust blocks, footer) is copy-only.
-  </p>
+  <div class="persona-grid">
 
-  <div class="anatomy-layout">
-
-    <!-- Email mock stack -->
-    <div class="email-mock">
-      <div class="mock-module zone-header">
-        <span class="zone-badge header-badge">H</span>
-        <span class="mod-label">Header bar — <em>ohsnap!</em> wordmark</span>
-      </div>
-      <div class="mock-module zone-hero">
-        <span class="zone-badge z1">①</span>
-        <span class="mod-label">ZONE 1: Hero image + headline block</span>
-      </div>
-      <div class="mock-module zone-products">
-        <span class="zone-badge z2">②</span>
-        <span class="mod-label">ZONE 2: Product cards ×3–4</span>
-      </div>
-      <div class="mock-module">
-        <span class="zone-badge copy">—</span>
-        <span class="mod-label">Testimonial</span>
-      </div>
-      <div class="mock-module">
-        <span class="zone-badge copy">—</span>
-        <span class="mod-label">Trust block</span>
-      </div>
-      <div class="mock-module">
-        <span class="zone-badge copy">—</span>
-        <span class="mod-label">Email-us bar</span>
-      </div>
-      <div class="mock-module">
-        <span class="zone-badge copy">—</span>
-        <span class="mod-label">Footer</span>
-      </div>
-    </div>
-
-    <!-- Callouts -->
-    <div class="anatomy-callouts">
-
-      <div class="callout-card c-hero">
-        <div class="callout-header">
-          <span class="callout-number" style="color: var(--lime)">①</span>
-          <span class="callout-title">Hero Image — Custom per persona</span>
-        </div>
-        <ul>
-          <li>Full-width, persona-specific — sets the entire tone</li>
-          <li>One unique hero shot needed per persona (7 total)</li>
-          <li>Lifestyle/contextual — show the person in their world</li>
-          <li>NOT a product shot. NOT stock imagery.</li>
-        </ul>
-      </div>
-
-      <div class="callout-card c-products">
-        <div class="callout-header">
-          <span class="callout-number" style="color: #cdb8ff">②</span>
-          <span class="callout-title">Product Cards ×3–4 — Existing library</span>
-        </div>
-        <ul>
-          <li>One product shot per card, 3–4 per email</li>
-          <li>Pull from OhSnap's existing product photo library</li>
-          <li>No custom photography needed here</li>
-        </ul>
-      </div>
-
-      <div class="callout-card c-copy">
-        <div class="callout-header">
-          <span class="callout-title" style="color: var(--faint)">Remaining Modules — Copy Only</span>
-        </div>
-        <p style="font-family: var(--mono); font-size: 0.75rem; color: var(--faint); margin-bottom: 10px;">No custom creative needed for these zones:</p>
-        <div class="copy-modules-list">
-          <span class="copy-tag">Testimonial</span>
-          <span class="copy-tag">Trust block</span>
-          <span class="copy-tag">Email-us bar</span>
-          <span class="copy-tag">Footer</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<div class="lime-divider"><div class="lime-divider-inner"></div></div>
-
-<!-- ─────────────────────────────────────────── PERSONA CARDS -->
-<section class="section">
-  <p class="section-label">Section 03</p>
-  <h2 class="section-title">The 7 Emails — Hero Shot Briefs</h2>
-  <p class="section-intro">
-    Each email targets a different buyer persona. The hero image sets the tone for the entire email — it should feel like we found the person in their natural environment, not a product shoot.
-  </p>
-
-  <div class="personas-grid">
-
-    <!-- 01 Healthcare Clinician -->
+    <!-- 01 CLINICIAN -->
     <div class="persona-card">
-      <div class="persona-card-top">
-        <div class="persona-accent-bar" style="background:#16e06a"></div>
-        <p class="persona-number">01 / 07</p>
-        <h3 class="persona-name">The Healthcare Clinician</h3>
-        <div class="persona-subject">
-          <span class="subject-label">SL</span>
-          <span class="subject-text">"Built for the floor, not the showroom"</span>
-        </div>
+      <div class="persona-card-top" style="border-top:3px solid #16e06a;">
+        <div class="persona-num">01 / 07</div>
+        <div class="persona-name">The Healthcare Clinician</div>
       </div>
       <div class="persona-card-body">
-        <div class="hero-brief-block" style="border-left-color:#16e06a">
-          <div class="hero-brief-label" style="color:#0db857">① Hero Image Brief</div>
-          <p class="hero-brief-text">Phone snapping onto a Qi2 charger at a nursing station — scrubs and a lanyard visible, clean clinical lighting, professional and functional feel. NOT a stock hospital photo. Should feel like a real nurse's workspace.</p>
+        <div class="image-brief">
+          <div class="image-brief-label">📸 &nbsp;Image Brief</div>
+          <div class="image-brief-text">Phone snapping onto a Qi2 charger at a nursing station — scrubs and a lanyard visible, clean clinical lighting. NOT a stock hospital photo. Should feel like a real nurse's workspace, functional and lived-in.</div>
         </div>
-        <div class="tone-row">
-          <span class="tone-label">Tone:</span>
-          <span class="tone-chip" style="background:#e8fff3; color:#0a7a3e">Practical</span>
-          <span class="tone-chip" style="background:#e8fff3; color:#0a7a3e">Clean</span>
-          <span class="tone-chip" style="background:#e8fff3; color:#0a7a3e">No-nonsense</span>
-        </div>
-        <div class="products-row">
-          <p class="products-label">Products <span>② existing shots</span></p>
-          <div class="product-tags">
-            <span class="product-tag">Snap Charge Qi2</span>
-            <span class="product-tag">Snap Grip Wallet</span>
-            <span class="product-tag">Snap Grip Stand</span>
-            <span class="product-tag">Snap Case 17</span>
+        <div class="hero-block">
+          <div class="hero-img-slot" style="border-color:#16e06a;">
+            <span class="hero-img-tag">Hero image</span>
+            Nursing station · scrubs · Qi2 charger · clinical light
           </div>
+          <div class="hero-content">
+            <div class="hero-eyebrow" style="color:#16e06a;">Thank you for your order</div>
+            <div class="hero-title">Thin enough for scrubs</div>
+            <div class="hero-accent-bar" style="background:#16e06a;"></div>
+            <div class="hero-copy">You move fast and your phone has to keep up — <strong>in and out of a scrub pocket a hundred times a shift</strong>, never snagging, never adding bulk, always clean enough to set down anywhere.</div>
+          </div>
+        </div>
+        <div class="products-label">Products (existing shots)</div>
+        <div class="product-chips">
+          <span class="product-chip">Snap Charge Qi2</span>
+          <span class="product-chip">Snap Grip Wallet</span>
+          <span class="product-chip">Snap Grip Stand</span>
+          <span class="product-chip">Snap Case 17</span>
         </div>
       </div>
     </div>
 
-    <!-- 02 Corporate Executive -->
+    <!-- 02 EXECUTIVE -->
     <div class="persona-card">
-      <div class="persona-card-top">
-        <div class="persona-accent-bar" style="background:#2a2a28"></div>
-        <p class="persona-number">02 / 07</p>
-        <h3 class="persona-name">The Corporate Executive</h3>
-        <div class="persona-subject">
-          <span class="subject-label">SL</span>
-          <span class="subject-text">"Everything snaps together. Nothing looks like an accessory."</span>
-        </div>
+      <div class="persona-card-top" style="border-top:3px solid #888888;">
+        <div class="persona-num">02 / 07</div>
+        <div class="persona-name">The Corporate Executive</div>
       </div>
       <div class="persona-card-body">
-        <div class="hero-brief-block" style="border-left-color:#2a2a28">
-          <div class="hero-brief-label" style="color:#4a4a48">① Hero Image Brief</div>
-          <p class="hero-brief-text">Phone with leather case resting on a boardroom table — a pen and watch nearby, understated luxury, premium and quiet. Feels like a $500 hotel room, not a tech ad.</p>
+        <div class="image-brief">
+          <div class="image-brief-label">📸 &nbsp;Image Brief</div>
+          <div class="image-brief-text">Phone with leather case resting on a boardroom table — a pen and watch nearby, understated luxury. Should feel like a $500 hotel room, not a tech ad. Premium and quiet, never flashy.</div>
         </div>
-        <div class="tone-row">
-          <span class="tone-label">Tone:</span>
-          <span class="tone-chip" style="background:#f0f0ec; color:#2a2a28">Quiet</span>
-          <span class="tone-chip" style="background:#f0f0ec; color:#2a2a28">Premium</span>
-          <span class="tone-chip" style="background:#f0f0ec; color:#2a2a28">Considered</span>
-        </div>
-        <div class="products-row">
-          <p class="products-label">Products <span>② existing shots</span></p>
-          <div class="product-tags">
-            <span class="product-tag">Snap Case 17</span>
-            <span class="product-tag">Snap Grip Wallet</span>
-            <span class="product-tag">Snap Grip Stand</span>
-            <span class="product-tag">Snap Charge Qi2</span>
+        <div class="hero-block">
+          <div class="hero-img-slot" style="border-color:#888888;">
+            <span class="hero-img-tag">Hero image</span>
+            Boardroom table · leather case · pen · watch
           </div>
+          <div class="hero-content">
+            <div class="hero-eyebrow" style="color:#c8c8c8;">Thank you for your order</div>
+            <div class="hero-title">Boardroom-ready</div>
+            <div class="hero-accent-bar" style="background:#888888;"></div>
+            <div class="hero-copy">Your phone runs the day — <strong>boardroom to back seat to airport lounge</strong> — and the gear around it should read the way the rest of your kit does: considered, quiet, and expensive in the way that never has to shout.</div>
+          </div>
+        </div>
+        <div class="products-label">Products (existing shots)</div>
+        <div class="product-chips">
+          <span class="product-chip">Snap Case 17</span>
+          <span class="product-chip">Snap Grip Wallet</span>
+          <span class="product-chip">Snap Grip Stand</span>
+          <span class="product-chip">Snap Charge Qi2</span>
         </div>
       </div>
     </div>
 
-    <!-- 03 Digital Creative -->
+    <!-- 03 CREATIVE -->
     <div class="persona-card">
-      <div class="persona-card-top">
-        <div class="persona-accent-bar" style="background:#cdb8ff"></div>
-        <p class="persona-number">03 / 07</p>
-        <h3 class="persona-name">The Digital Creative</h3>
-        <div class="persona-subject">
-          <span class="subject-label">SL</span>
-          <span class="subject-text">"Your phone's the studio. Now it's the console."</span>
-        </div>
+      <div class="persona-card-top" style="border-top:3px solid #cdb8ff;">
+        <div class="persona-num">03 / 07</div>
+        <div class="persona-name">The Digital Creative</div>
       </div>
       <div class="persona-card-body">
-        <div class="hero-brief-block" style="border-left-color:#cdb8ff">
-          <div class="hero-brief-label" style="color:#7c5fe0">① Hero Image Brief</div>
-          <p class="hero-brief-text">Phone propped on a kickstand showing an edit timeline on screen — ring light and camera gear visible in frame. Feels like a creator's desk mid-session, not a polished studio shoot.</p>
+        <div class="image-brief">
+          <div class="image-brief-label">📸 &nbsp;Image Brief</div>
+          <div class="image-brief-text">Phone propped on a kickstand showing an edit timeline on screen — ring light and camera gear visible in frame. Feels like a creator's desk mid-session. Not a polished studio shoot — real and in-progress.</div>
         </div>
-        <div class="tone-row">
-          <span class="tone-label">Tone:</span>
-          <span class="tone-chip" style="background:#f5f3ff; color:#5c3fcc">Creative</span>
-          <span class="tone-chip" style="background:#f5f3ff; color:#5c3fcc">Energetic</span>
-          <span class="tone-chip" style="background:#f5f3ff; color:#5c3fcc">Capable</span>
-        </div>
-        <div class="products-row">
-          <p class="products-label">Products <span>② existing shots</span></p>
-          <div class="product-tags">
-            <span class="product-tag">MCON</span>
-            <span class="product-tag">Snap Car Mount</span>
-            <span class="product-tag">Snap Grip Stand</span>
-            <span class="product-tag">Snap Charge Qi2</span>
+        <div class="hero-block">
+          <div class="hero-img-slot" style="border-color:#cdb8ff;">
+            <span class="hero-img-tag">Hero image</span>
+            Creator desk · edit timeline · ring light · camera gear
           </div>
+          <div class="hero-content">
+            <div class="hero-eyebrow" style="color:#cdb8ff;">Thank you for your order</div>
+            <div class="hero-title">Your phone is the studio</div>
+            <div class="hero-accent-bar" style="background:#cdb8ff;"></div>
+            <div class="hero-copy">Your phone is already <strong>your camera, your edit bay, your portfolio, and your feed</strong> — an extension of how you create, not just a device you carry. The right accessories don't get in the way of that; they quietly add range.</div>
+          </div>
+        </div>
+        <div class="products-label">Products (existing shots)</div>
+        <div class="product-chips">
+          <span class="product-chip">MCON</span>
+          <span class="product-chip">Snap Car Mount</span>
+          <span class="product-chip">Snap Grip Stand</span>
+          <span class="product-chip">Snap Charge Qi2</span>
         </div>
       </div>
     </div>
 
-    <!-- 04 Systems Engineer -->
+    <!-- 04 ENGINEER -->
     <div class="persona-card">
-      <div class="persona-card-top">
-        <div class="persona-accent-bar" style="background:#2db4ff"></div>
-        <p class="persona-number">04 / 07</p>
-        <h3 class="persona-name">The Systems Engineer</h3>
-        <div class="persona-subject">
-          <span class="subject-label">SL</span>
-          <span class="subject-text">"The most over-engineered things we make"</span>
-        </div>
+      <div class="persona-card-top" style="border-top:3px solid #2db4ff;">
+        <div class="persona-num">04 / 07</div>
+        <div class="persona-name">The Systems Engineer</div>
       </div>
       <div class="persona-card-body">
-        <div class="hero-brief-block" style="border-left-color:#2db4ff">
-          <div class="hero-brief-label" style="color:#0090d4">① Hero Image Brief</div>
-          <p class="hero-brief-text">MCON exploded view or macro shot of the slide mechanism — tolerances, internals, precision visible. Appeals to someone who appreciates how things are built. Could be a flat-lay or studio macro shot.</p>
+        <div class="image-brief">
+          <div class="image-brief-label">📸 &nbsp;Image Brief</div>
+          <div class="image-brief-text">MCON exploded view or macro shot of the slide mechanism — tolerances and internals visible. Flat-lay or tight studio macro. Speaks to someone who appreciates precision engineering. No lifestyle needed here.</div>
         </div>
-        <div class="tone-row">
-          <span class="tone-label">Tone:</span>
-          <span class="tone-chip" style="background:#e8f7ff; color:#0070a8">Technical</span>
-          <span class="tone-chip" style="background:#e8f7ff; color:#0070a8">Precise</span>
-          <span class="tone-chip" style="background:#e8f7ff; color:#0070a8">Impressive</span>
-        </div>
-        <div class="products-row">
-          <p class="products-label">Products <span>② existing shots</span></p>
-          <div class="product-tags">
-            <span class="product-tag">MCON</span>
-            <span class="product-tag">Snap Charge Qi2</span>
-            <span class="product-tag">Snap Grip Stand</span>
-            <span class="product-tag">Snap Car Mount</span>
+        <div class="hero-block">
+          <div class="hero-img-slot" style="border-color:#2db4ff;">
+            <span class="hero-img-tag">Hero image</span>
+            MCON macro · exploded view · slide mechanism · precision
           </div>
+          <div class="hero-content">
+            <div class="hero-eyebrow" style="color:#2db4ff;">Thank you for your order</div>
+            <div class="hero-title">Stupid thin. Seriously smart.</div>
+            <div class="hero-accent-bar" style="background:#2db4ff;"></div>
+            <div class="hero-copy">You bought from us for the same reason we build the way we do — <strong>the tolerances are right and nothing's there that doesn't need to be.</strong> Sub-3mm profiles, charge-through magnetics, parts you can actually service.</div>
+          </div>
+        </div>
+        <div class="products-label">Products (existing shots)</div>
+        <div class="product-chips">
+          <span class="product-chip">MCON</span>
+          <span class="product-chip">Snap Charge Qi2</span>
+          <span class="product-chip">Snap Grip Stand</span>
+          <span class="product-chip">Snap Car Mount</span>
         </div>
       </div>
     </div>
 
-    <!-- 05 Rugged Professional -->
+    <!-- 05 RUGGED -->
     <div class="persona-card">
-      <div class="persona-card-top">
-        <div class="persona-accent-bar" style="background:#ff7a18"></div>
-        <p class="persona-number">05 / 07</p>
-        <h3 class="persona-name">The Rugged Professional</h3>
-        <div class="persona-subject">
-          <span class="subject-label">SL</span>
-          <span class="subject-text">"Mount it once. Forget about it."</span>
-        </div>
+      <div class="persona-card-top" style="border-top:3px solid #ff7a18;">
+        <div class="persona-num">05 / 07</div>
+        <div class="persona-name">The Rugged Professional</div>
       </div>
       <div class="persona-card-body">
-        <div class="hero-brief-block" style="border-left-color:#ff7a18">
-          <div class="hero-brief-label" style="color:#d05a00">① Hero Image Brief</div>
-          <p class="hero-brief-text">Phone mounted on a work truck dashboard — tools visible, hi-vis vest nearby, job site visible through the windshield. Raw and real — should not look like a car commercial.</p>
+        <div class="image-brief">
+          <div class="image-brief-label">📸 &nbsp;Image Brief</div>
+          <div class="image-brief-text">Phone mounted on a work truck dashboard — tools visible, hi-vis vest nearby, job site through the windshield. Raw and real. Should not look like a car commercial. Gritty and functional.</div>
         </div>
-        <div class="tone-row">
-          <span class="tone-label">Tone:</span>
-          <span class="tone-chip" style="background:#fff3e8; color:#a04000">Tough</span>
-          <span class="tone-chip" style="background:#fff3e8; color:#a04000">Reliable</span>
-          <span class="tone-chip" style="background:#fff3e8; color:#a04000">Direct</span>
-        </div>
-        <div class="products-row">
-          <p class="products-label">Products <span>② existing shots</span></p>
-          <div class="product-tags">
-            <span class="product-tag">Snap Car Mount</span>
-            <span class="product-tag">MCON</span>
-            <span class="product-tag">Snap Charge Qi2</span>
-            <span class="product-tag">Snap Grip (Open Box)</span>
+        <div class="hero-block">
+          <div class="hero-img-slot" style="border-color:#ff7a18;">
+            <span class="hero-img-tag">Hero image</span>
+            Work truck dash · tools · hi-vis vest · job site view
           </div>
+          <div class="hero-content">
+            <div class="hero-eyebrow" style="color:#ff7a18;">Thank you for your order</div>
+            <div class="hero-title">Job-site tough</div>
+            <div class="hero-accent-bar" style="background:#ff7a18;"></div>
+            <div class="hero-copy">You don't need gear that's pretty. <strong>You need gear that works when your hands are full, the truck's bouncing, and the job won't wait.</strong> No flimsy clamps, no bulk that snags on a toolbelt.</div>
+          </div>
+        </div>
+        <div class="products-label">Products (existing shots)</div>
+        <div class="product-chips">
+          <span class="product-chip">Snap Car Mount</span>
+          <span class="product-chip">MCON</span>
+          <span class="product-chip">Snap Charge Qi2</span>
+          <span class="product-chip">Snap Grip (Open Box)</span>
         </div>
       </div>
     </div>
 
-    <!-- 06 Dedicated Educator -->
+    <!-- 06 EDUCATOR -->
     <div class="persona-card">
-      <div class="persona-card-top">
-        <div class="persona-accent-bar" style="background:#ff2e88"></div>
-        <p class="persona-number">06 / 07</p>
-        <h3 class="persona-name">The Dedicated Educator</h3>
-        <div class="persona-subject">
-          <span class="subject-label">SL</span>
-          <span class="subject-text">"One less thing to track down"</span>
-        </div>
+      <div class="persona-card-top" style="border-top:3px solid #ff2e88;">
+        <div class="persona-num">06 / 07</div>
+        <div class="persona-name">The Dedicated Educator</div>
       </div>
       <div class="persona-card-body">
-        <div class="hero-brief-block" style="border-left-color:#ff2e88">
-          <div class="hero-brief-label" style="color:#cc0060">① Hero Image Brief</div>
-          <p class="hero-brief-text">Phone standing on a kickstand on a classroom desk with a timer visible on screen — teaching supplies around it, whiteboard or classroom visible in the background. Should feel like a real classroom, not a staged one.</p>
+        <div class="image-brief">
+          <div class="image-brief-label">📸 &nbsp;Image Brief</div>
+          <div class="image-brief-text">Phone standing on a kickstand on a classroom desk, timer visible on screen — teaching supplies around it, whiteboard in background. Should feel like a real classroom, not staged or stock.</div>
         </div>
-        <div class="tone-row">
-          <span class="tone-label">Tone:</span>
-          <span class="tone-chip" style="background:#fff0f6; color:#aa0050">Warm</span>
-          <span class="tone-chip" style="background:#fff0f6; color:#aa0050">Practical</span>
-          <span class="tone-chip" style="background:#fff0f6; color:#aa0050">Relatable</span>
-        </div>
-        <div class="products-row">
-          <p class="products-label">Products <span>② existing shots</span></p>
-          <div class="product-tags">
-            <span class="product-tag">Snap Charge Qi2</span>
-            <span class="product-tag">Snap Grip Stand</span>
-            <span class="product-tag">Snap Car Mount</span>
-            <span class="product-tag">Snap Grip Wallet</span>
+        <div class="hero-block">
+          <div class="hero-img-slot" style="border-color:#ff2e88;">
+            <span class="hero-img-tag">Hero image</span>
+            Classroom desk · timer on screen · supplies · whiteboard
           </div>
+          <div class="hero-content">
+            <div class="hero-eyebrow" style="color:#ff2e88;">Thank you for your order</div>
+            <div class="hero-title">Made for the chaos</div>
+            <div class="hero-accent-bar" style="background:#ff2e88;"></div>
+            <div class="hero-copy">Your day is <strong>timers, videos, head counts, and a phone that's somehow always at 12% by lunch</strong> — all while you're on your feet and the room never sits still.</div>
+          </div>
+        </div>
+        <div class="products-label">Products (existing shots)</div>
+        <div class="product-chips">
+          <span class="product-chip">Snap Charge Qi2</span>
+          <span class="product-chip">Snap Grip Stand</span>
+          <span class="product-chip">Snap Car Mount</span>
+          <span class="product-chip">Snap Grip Wallet</span>
         </div>
       </div>
     </div>
 
-    <!-- 07 General -->
-    <div class="persona-card">
-      <div class="persona-card-top">
-        <div class="persona-accent-bar" style="background:#b8f034"></div>
-        <p class="persona-number">07 / 07</p>
-        <h3 class="persona-name">General — No Persona Match</h3>
-        <div class="persona-subject">
-          <span class="subject-label">SL</span>
-          <span class="subject-text">"Snap on. It all works together."</span>
-        </div>
+    <!-- 07 GENERAL -->
+    <div class="persona-card" style="grid-column:1/-1;max-width:480px;">
+      <div class="persona-card-top" style="border-top:3px solid #b8f034;">
+        <div class="persona-num">07 / 07</div>
+        <div class="persona-name">General — No Persona Match</div>
       </div>
       <div class="persona-card-body">
-        <div class="hero-brief-block" style="border-left-color:#b8f034">
-          <div class="hero-brief-label" style="color:#8ab800">① Hero Image Brief</div>
-          <p class="hero-brief-text">Flat-lay of the full OhSnap ecosystem — grips, charger, mount, wallet — all snapping together on a clean dark surface. Should show the system, not just one product. Clean, editorial.</p>
+        <div class="image-brief">
+          <div class="image-brief-label">📸 &nbsp;Image Brief</div>
+          <div class="image-brief-text">Flat-lay of the full OhSnap ecosystem — grips, charger, mount, wallet — all snapping together on a clean dark surface. Show the system as a whole. Clean, editorial, minimal.</div>
         </div>
-        <div class="tone-row">
-          <span class="tone-label">Tone:</span>
-          <span class="tone-chip" style="background:#f5ffe0; color:#5a7000">System</span>
-          <span class="tone-chip" style="background:#f5ffe0; color:#5a7000">Cohesive</span>
-          <span class="tone-chip" style="background:#f5ffe0; color:#5a7000">Inviting</span>
-        </div>
-        <div class="products-row">
-          <p class="products-label">Products <span>② existing shots</span></p>
-          <div class="product-tags">
-            <span class="product-tag">Snap Grip</span>
-            <span class="product-tag">Snap Charge Qi2</span>
-            <span class="product-tag">Snap Car Mount</span>
-            <span class="product-tag">Snap Grip Wallet</span>
+        <div class="hero-block">
+          <div class="hero-img-slot" style="border-color:#b8f034;">
+            <span class="hero-img-tag">Hero image</span>
+            Full ecosystem flat-lay · dark surface · editorial
           </div>
+          <div class="hero-content">
+            <div class="hero-eyebrow" style="color:#b8f034;">Thank you for your order</div>
+            <div class="hero-title">It all snaps together</div>
+            <div class="hero-accent-bar" style="background:#b8f034;"></div>
+            <div class="hero-copy">Here's what makes Ohsnap different: <strong>it's one magnetic system.</strong> Whatever you bought clicks into everything else we make, so building out your setup is just snap and go — never start over.</div>
+          </div>
+        </div>
+        <div class="products-label">Products (existing shots)</div>
+        <div class="product-chips">
+          <span class="product-chip">Snap Grip</span>
+          <span class="product-chip">Snap Charge Qi2</span>
+          <span class="product-chip">Snap Car Mount</span>
+          <span class="product-chip">Snap Grip Wallet</span>
         </div>
       </div>
     </div>
 
-  </div>
-</section>
+  </div><!-- /persona-grid -->
+</div>
 
-<div class="lime-divider"><div class="lime-divider-inner"></div></div>
-
-<!-- ─────────────────────────────────────────── SUMMARY TABLE -->
-<section class="section">
-  <p class="section-label">Section 04</p>
-  <h2 class="section-title">Quick Reference — All 7 Hero Shots</h2>
-  <p class="section-intro" style="margin-bottom: 24px;">
-    At-a-glance summary for building your image folder.
-  </p>
-
+<!-- SUMMARY TABLE -->
+<div class="section">
+  <div class="section-title">Quick Reference — All 7 Hero Shots</div>
   <div class="table-wrap">
-    <table>
+    <table class="summary-table">
       <thead>
-        <tr>
-          <th>#</th>
-          <th>Persona</th>
-          <th>Hero Shot (one line)</th>
-          <th>Accent</th>
-          <th>Products (existing shots)</th>
-        </tr>
+        <tr><th>#</th><th>Persona</th><th>Hero Shot</th><th>Products (existing)</th></tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="td-num">01</td>
-          <td class="td-persona">Healthcare Clinician</td>
-          <td>Nursing station, charger, scrubs, lanyard</td>
-          <td><span class="td-accent-dot" style="background:#16e06a"></span>Green</td>
-          <td class="td-products">Qi2, Wallet, Stand, Case 17</td>
-        </tr>
-        <tr>
-          <td class="td-num">02</td>
-          <td class="td-persona">Corporate Executive</td>
-          <td>Boardroom table, leather case, watch, pen</td>
-          <td><span class="td-accent-dot" style="background:#2a2a28; border:1px solid #ccc"></span>Dark</td>
-          <td class="td-products">Case 17, Wallet, Stand, Qi2</td>
-        </tr>
-        <tr>
-          <td class="td-num">03</td>
-          <td class="td-persona">Digital Creative</td>
-          <td>Creator desk, edit timeline, ring light</td>
-          <td><span class="td-accent-dot" style="background:#cdb8ff"></span>Lavender</td>
-          <td class="td-products">MCON, Car Mount, Stand, Qi2</td>
-        </tr>
-        <tr>
-          <td class="td-num">04</td>
-          <td class="td-persona">Systems Engineer</td>
-          <td>MCON macro/exploded view, slide mechanism</td>
-          <td><span class="td-accent-dot" style="background:#2db4ff"></span>Blue</td>
-          <td class="td-products">MCON, Qi2, Stand, Car Mount</td>
-        </tr>
-        <tr>
-          <td class="td-num">05</td>
-          <td class="td-persona">Rugged Professional</td>
-          <td>Work truck dash, tools, hi-vis, job site</td>
-          <td><span class="td-accent-dot" style="background:#ff7a18"></span>Orange</td>
-          <td class="td-products">Car Mount, MCON, Qi2, Grip OB</td>
-        </tr>
-        <tr>
-          <td class="td-num">06</td>
-          <td class="td-persona">Dedicated Educator</td>
-          <td>Classroom desk, timer on screen, whiteboard</td>
-          <td><span class="td-accent-dot" style="background:#ff2e88"></span>Pink</td>
-          <td class="td-products">Qi2, Stand, Car Mount, Wallet</td>
-        </tr>
-        <tr>
-          <td class="td-num">07</td>
-          <td class="td-persona">General</td>
-          <td>Ecosystem flat-lay, dark surface, full system</td>
-          <td><span class="td-accent-dot" style="background:#b8f034"></span>Lime</td>
-          <td class="td-products">Grip, Qi2, Car Mount, Wallet</td>
-        </tr>
+        <tr><td>01</td><td><b><span class="accent-dot" style="background:#16e06a;"></span>Clinician</b></td><td>Nursing station, Qi2 charger, scrubs, lanyard</td><td>Qi2, Wallet, Stand, Case 17</td></tr>
+        <tr><td>02</td><td><b><span class="accent-dot" style="background:#888;"></span>Executive</b></td><td>Boardroom table, leather case, pen, watch</td><td>Case 17, Wallet, Stand, Qi2</td></tr>
+        <tr><td>03</td><td><b><span class="accent-dot" style="background:#cdb8ff;"></span>Creative</b></td><td>Creator desk, edit timeline, ring light, gear</td><td>MCON, Car Mount, Stand, Qi2</td></tr>
+        <tr><td>04</td><td><b><span class="accent-dot" style="background:#2db4ff;"></span>Engineer</b></td><td>MCON macro / exploded view, slide mechanism</td><td>MCON, Qi2, Stand, Car Mount</td></tr>
+        <tr><td>05</td><td><b><span class="accent-dot" style="background:#ff7a18;"></span>Rugged</b></td><td>Work truck dash, tools, hi-vis, job site view</td><td>Car Mount, MCON, Qi2, Grip OB</td></tr>
+        <tr><td>06</td><td><b><span class="accent-dot" style="background:#ff2e88;"></span>Educator</b></td><td>Classroom desk, timer on screen, whiteboard</td><td>Qi2, Stand, Car Mount, Wallet</td></tr>
+        <tr><td>07</td><td><b><span class="accent-dot" style="background:#b8f034;"></span>General</b></td><td>Full ecosystem flat-lay, dark surface, editorial</td><td>Grip, Qi2, Car Mount, Wallet</td></tr>
       </tbody>
     </table>
   </div>
-</section>
+</div>
 
-
-<!-- ─────────────────────────────────────────── FOOTER -->
-<footer class="page-footer">
-  <div class="footer-left">
-    <span class="footer-wordmark">ohSnap</span>
-    <span class="footer-dot"></span>
-    OuterSignal
-    <span class="footer-dot"></span>
-    Post-Purchase Persona Flow
-    <span class="footer-dot"></span>
-    Creative Image Brief
-  </div>
-  <div style="font-family: var(--mono); font-size: 0.72rem; color: var(--faint);">
-    7 hero shots &nbsp;·&nbsp; DigitsUp
-  </div>
-</footer>
+<div class="page-footer">
+  ohsnap &nbsp;·&nbsp; OuterSignal &nbsp;·&nbsp; Post-Purchase Persona Flow &nbsp;·&nbsp; Creative Image Brief<br>
+  <span style="color:var(--line);">7 hero shots &nbsp;·&nbsp; product shots from existing library</span>
+</div>
 
 </body>
 </html>
