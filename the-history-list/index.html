@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The History List — 90-Day Flow Rebuild Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;0,900;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14233D; --ink-soft:#23375a;
+    --parchment:#F4ECD8; --cream:#FBF6EA;
+    --oxblood:#8E2B20; --oxblood-soft:#a8372a;
+    --gold:#B58A4C; --gold-soft:#d8bd8a;
+    --green:#4A5D43; --green-soft:#6f8463;
+    --amber:#b7791f;
+    --paper-line:rgba(20,35,61,.10);
+    --shadow:0 18px 50px -18px rgba(20,35,61,.45);
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--parchment);color:var(--ink);font-family:'Lora',Georgia,serif;font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  h1,h2,h3,.display{font-family:'Playfair Display',Georgia,serif}
+  .eyebrow{font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.28em;font-size:12.5px;font-weight:700;color:var(--gold)}
+  .label{font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.14em;font-size:11.5px;font-weight:700}
+  .rule{height:2px;width:62px;background:var(--oxblood);border:none;margin:0}
+
+  /* ===== HERO ===== */
+  .hero{background:radial-gradient(900px 500px at 80% -10%, rgba(181,138,76,.22), transparent 60%),linear-gradient(165deg,#16294a 0%,#14233D 55%,#0f1b30 100%);color:var(--cream);position:relative;overflow:hidden;border-bottom:5px solid var(--gold)}
+  .hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:22px 22px;opacity:.5;pointer-events:none}
+  .hero .wrap{position:relative;z-index:2;padding:60px 28px 66px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:48px}
+  .brand{font-family:'Playfair Display';font-weight:800;font-size:21px;display:flex;align-items:center;gap:12px}
+  .brand .star{color:var(--gold)}
+  .prepared{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(251,246,234,.62);text-align:right;line-height:1.7}
+  .hero h1{font-size:clamp(38px,6vw,70px);line-height:1.04;font-weight:800;margin:.12em 0 .35em;letter-spacing:-.01em}
+  .hero h1 .accent{color:var(--gold-soft);font-style:italic}
+  .hero .sub{font-size:clamp(18px,2.2vw,21px);max-width:660px;color:rgba(251,246,234,.86)}
+  .hero .sub b{color:#fff}
+  .deal{margin-top:42px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid rgba(216,189,138,.32);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.03)}
+  .deal .cell{padding:22px 22px;border-right:1px solid rgba(216,189,138,.2)}
+  .deal .cell:last-child{border-right:none}
+  .deal .v{font-family:'Playfair Display';font-weight:800;font-size:clamp(24px,3vw,32px);line-height:1;color:var(--gold-soft)}
+  .deal .k{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:.06em;color:rgba(251,246,234,.72);margin-top:8px;line-height:1.5}
+
+  section{padding:70px 0}
+  .alt{background:linear-gradient(180deg,#fff,var(--cream));border-top:1px solid var(--paper-line);border-bottom:1px solid var(--paper-line)}
+  .sec-head{max-width:780px;margin-bottom:40px}
+  .sec-head h2{font-size:clamp(28px,4vw,44px);line-height:1.08;font-weight:800;margin:.28em 0 .35em;letter-spacing:-.01em}
+  .sec-head p{font-size:19px;color:var(--ink-soft);margin:0}
+
+  /* ===== INVENTORY LEDGER ===== */
+  .legend{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:26px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600}
+  .legend span{display:inline-flex;align-items:center;gap:8px}
+  .dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+  .d-work{background:var(--green)} .d-broke{background:var(--oxblood)} .d-sleep{background:var(--amber)} .d-miss{background:#6b7280}
+
+  .ledger{background:var(--cream);border:1px solid var(--paper-line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+  .lrow{display:grid;grid-template-columns:18px 1fr auto;gap:16px;align-items:center;padding:15px 22px;border-bottom:1px solid var(--paper-line)}
+  .lrow:last-child{border-bottom:none}
+  .lrow .bar{width:6px;height:34px;border-radius:3px}
+  .b-work{background:var(--green)} .b-broke{background:var(--oxblood)} .b-sleep{background:var(--amber)} .b-miss{background:#6b7280}
+  .lrow .nm{font-family:'Inter',sans-serif;font-weight:600;font-size:15.5px}
+  .lrow .nm small{display:block;font-weight:400;color:var(--ink-soft);font-size:13px;margin-top:2px}
+  .lrow .st{font-family:'Inter',sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:5px 11px;border-radius:999px;white-space:nowrap}
+  .s-work{background:rgba(74,93,67,.14);color:var(--green)}
+  .s-broke{background:rgba(142,43,32,.12);color:var(--oxblood)}
+  .s-sleep{background:rgba(183,121,31,.14);color:var(--amber)}
+  .s-miss{background:rgba(107,114,128,.16);color:#4b5563}
+  .ledger-foot{font-family:'Inter',sans-serif;font-size:14px;color:var(--ink-soft);background:var(--ink);color:rgba(251,246,234,.88);padding:18px 22px;line-height:1.6}
+  .ledger-foot b{color:var(--gold-soft)}
+
+  /* ===== PHASES ===== */
+  .phase-block{margin-bottom:30px;background:var(--cream);border:1px solid var(--paper-line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+  .ph-head{display:flex;align-items:center;gap:20px;padding:26px 30px;background:linear-gradient(120deg,#16294a,#14233D);color:var(--cream)}
+  .ph-num{font-family:'Playfair Display';font-weight:900;font-size:40px;color:var(--gold-soft);line-height:1;min-width:54px}
+  .ph-head .when{font-family:'Inter',sans-serif;font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:12px;color:var(--gold-soft)}
+  .ph-head h3{font-size:26px;font-weight:700;margin:4px 0 0;color:#fff}
+  .ph-head .goal{margin-left:auto;text-align:right;font-family:'Inter',sans-serif;font-size:13px;color:rgba(251,246,234,.75);max-width:230px;line-height:1.5}
+  .ph-body{padding:8px 30px 26px}
+  .task{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:start;padding:18px 0;border-bottom:1px solid var(--paper-line)}
+  .task:last-child{border-bottom:none}
+  .task .ic{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:800;font-size:13px;flex-shrink:0;margin-top:2px}
+  .ic-fix{background:rgba(142,43,32,.12);color:var(--oxblood)}
+  .ic-build{background:rgba(74,93,67,.14);color:var(--green)}
+  .ic-tune{background:rgba(183,121,31,.14);color:var(--amber)}
+  .task h4{font-family:'Inter',sans-serif;font-size:16.5px;font-weight:700;margin:0 0 4px}
+  .task p{margin:0;font-size:15.5px;color:var(--ink-soft);line-height:1.55}
+  .task .kind{font-family:'Inter',sans-serif;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:6px;white-space:nowrap;margin-top:3px}
+  .k-fix{background:rgba(142,43,32,.1);color:var(--oxblood)} .k-build{background:rgba(74,93,67,.12);color:var(--green)} .k-tune{background:rgba(183,121,31,.12);color:var(--amber)}
+  .emails{font-family:'Inter',sans-serif;font-size:13px;color:var(--ink);margin-top:8px}
+  .emails span{display:inline-block;background:#fff;border:1px solid var(--paper-line);border-radius:7px;padding:4px 10px;margin:4px 6px 0 0}
+
+  /* ===== DELIVERABLES TALLY ===== */
+  .tally{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .tcard{background:var(--cream);border:1px solid var(--paper-line);border-radius:14px;padding:26px 22px;box-shadow:var(--shadow);text-align:center;position:relative;overflow:hidden}
+  .tcard::before{content:"";position:absolute;top:0;left:0;width:100%;height:4px;background:var(--gold)}
+  .tcard .n{font-family:'Playfair Display';font-weight:800;font-size:46px;line-height:1;color:var(--ink)}
+  .tcard .t{font-family:'Inter',sans-serif;font-size:13.5px;color:var(--ink-soft);margin-top:10px;line-height:1.45}
+
+  /* ===== INVESTMENT ===== */
+  .invest{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+  .price-card{background:radial-gradient(700px 400px at 85% 0%, rgba(181,138,76,.28), transparent 60%),linear-gradient(160deg,#16294a,#0f1b30);color:var(--cream);border-radius:20px;padding:44px;box-shadow:var(--shadow);border:1px solid rgba(216,189,138,.32);text-align:center}
+  .price-card .figure{font-family:'Playfair Display';font-weight:900;font-size:clamp(48px,8vw,76px);line-height:1;color:var(--gold-soft);margin:6px 0}
+  .price-card .per{font-family:'Inter',sans-serif;font-size:15px;color:rgba(251,246,234,.78)}
+  .price-card .total{margin-top:20px;padding-top:20px;border-top:1px solid rgba(216,189,138,.3);font-family:'Inter',sans-serif;font-size:14px;color:rgba(251,246,234,.82)}
+  .price-card .total b{color:#fff;font-size:18px}
+  .incl h3{font-size:24px;font-weight:700;margin:0 0 16px}
+  .incl ul{list-style:none;margin:0;padding:0}
+  .incl li{font-family:'Inter',sans-serif;font-size:15.5px;padding:10px 0 10px 32px;position:relative;border-bottom:1px solid var(--paper-line);color:var(--ink)}
+  .incl li:last-child{border-bottom:none}
+  .incl li::before{content:"✓";position:absolute;left:0;top:9px;color:var(--green);font-weight:800;font-family:'Inter',sans-serif}
+
+  /* ===== METRICS ===== */
+  .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .mcard{background:#fff;border:1px solid var(--paper-line);border-top:4px solid var(--ink);border-radius:13px;padding:24px;box-shadow:var(--shadow)}
+  .mcard .from{font-family:'Inter',sans-serif;font-size:13px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+  .mcard .move{font-family:'Playfair Display';font-weight:800;font-size:28px;margin:10px 0 6px;line-height:1.1}
+  .mcard .move .ar{color:var(--gold)}
+  .mcard .now{color:var(--oxblood)} .mcard .goal{color:var(--green)}
+  .mcard p{margin:6px 0 0;font-size:14.5px;color:var(--ink-soft)}
+
+  .close{text-align:center;padding:64px 0 84px}
+  .close h2{font-size:clamp(28px,4vw,40px);font-weight:800;margin:0 0 .4em}
+  .close p{font-size:19px;color:var(--ink-soft);max-width:660px;margin:0 auto 8px}
+  .signrow{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:40px}
+  .sign{min-width:240px}
+  .sign .line{border-bottom:2px solid var(--ink);height:46px}
+  .sign .cap{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-top:8px}
+  .foot{background:var(--ink);color:rgba(251,246,234,.7);font-family:'Inter',sans-serif;font-size:13px;text-align:center;padding:26px;letter-spacing:.04em}
+  .foot b{color:var(--gold-soft)}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:860px){
+    body{font-size:17px}
+    .deal{grid-template-columns:repeat(2,1fr)}
+    .tally{grid-template-columns:repeat(2,1fr)}
+    .invest{grid-template-columns:1fr}
+    .metrics{grid-template-columns:1fr}
+    .ph-head{flex-wrap:wrap}
+    .ph-head .goal{margin-left:0;text-align:left;max-width:none;width:100%}
+    .prepared{text-align:left}
+  }
+  @media print{.reveal{opacity:1;transform:none}body{background:#fff}section{padding:28px 0;page-break-inside:avoid}}
+  @media (prefers-reduced-motion:reduce){.reveal{transition:none;opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><span class="star">★</span> The History List</div>
+      <div class="prepared">90-Day Flow Rebuild · Statement of Work<br>Engagement begins July 2026</div>
+    </div>
+    <p class="eyebrow">The Game Plan</p>
+    <h1>Finish, fix, and fill<br>every <span class="accent">automated</span> revenue gap.</h1>
+    <p class="sub">You don't have an empty account — you have a half-built one. Over 90 days we'll rebuild your working flows, switch on the ones stuck in draft, and build the engines that don't exist yet. <b>Goal: triple your flow revenue's share, from 12% toward 30%.</b></p>
+    <div class="deal">
+      <div class="cell"><div class="v">90 Days</div><div class="k">Focused build sprint, July–September</div></div>
+      <div class="cell"><div class="v">$2,500<span style="font-size:16px">/mo</span></div><div class="k">Flat monthly engagement</div></div>
+      <div class="cell"><div class="v">9 Flows</div><div class="k">Rebuilt or built from scratch</div></div>
+      <div class="cell"><div class="v">12% → 30%</div><div class="k">Target flow share of email revenue</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== INVENTORY LEDGER ===== -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <hr class="rule">
+      <p class="eyebrow" style="margin-top:18px">Starting Point · The Flow Ledger</p>
+      <h2>Where these nine flows stand today</h2>
+      <p>These are the nine flows in this agreement. Only two are doing their job today — the rest are broken, switched off, or don't exist yet. That gap is exactly the opportunity.</p>
+    </div>
+
+    <div class="legend reveal">
+      <span><i class="dot d-work"></i>Working</span>
+      <span><i class="dot d-broke"></i>Live but broken</span>
+      <span><i class="dot d-sleep"></i>Built but asleep</span>
+      <span><i class="dot d-miss"></i>Missing entirely</span>
+    </div>
+
+    <div class="ledger reveal">
+      <div class="lrow"><span class="bar b-work"></span><span class="nm">Browse Abandonment <small>$11,439 — your #1 earner, and proof flows work when built right</small></span><span class="st s-work">Working</span></div>
+      <div class="lrow"><span class="bar b-work"></span><span class="nm">Welcome Series — Never Ordered <small>$6,429 — solid foundation we'll expand</small></span><span class="st s-work">Working</span></div>
+      <div class="lrow"><span class="bar b-broke"></span><span class="nm">Abandoned Cart <small>$1,435 — excludes your best buyers, subject lines too long</small></span><span class="st s-broke">Broken</span></div>
+      <div class="lrow"><span class="bar b-broke"></span><span class="nm">Customer Winback <small>$605 — half-live, half-manual, never finished</small></span><span class="st s-broke">Broken</span></div>
+      <div class="lrow"><span class="bar b-broke"></span><span class="nm">Sunset / Re-engagement <small>$121 — running, but barely doing anything</small></span><span class="st s-broke">Weak</span></div>
+      <div class="lrow"><span class="bar b-sleep"></span><span class="nm">Post-Purchase <small>Built in draft, never launched — we'll combine it with repeat-purchase nurture into one two-lane flow</small></span><span class="st s-sleep">Asleep</span></div>
+      <div class="lrow"><span class="bar b-sleep"></span><span class="nm">Back-in-Stock <small>Built but never finished — we'll consolidate into one clean flow</small></span><span class="st s-sleep">Asleep</span></div>
+      <div class="lrow"><span class="bar b-miss"></span><span class="nm">Added-to-Cart Flow <small>~300 high-intent shoppers/month — no version exists at all</small></span><span class="st s-miss">Missing</span></div>
+      <div class="lrow"><span class="bar b-miss"></span><span class="nm">Price-Drop Flow <small>No way to alert a shopper when an item they wanted drops in price</small></span><span class="st s-miss">Missing</span></div>
+    </div>
+    <div class="ledger-foot reveal" style="border-radius:0 0 14px 14px">The good news: <b>most of the hard work is already started.</b> We're not building a program from zero — we're finishing one that stalled, and adding the few pieces that were never begun.</div>
+  </div>
+</section>
+
+<!-- ===== THE 90-DAY PLAN ===== -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <hr class="rule">
+      <p class="eyebrow" style="margin-top:18px">The Build · 90 Days, Three Phases</p>
+      <h2>How the 90 days run</h2>
+      <p>Month one goes straight at lost sales — the full abandoned suite plus a post-purchase engine that earns from every order. Month two converts and retains: welcome, sign-up testing, and winback. Month three captures demand: back-in-stock, price-drop, and sunset. <strong>Fix</strong> = repair what's live · <strong>Build</strong> = create from scratch · <strong>Tune</strong> = optimize a winner.</p>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div class="phase-block reveal">
+      <div class="ph-head">
+        <div class="ph-num">01</div>
+        <div><div class="when">Days 1–30 · The Abandoned Suite + Post-Purchase</div><h3>Recover lost sales</h3></div>
+        <div class="goal">Recover the sales slipping away today, and start earning from every order placed.</div>
+      </div>
+      <div class="ph-body">
+        <div class="task"><div class="ic ic-fix">✕</div><div><h4>Rebuild the Abandoned Cart flow</h4><p>Remove the filter that excludes recent buyers, rewrite the subject lines short and personal, and re-time the sequence. This recovers your highest-intent shoppers.</p><div class="emails"><span>Email 1 · 1 hr</span><span>Email 2 · 24 hr</span><span>Email 3 · 48 hr</span></div></div><span class="kind k-fix">Fix</span></div>
+        <div class="task"><div class="ic ic-build">+</div><div><h4>Build the Added-to-Cart flow</h4><p>Brand-new automation for the ~300 shoppers a month who add an item but never reach checkout — a gentle nudge that currently doesn't exist.</p><div class="emails"><span>Reminder · 2 hr</span><span>Follow-up · 20 hr</span></div></div><span class="kind k-build">Build</span></div>
+        <div class="task"><div class="ic ic-tune">⚙</div><div><h4>Optimize Browse Abandonment</h4><p>Refine your #1 earner and add a third touch — completing the full abandoned suite so browse, cart, and checkout all work together.</p></div><span class="kind k-tune">Tune</span></div>
+        <div class="task"><div class="ic ic-build">+</div><div><h4>Build the Post-Purchase flow — two lanes</h4><p>One flow, split by order count. <b>New buyers</b> get a thank-you, a cross-sell by collection, and a review request. <b>Repeat buyers</b> get nurtured toward their next order. This combines post-purchase and repeat-purchase into a single engine.</p><div class="emails"><span>Lane A · New buyer</span><span>Lane B · Repeat buyer</span><span>Cross-sell by collection</span><span>Review request</span></div></div><span class="kind k-build">Build</span></div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase-block reveal">
+      <div class="ph-head">
+        <div class="ph-num">02</div>
+        <div><div class="when">Days 31–60 · Welcome, Capture &amp; Winback</div><h3>Convert and retain</h3></div>
+        <div class="goal">Turn new subscribers into buyers — and win lapsed customers back.</div>
+      </div>
+      <div class="ph-body">
+        <div class="task"><div class="ic ic-tune">↑</div><div><h4>Rebuild the Welcome Series</h4><p>Strengthen your working Welcome into one strong, unified sequence — better pacing, sharper offer, and your blog, events, and historical collections woven in to hook new subscribers from email one.</p><div class="emails"><span>5-email sequence</span><span>Content + collections</span></div></div><span class="kind k-tune">Tune</span></div>
+        <div class="task"><div class="ic ic-fix">✕</div><div><h4>Launch &amp; test the new sign-up form</h4><p>A/B test the current "$5 off" against "10% off orders over $50," and add SMS capture so every new subscriber gives you two ways to reach them — email and text.</p><div class="emails"><span>Form A vs. B</span><span>SMS opt-in</span></div></div><span class="kind k-fix">Fix</span></div>
+        <div class="task"><div class="ic ic-fix">✕</div><div><h4>Finish the Customer Winback flow</h4><p>Complete the half-built, half-manual Winback into a clean, time-based sequence that brings lapsed buyers back before they go cold for good.</p><div class="emails"><span>Reminder</span><span>Incentive</span><span>Last call</span></div></div><span class="kind k-fix">Fix</span></div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase-block reveal">
+      <div class="ph-head">
+        <div class="ph-num">03</div>
+        <div><div class="when">Days 61–90 · Back-in-Stock, Price Drop &amp; Sunset</div><h3>Capture demand</h3></div>
+        <div class="goal">Catch shoppers at the exact moment they're ready, and keep the list healthy.</div>
+      </div>
+      <div class="ph-body">
+        <div class="task"><div class="ic ic-tune">⚙</div><div><h4>Rebuild Back-in-Stock</h4><p>Consolidate the two competing versions into one clean flow across the general catalog. We keep it broad rather than Rare-Finds-focused — one-of-a-kind pieces rarely restock, so the value is in everyday inventory.</p></div><span class="kind k-tune">Tune</span></div>
+        <div class="task"><div class="ic ic-build">+</div><div><h4>Build the Price-Drop flow</h4><p>Brand-new automation that alerts a shopper the moment an item they viewed or wanted drops in price — perfect for the higher-consideration prints and collectibles people watch before buying.</p><div class="emails"><span>Price-drop alert</span><span>Reminder</span></div></div><span class="kind k-build">Build</span></div>
+        <div class="task"><div class="ic ic-fix">✕</div><div><h4>Finish the Sunset / re-engagement flow</h4><p>Give dormant subscribers one last, well-timed chance to return — then cleanly retire the rest so your sender reputation and deliverability stay strong.</p></div><span class="kind k-fix">Fix</span></div>
+        <div class="task"><div class="ic ic-tune">⚙</div><div><h4>Reporting dashboard &amp; 90-day review</h4><p>A simple monthly report on flow revenue and share, plus a roadmap for what comes after the sprint. You'll see exactly what every dollar produced.</p></div><span class="kind k-tune">Tune</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DELIVERABLES TALLY ===== -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <hr class="rule">
+      <p class="eyebrow" style="margin-top:18px">What You Get</p>
+      <h2>The deliverables, counted</h2>
+    </div>
+    <div class="tally">
+      <div class="tcard reveal"><div class="n" data-count="9">0</div><div class="t">Flows rebuilt or built from scratch</div></div>
+      <div class="tcard reveal"><div class="n" data-count="3">0</div><div class="t">Brand-new flows that never existed</div></div>
+      <div class="tcard reveal"><div class="n" data-count="25" data-suffix="+">0</div><div class="t">Flow emails written, designed &amp; tested</div></div>
+      <div class="tcard reveal"><div class="n" data-count="2">0</div><div class="t">Sign-up form variants + SMS capture</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INVESTMENT ===== -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <hr class="rule">
+      <p class="eyebrow" style="margin-top:18px">The Investment</p>
+      <h2>Simple, flat, and built to pay for itself</h2>
+    </div>
+    <div class="invest">
+      <div class="price-card reveal">
+        <p class="label" style="color:var(--gold-soft)">Monthly engagement</p>
+        <div class="figure">$2,500</div>
+        <div class="per">per month · 90-day sprint</div>
+        <div class="total"><b>$7,500 total</b><br>across the three-month build</div>
+      </div>
+      <div class="incl reveal">
+        <h3>Every month includes</h3>
+        <ul>
+          <li>Strategy, build, and copy for all flows in that phase</li>
+          <li>Email design on-brand with your parchment-and-navy look</li>
+          <li>Segmentation and routing by historical collection</li>
+          <li>A/B testing on forms, subject lines, and offers</li>
+          <li>Ongoing list-health and deliverability monitoring</li>
+          <li>A monthly report on flow revenue and share of total</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== METRICS ===== -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <hr class="rule">
+      <p class="eyebrow" style="margin-top:18px">How We Keep Score</p>
+      <h2>What we'll measure together</h2>
+      <p>Clear numbers, reported every month, so you always know what the work is producing.</p>
+    </div>
+    <div class="metrics">
+      <div class="mcard reveal">
+        <div class="from">Flow share of email revenue</div>
+        <div class="move"><span class="now">12%</span> <span class="ar">→</span> <span class="goal">30%</span></div>
+        <p>The headline number — automated revenue as a share of the total.</p>
+      </div>
+      <div class="mcard reveal">
+        <div class="from">Abandoned Cart open rate</div>
+        <div class="move"><span class="now">Low</span> <span class="ar">→</span> <span class="goal">Healthy</span></div>
+        <p>Driven by shorter subject lines and letting engaged buyers back in.</p>
+      </div>
+      <div class="mcard reveal">
+        <div class="from">Live, earning flows</div>
+        <div class="move"><span class="now">2</span> <span class="ar">→</span> <span class="goal">9+</span></div>
+        <p>From two working automations to a full, finished system.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CLOSE / SIGN ===== -->
+<section class="close alt">
+  <div class="wrap reveal">
+    <h2>Ready to begin.</h2>
+    <p>This plan turns a half-built account into a finished, revenue-producing system in 90 days — using the customers and catalog you already have.</p>
+    <div class="signrow">
+      <div class="sign"><div class="line"></div><div class="cap">The History List, Inc.</div></div>
+      <div class="sign"><div class="line"></div><div class="cap">Date</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="foot">
+  <b>The History List, Inc.</b> · 90-Day Flow Rebuild · $2,500/mo · Statement of Work, July–September 2026 &nbsp;|&nbsp; Flow status drawn from your live Klaviyo account.
+</div>
+
+<script>
+  function animateCount(el){
+    const target=parseFloat(el.dataset.count);
+    const suffix=el.dataset.suffix||'', prefix=el.dataset.prefix||'';
+    const dur=1300, start=performance.now();
+    const fmt=n=>Math.round(n).toLocaleString('en-US');
+    function step(now){
+      const p=Math.min(1,(now-start)/dur), e=1-Math.pow(1-p,3);
+      el.textContent=prefix+fmt(target*e)+suffix;
+      if(p<1) requestAnimationFrame(step); else el.textContent=prefix+fmt(target)+suffix;
+    }
+    requestAnimationFrame(step);
+  }
+  const seen=new WeakSet();
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        e.target.querySelectorAll('[data-count]').forEach(n=>{if(!seen.has(n)){seen.add(n);animateCount(n);}});
+      }
+    });
+  },{threshold:.25});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
