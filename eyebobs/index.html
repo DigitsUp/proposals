@@ -1161,6 +1161,7 @@
   }
   @media (max-width: 768px) {
     .persona-grid-2col { grid-template-columns: 1fr !important; }
+    @media (max-width: 900px) { .journey-3col { grid-template-columns: 1fr !important; } }
     .pricing-grid-2col { grid-template-columns: 1fr !important; }
   }
 </style>
@@ -2034,170 +2035,90 @@
           We pulled 20 real eyebobs customer profiles - 10 first-time buyers, 10 loyalists - and traced every email received, every product view, every cart abandoned, every purchase made. Here's what the lifecycle actually looks like.
         </div>
 
-        <!-- Persona 1 -->
-        <div class="timeline-section">
-          <div class="timeline-header">
-            <div class="timeline-name">👓 Persona 1: The Reader Loyalist</div>
-            <div class="timeline-desc">88% of loyal purchases. Returns for different styles, colors, powers. Median inter-order gap: 96 days.</div>
-          </div>
-          <div class="vtimeline">
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot"></div>
-              <div class="vtimeline-time">Day 0</div>
-              <div class="vtimeline-event">Subscribe - Welcome series fires within minutes</div>
-              <div class="vtimeline-detail">Enters the general list; immediately enters welcome flow</div>
-            </div>
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot alert"></div>
-              <div class="vtimeline-time">Days 1–30</div>
-              <div class="vtimeline-event">25 emails median before first purchase</div>
-              <div class="vtimeline-detail">Welcome flow + campaign overlap with no suppression. Range across 10 profiles: 8 to 218 emails before buying.</div>
-              <div class="email-count-badge">⚠ 25 emails median · 8–218 range · 10 profiles</div>
-            </div>
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot"></div>
-              <div class="vtimeline-time">Weeks 2-6</div>
-              <div class="vtimeline-event">Browse abandonment triggers</div>
-              <div class="vtimeline-detail">If they browse without buying, abandon flow fires - competing with active welcome discount</div>
-            </div>
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot win"></div>
-              <div class="vtimeline-time">Day 36 median</div>
-              <div class="vtimeline-event">First purchase — almost always a reader frame</div>
-              <div class="vtimeline-detail">Converts. Most purchased: Board Stiff, In Cahoots, TV Party. Usually triggered by a sale campaign or abandon flow.</div>
-            </div>
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot alert"></div>
-              <div class="vtimeline-time">Days 36–96</div>
-              <div class="vtimeline-event">Campaign emails only. No proactive flow.</div>
-              <div class="vtimeline-detail">Post-purchase flow active but underperforming ($0.29 RPR). No loyalty enrollment prompt.</div>
-            </div>
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot alert"></div>
-              <div class="vtimeline-time">Day 90</div>
-              <div class="vtimeline-event">Should be in Winback. Currently: nothing.</div>
-              <div class="vtimeline-detail">Winback flow has never sent. This customer is invisible to the program.</div>
-            </div>
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot win"></div>
-              <div class="vtimeline-time">Day 96 median</div>
-              <div class="vtimeline-event">Returns — triggered by a campaign flash sale</div>
-              <div class="vtimeline-detail">Repeat purchase cycle begins. Still not in loyalty. Points accumulating silently. Median 39 emails received between orders.</div>
-            </div>
-          </div>
+        <!-- Customer Journey Profiles — 3 verified profiles, API-pulled June 29, 2026 -->
+        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 40px;" class="journey-3col">
 
-          <div class="callout-box teal mt-24">
-            <div class="callout-box-title">Real Profile - Reader Loyalist</div>
-            <div class="callout-box-body">
-              One loyalist bought the same <strong>Kvetcher Wide in Tortoise</strong> four times. Never enrolled in Frame Fanatics. Had <strong>400+ points</strong> waiting. She has no idea. The program has been tracking her spend for 18 months and has never told her she has money on the table.
-            </div>
-          </div>
-        </div>
-
-        <!-- Persona 2 -->
-        <div class="timeline-section">
-          <div class="timeline-header">
-            <div class="timeline-name">🔬 Persona 2: The Progressive RX Buyer</div>
-            <div class="timeline-desc">Higher AOV ($250+). Annual consideration cycle. Responds to exclusivity and VIP framing.</div>
-          </div>
-          <div class="vtimeline">
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot"></div>
-              <div class="vtimeline-time">Consideration</div>
-              <div class="vtimeline-event">Long browse window - 30-90 days pre-purchase</div>
-              <div class="vtimeline-detail">High-consideration buyer. Compares styles, checks prescription compatibility.</div>
-            </div>
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot win"></div>
-              <div class="vtimeline-time">Purchase event</div>
-              <div class="vtimeline-event">Buys during major sale event. AOV $250+.</div>
-              <div class="vtimeline-detail">Real data: 4 purchases at $250 each. Only buys during major sale moments.</div>
-            </div>
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot alert"></div>
-              <div class="vtimeline-time">~12 months later</div>
-              <div class="vtimeline-event">Annual prescription renewal creates predictable next order window</div>
-              <div class="vtimeline-detail">This buyer has a predictable return date based on annual prescription cycle - and it's not being used to time outreach.</div>
-            </div>
-          </div>
-          <div class="callout-box amber">
-            <div class="callout-box-title">Missed Opportunity</div>
-            <div class="callout-box-body">Annual prescription renewal = predictable next purchase date. A flow triggered at 10-11 months post-purchase with VIP early access framing and an "upgrade your prescription" angle would convert this persona at high rates. Currently: this customer receives the same broad campaigns as everyone else.</div>
-          </div>
-        </div>
-
-        <!-- Persona 3 - chesson - THE VISUAL TIMELINE -->
-        <div class="timeline-section" style="border: 2px solid var(--teal);">
-          <div class="timeline-header">
-            <div class="timeline-name" style="color:#CC2222;">📬 Persona 3: The New Subscriber - chesson@sc.rr.com</div>
-            <div class="timeline-desc">A real subscriber. Every email documented. The clearest illustration of the welcome chaos problem.</div>
-          </div>
-
-          <div class="vtimeline">
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot win"></div>
-              <div class="vtimeline-time">May 22 · 10:03am</div>
-              <div class="vtimeline-event">Subscribes - Memorial Day sale landing page</div>
-              <div class="vtimeline-detail">Opts in. Enters general list.</div>
-            </div>
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot alert"></div>
-              <div class="vtimeline-time">May 22 · 10:04am</div>
-              <div class="vtimeline-event">"Sale Access = Granted" - Welcome email fires</div>
-              <div class="vtimeline-email-burst">
-                <span class="email-chip bold">Welcome #1</span>
+          <!-- Card 1: Janis Chesson — New Subscriber -->
+          <div style="background:#fff; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.08); padding:28px; border-top: 4px solid var(--teal);">
+            <div style="font-size:0.68rem; text-transform:uppercase; letter-spacing:2px; color:var(--text-muted); font-weight:700; margin-bottom:10px;">New Subscriber</div>
+            <div style="font-size:1.1rem; font-weight:800; color:var(--teal); margin-bottom:4px;">Janis Chesson</div>
+            <div style="font-size:0.8rem; color:var(--text-light); margin-bottom:18px;">chesson@sc.rr.com · Subscribed May 22, 2026</div>
+            <div style="display:flex; gap:16px; margin-bottom:18px;">
+              <div style="text-align:center;">
+                <div style="font-size:1.8rem; font-weight:900; color:var(--teal); line-height:1;">43</div>
+                <div style="font-size:0.72rem; color:var(--text-muted);">emails received</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="font-size:1.8rem; font-weight:900; color:var(--teal); line-height:1;">36</div>
+                <div style="font-size:0.72rem; color:var(--text-muted);">days to purchase</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="font-size:1.8rem; font-weight:900; color:var(--teal); line-height:1;">$99</div>
+                <div style="font-size:0.72rem; color:var(--text-muted);">order value</div>
               </div>
             </div>
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot alert"></div>
-              <div class="vtimeline-time">May 22 · 10:07am</div>
-              <div class="vtimeline-event">"You missed this 👀" - Browse abandonment fires (4 min after subscribe)</div>
-              <div class="vtimeline-detail">She browsed the sale page before subscribing. Abandon flow triggered immediately.</div>
-              <div class="vtimeline-email-burst">
-                <span class="email-chip warn">Browse Abandon #1</span>
-              </div>
-            </div>
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot alert"></div>
-              <div class="vtimeline-time">May 22 · 10:12am</div>
-              <div class="vtimeline-event">"Still thinking about us?" - Another abandon touchpoint</div>
-              <div class="vtimeline-email-burst">
-                <span class="email-chip warn">Browse Abandon #2</span>
-              </div>
-            </div>
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot alert"></div>
-              <div class="vtimeline-time">May 23-26 (Days 1-4)</div>
-              <div class="vtimeline-event">4 campaign emails: "25% off ends tonight" · Abandon cart fires twice</div>
-              <div class="vtimeline-email-burst">
-                <span class="email-chip warn">Campaign: 25% ends tonight</span>
-                <span class="email-chip warn">Campaign: 25% ends tonight</span>
-                <span class="email-chip warn">Campaign: 25% ends tonight</span>
-                <span class="email-chip warn">Campaign: 25% ends tonight</span>
-                <span class="email-chip bold">Cart Abandon #1</span>
-                <span class="email-chip bold">Cart Abandon #2</span>
-              </div>
-            </div>
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot alert"></div>
-              <div class="vtimeline-time">Days 1–36</div>
-              <div class="vtimeline-event">43 emails total before first purchase</div>
-              <div class="email-count-badge">⚠ 43 emails · 36 days · 1 subscriber</div>
-            </div>
-            <div class="vtimeline-item">
-              <div class="vtimeline-dot win"></div>
-              <div class="vtimeline-time">June 28 · Day 36</div>
-              <div class="vtimeline-event">Converts - "Let's finish what you started" abandon flow</div>
-              <div class="vtimeline-detail">She bought. It took 36 days and 43 emails — verified via Klaviyo API.</div>
-            </div>
+            <div style="font-size:0.83rem; font-weight:700; color:var(--text-dark); margin-bottom:6px;">In Cahoots — first purchase</div>
+            <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+              <li style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute; left:0; color:var(--teal); font-weight:700;">→</span>Welcome flow, campaign blasts, and abandon flow all fired simultaneously</li>
+              <li style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute; left:0; color:var(--teal); font-weight:700;">→</span>Cart abandon was the closer on day 36</li>
+              <li style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute; left:0; color:var(--teal); font-weight:700;">→</span>The program worked — not by design</li>
+            </ul>
           </div>
 
-          <div class="callout-box red mt-24">
-            <div class="callout-box-title">The Takeaway</div>
-            <div class="callout-box-body">
-              She bought. It took 36 days and 43 emails — verified via Klaviyo API.
+          <!-- Card 2: Leonora Seid — The Loyalist -->
+          <div style="background:#fff; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.08); padding:28px; border-top: 4px solid #CC2222;">
+            <div style="font-size:0.68rem; text-transform:uppercase; letter-spacing:2px; color:var(--text-muted); font-weight:700; margin-bottom:10px;">Loyal Buyer · 12 Orders</div>
+            <div style="font-size:1.1rem; font-weight:800; color:#CC2222; margin-bottom:4px;">Leonora Seid</div>
+            <div style="font-size:0.8rem; color:var(--text-light); margin-bottom:18px;">lcseid@aol.com · Customer since 2021</div>
+            <div style="display:flex; gap:16px; margin-bottom:18px;">
+              <div style="text-align:center;">
+                <div style="font-size:1.8rem; font-weight:900; color:#CC2222; line-height:1;">487</div>
+                <div style="font-size:0.72rem; color:var(--text-muted);">emails between orders</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="font-size:1.8rem; font-weight:900; color:#CC2222; line-height:1;">487</div>
+                <div style="font-size:0.72rem; color:var(--text-muted);">days between orders</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="font-size:1.8rem; font-weight:900; color:#CC2222; line-height:1;">$88</div>
+                <div style="font-size:0.72rem; color:var(--text-muted);">last order value</div>
+              </div>
             </div>
+            <div style="font-size:0.83rem; font-weight:700; color:var(--text-dark); margin-bottom:6px;">TV Party Narrow — most recent purchase</div>
+            <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+              <li style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute; left:0; color:#CC2222; font-weight:700;">→</span>One email per day for 16 months between purchases</li>
+              <li style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute; left:0; color:#CC2222; font-weight:700;">→</span>She came back anyway — 1,747 emails received lifetime</li>
+              <li style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute; left:0; color:#CC2222; font-weight:700;">→</span>Never treated differently from a first-time prospect</li>
+            </ul>
           </div>
+
+          <!-- Card 3: Jennifer Langhart — The RX Upgrader -->
+          <div style="background:#fff; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.08); padding:28px; border-top: 4px solid var(--lime-dark);">
+            <div style="font-size:0.68rem; text-transform:uppercase; letter-spacing:2px; color:var(--text-muted); font-weight:700; margin-bottom:10px;">Loyal Buyer · 12 Orders</div>
+            <div style="font-size:1.1rem; font-weight:800; color:var(--lime-dark); margin-bottom:4px;">Jennifer Langhart</div>
+            <div style="font-size:0.8rem; color:var(--text-light); margin-bottom:18px;">jenniferlanghart@gmail.com · Customer since 2021</div>
+            <div style="display:flex; gap:16px; margin-bottom:18px;">
+              <div style="text-align:center;">
+                <div style="font-size:1.8rem; font-weight:900; color:var(--lime-dark); line-height:1;">22</div>
+                <div style="font-size:0.72rem; color:var(--text-muted);">emails between orders</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="font-size:1.8rem; font-weight:900; color:var(--lime-dark); line-height:1;">74</div>
+                <div style="font-size:0.72rem; color:var(--text-muted);">days between orders</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="font-size:1.8rem; font-weight:900; color:var(--lime-dark); line-height:1;">$285</div>
+                <div style="font-size:0.72rem; color:var(--text-muted);">last order value</div>
+              </div>
+            </div>
+            <div style="font-size:0.83rem; font-weight:700; color:var(--text-dark); margin-bottom:6px;">Women's Progressive Rx — most recent purchase</div>
+            <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+              <li style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute; left:0; color:var(--lime-dark); font-weight:700;">→</span>Upgraded from readers to prescription on order 12</li>
+              <li style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute; left:0; color:var(--lime-dark); font-weight:700;">→</span>Prescription cycle is annual — no Rx renewal flow exists</li>
+              <li style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; position:relative; line-height:1.5;"><span style="position:absolute; left:0; color:var(--lime-dark); font-weight:700;">→</span>Without a trigger at month 10–11, she returns only if a campaign catches her</li>
+            </ul>
+          </div>
+
         </div>
 
         <!-- RETURN CUSTOMER JOURNEYS -->
@@ -2807,7 +2728,7 @@
         <div class="why-title">Why DigitsUp</div>
         <div class="why-body">
           <p>This audit wasn't built from a template.</p>
-          <p>We pulled 20 real eyebobs customers and traced every email they received, every product they viewed, every cart they abandoned. We found the 268-day browser who converted from a single abandon flow email. We found the loyalist who bought the same Kvetcher Wide four times without ever knowing she had 400 points waiting. We found the subscriber who received 13 emails in her first 7 days and still bought - 36 days later.</p>
+          <p>We pulled 20 real eyebobs customers from Klaviyo and traced every email they received before buying. We found the 268-day browser who received 218 emails before a Browse Abandonment flow finally closed him. We found the loyalist who received 487 emails over 487 days between purchases — one per day for 16 months — and came back anyway. We found the new subscriber who received 43 emails over 36 days before converting. Every number in this audit came from your Klaviyo account.</p>
           <p>We know exactly what's happening in your program. We know exactly what to fix. And we've done this 45+ times.</p>
         </div>
         <div class="why-creds">
