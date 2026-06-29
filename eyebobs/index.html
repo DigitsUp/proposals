@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eyebobs — Klaviyo Audit 2026</title>
+<title>eyebobs - Klaviyo Audit 2026</title>
 <style>
   /* ===== RESET & BASE ===== */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -365,7 +365,7 @@
     line-height: 1.6;
   }
 
-  /* ===== FULL REPORT — SECTION HEADERS ===== */
+  /* ===== FULL REPORT - SECTION HEADERS ===== */
   .report-section { margin-bottom: 64px; }
   .report-section-header {
     display: flex;
@@ -546,7 +546,7 @@
     color: var(--teal);
   }
 
-  /* ===== CRITICAL CALLOUT — POINTS REMINDER ===== */
+  /* ===== CRITICAL CALLOUT - POINTS REMINDER ===== */
   .critical-callout {
     background: var(--teal);
     border-radius: 16px;
@@ -1159,6 +1159,10 @@
     .tab-nav { overflow-x: auto; }
     .header-logo { font-size: 2.2rem; }
   }
+  @media (max-width: 768px) {
+    .persona-grid-2col { grid-template-columns: 1fr !important; }
+    .pricing-grid-2col { grid-template-columns: 1fr !important; }
+  }
 </style>
 </head>
 <body>
@@ -1184,7 +1188,7 @@
     <div class="header-inner">
       <div class="header-eyebrow">Klaviyo Program Audit</div>
       <div class="header-logo">eyebobs</div>
-      <div class="header-title">Retention Marketing Audit — H1 2026</div>
+      <div class="header-title">Retention Marketing Audit - H1 2026</div>
       <div class="header-meta">Prepared by DigitsUp &nbsp;·&nbsp; June 2026 &nbsp;·&nbsp; Confidential</div>
       <nav class="tab-nav">
         <button class="tab-btn active" onclick="switchTab('summary', this)">Summary</button>
@@ -1201,11 +1205,12 @@
       <!-- Hero -->
       <div class="hero-block">
         <div class="hero-statement">
-          eyebobs is generating <em>$321K/month</em> from Klaviyo —<br>
-          and leaving at least that much on the table.
+          eyebobs runs a sophisticated Klaviyo program &#8212;<br>
+          <em>$321K/month</em>, 36 live flows, clean deliverability.<br>
+          This audit is about what a customer-first lifecycle looks like from here.
         </div>
         <div class="hero-sub">
-          The infrastructure is largely in place. The gaps are execution — and every one has a dollar amount attached to it.
+          The infrastructure is in place. These five findings show where activation creates the most impact.
         </div>
       </div>
 
@@ -1228,12 +1233,12 @@
         <div class="stat-card">
           <div class="stat-label">Campaign / Flow Split</div>
           <div class="stat-value">56/44</div>
-          <div class="stat-note">Campaigns dominate — for now</div>
+          <div class="stat-note">Campaigns dominate - for now</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">Live Flows</div>
           <div class="stat-value">36</div>
-          <div class="stat-note">267 total — 231 are legacy drafts</div>
+          <div class="stat-note">Active and sending</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">Active Profiles</div>
@@ -1254,43 +1259,106 @@
         <div class="finding-card">
           <div class="finding-num">01</div>
           <div class="finding-body">
-            <div class="finding-title">The winback flow has never sent.</div>
-            <div class="finding-desc">$0 revenue. 0 deliveries. The trigger is set to a 100-day order delay — meaning no existing customer has ever triggered it. Every lapsed customer is sitting unreached. This is the single fastest revenue recovery in the program.</div>
+            <div class="finding-title">There's a winback opportunity waiting for every lapsed customer.</div>
+            <div class="finding-desc">The Purchaser Winback flow has delivered zero emails and generated zero revenue — not because it's broken, but because the trigger requires a 100-day delay calculated from order date. No existing customer qualifies. Based on 20 real customer journey profiles pulled for this audit, 90 days is the right activation point — that's when 44% of the repurchase window opens. Converting to a segment-based trigger starts reaching lapsed customers within days.</div>
           </div>
         </div>
 
         <div class="finding-card">
           <div class="finding-num">02</div>
           <div class="finding-body">
-            <div class="finding-title">60% of your best customers aren't in the loyalty program.</div>
-            <div class="finding-desc">Your loyalists average 12+ purchases. 60% have never enrolled in Frame Fanatics. They have points, they have tier status — and they have no idea. The program launched January 2025. Pre-existing customers were never enrolled, and the infrastructure for re-enrollment was never built.</div>
+            <div class="finding-title">60% of Frame Fanatics loyalists have earned points they've never seen.</div>
+            <div class="finding-desc">Loyalists in this program average 12+ purchases. 60% have never formally enrolled in Frame Fanatics — not because they opted out, but because the program launched in January 2025 and pre-existing customers were never brought in. Yotpo has silently assigned them tier status based on their purchase history. The points and the tier are there. The introduction hasn't happened yet. One re-enrollment campaign reaches 45K+ pre-2025 buyers.</div>
           </div>
         </div>
 
         <div class="finding-card">
           <div class="finding-num">03</div>
           <div class="finding-body">
-            <div class="finding-title">Campaign revenue is down 20.9% YoY — not from under-sending, from under-targeting.</div>
-            <div class="finding-desc">eyebobs sends email 5+ days per week. Revenue per recipient is flat YoY ($0.047 both years). The decline comes from fewer total recipients reached (16M vs 20.4M). VIP/segmented sends return $0.25–$0.58 RPR vs. $0.04–$0.08 for broad sends — a 5–10x difference. The fix is smarter segmentation, not more volume.</div>
+            <div class="finding-title">Smarter sends — not more sends — is the path to campaign growth.</div>
+            <div class="finding-desc">eyebobs already sends email 5+ days per week. Revenue per recipient has held flat year-over-year at $0.047 — the quality of sends hasn't declined. The H1 gap comes from fewer total recipients reached. The opportunity is in segmentation: VIP and loyalty-aware sends in this account are returning $0.25–$0.58 per recipient vs. $0.04–$0.08 for broad sends — a 5 to 10x difference within the same program.</div>
           </div>
         </div>
 
         <div class="finding-card">
           <div class="finding-num">04</div>
           <div class="finding-body">
-            <div class="finding-title">New subscribers are getting 12.8 emails in their first 7 days.</div>
-            <div class="finding-desc">Welcome flow + campaign sends fire simultaneously, creating a chaos window. A real subscriber received "Sale Access = Granted," abandon cart, and four "25% off ends tonight" emails in the first 5 days. She converted — but it took 36 days and an enormous amount of email volume. There's a better way.</div>
+            <div class="finding-title">New subscribers deserve a better first week.</div>
+            <div class="finding-desc">New subscribers currently receive 12.8 emails in their first seven days — welcome flow and campaign sends firing simultaneously, often with three different discount amounts in the same journey. In 6 of 10 new customer journeys pulled for this audit, the abandon flow — not the welcome series — was the closer. The fix isn't sending less. It's a 10-day campaign suppression window for new subscribers and one consistent offer across all entry flows. The abandon flow is already doing the work. The opportunity is giving it room.</div>
           </div>
         </div>
 
         <div class="finding-card">
           <div class="finding-num">05</div>
           <div class="finding-body">
-            <div class="finding-title">The Points Reminder made $46 in 6 months.</div>
-            <div class="finding-desc">It should be a top-3 earner. Smart sending is suppressing 99% of sends. Right now, 10,811 profiles have redeemable points they don't know about — the equivalent of a store full of customers holding gift cards they forgot they had.</div>
+            <div class="finding-title">10,811 customers have reward points they've never been told about.</div>
+            <div class="finding-desc">The Points Reminder flow generated $46 in the first half of 2026. Smart sending is suppressing 99% of sends to a list of 10,811 profiles — each holding $5 to $20 in redeemable points they don't know about. This is a high-intent email going to customers who want to hear from the brand. Removing smart sending, switching to a segment trigger by points balance, and adding an SMS layer turns one of the lowest-performing flows in the account into one of the highest.</div>
           </div>
         </div>
 
+      </div>
+
+      <hr class="divider">
+
+      <div class="section-label">From 20 Real eyebobs Customers</div>
+      <div class="section-title">What the journey data shows.</div>
+      <div class="section-subtitle">New customers and loyal buyers behave very differently. The program needs to reflect that.</div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px;" class="persona-grid-2col">
+
+        <div style="background:#fff; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.08); padding:28px; border-top: 4px solid var(--teal);">
+          <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:2px; color:var(--text-muted); font-weight:700; margin-bottom:12px;">New Customers · 10 Profiles</div>
+          <div style="font-size:2.2rem; font-weight:900; color:var(--teal); letter-spacing:-1px; line-height:1; margin-bottom:4px;">46 days</div>
+          <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">avg. time from first email to first purchase</div>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:10px;">
+            <li style="font-size:0.88rem; color:var(--text-muted); padding-left:18px; position:relative; line-height:1.5;">
+              <span style="position:absolute; left:0; color:var(--teal); font-weight:700;">→</span>
+              Abandon flow closed <strong>6 of 10</strong> journeys — not the welcome series
+            </li>
+            <li style="font-size:0.88rem; color:var(--text-muted); padding-left:18px; position:relative; line-height:1.5;">
+              <span style="position:absolute; left:0; color:var(--teal); font-weight:700;">→</span>
+              12.8 emails in the first 7 days across welcome + campaigns
+            </li>
+            <li style="font-size:0.88rem; color:var(--text-muted); padding-left:18px; position:relative; line-height:1.5;">
+              <span style="position:absolute; left:0; color:var(--teal); font-weight:700;">→</span>
+              Consideration range: same day to 268 days — Board Stiff and Waylaid are the most-considered frames
+            </li>
+            <li style="font-size:0.88rem; color:var(--text-muted); padding-left:18px; position:relative; line-height:1.5;">
+              <span style="position:absolute; left:0; color:var(--teal); font-weight:700;">→</span>
+              Loyalty enrollment at first purchase: <strong>10%</strong>
+            </li>
+          </ul>
+        </div>
+
+        <div style="background:#fff; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.08); padding:28px; border-top: 4px solid var(--lime-dark);">
+          <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:2px; color:var(--text-muted); font-weight:700; margin-bottom:12px;">Loyal Buyers · 10 Profiles</div>
+          <div style="font-size:2.2rem; font-weight:900; color:var(--teal); letter-spacing:-1px; line-height:1; margin-bottom:4px;">154 days</div>
+          <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">avg. time between purchases · 12+ orders per customer</div>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:10px;">
+            <li style="font-size:0.88rem; color:var(--text-muted); padding-left:18px; position:relative; line-height:1.5;">
+              <span style="position:absolute; left:0; color:var(--teal); font-weight:700;">→</span>
+              Campaign click → purchase, same session — flows are absent between purchases
+            </li>
+            <li style="font-size:0.88rem; color:var(--text-muted); padding-left:18px; position:relative; line-height:1.5;">
+              <span style="position:absolute; left:0; color:var(--teal); font-weight:700;">→</span>
+              <strong>88% of purchases are readers</strong> — spare pair is the retention strategy hiding in plain sight
+            </li>
+            <li style="font-size:0.88rem; color:var(--text-muted); padding-left:18px; position:relative; line-height:1.5;">
+              <span style="position:absolute; left:0; color:var(--teal); font-weight:700;">→</span>
+              60% have loyalty tier status they've never been told about
+            </li>
+            <li style="font-size:0.88rem; color:var(--text-muted); padding-left:18px; position:relative; line-height:1.5;">
+              <span style="position:absolute; left:0; color:var(--teal); font-weight:700;">→</span>
+              RX buyers: distinct profile — higher AOV, prescription-driven annual cycle, longer consideration window
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div style="background:var(--teal); border-radius:12px; padding:24px 28px; margin-bottom:32px;">
+        <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:2px; color:var(--lime); font-weight:700; margin-bottom:8px;">The RX Opportunity</div>
+        <div style="font-size:0.95rem; color:rgba(255,255,255,0.85); line-height:1.7;">The RX Renewal flow is already live and generating revenue. The next layer is timing: prescription-wearing customers have an annual cycle tied to their vision appointment, not their last purchase date. Klaviyo's Expected Next Order Date trigger is already firing in this account. A prescription renewal reminder series — built around that signal — is a customer-first touchpoint with no equivalent in the current program.</div>
       </div>
 
     </div>
@@ -1346,19 +1414,19 @@
                 <td>Email Campaigns</td>
                 <td>$961,932</td>
                 <td>$761,045</td>
-                <td class="tag-down">−20.9%</td>
+                <td class="tag-down">-20.9%</td>
               </tr>
               <tr>
                 <td>SMS Campaigns</td>
                 <td>$297,109</td>
                 <td>$296,095</td>
-                <td class="tag-flat">−0.3%</td>
+                <td class="tag-flat">-0.3%</td>
               </tr>
               <tr>
                 <td style="font-weight:700;">Total Campaigns</td>
                 <td style="font-weight:700;">$1,259,041</td>
                 <td style="font-weight:700;">$1,057,140</td>
-                <td class="tag-down">−16.0%</td>
+                <td class="tag-down">-16.0%</td>
               </tr>
               <tr>
                 <td>Flows</td>
@@ -1370,7 +1438,7 @@
           </table>
         </div>
         <div class="narrative" style="margin-top:12px;">
-          <strong>* Flow growth context:</strong> Most flows were inactive in H1 2025. Growth reflects infrastructure activation, not organic improvement. The +12% L30D attribution looks strong — but the 90-day view shows −1% YoY, and campaign revenue for the half-year is down 20.9%. Flows grew because they started from near zero; most were activated during 2025. The campaign engine, which drives 56% of Klaviyo revenue, has quietly declined. The program is being carried by newly activated infrastructure. The behavioral and loyalty flows that should compound long-term value are underperforming or not sending at all.
+          <strong>* Flow growth context:</strong> Most flows were inactive in H1 2025. Growth reflects infrastructure activation, not organic improvement. The +12% L30D attribution looks strong - but the 90-day view shows -1% YoY, and campaign revenue for the half-year is down 20.9%. Flows grew because they started from near zero; most were activated during 2025. The campaign engine, which drives 56% of Klaviyo revenue, has quietly declined. The program is being carried by newly activated infrastructure. The behavioral and loyalty flows that should compound long-term value are underperforming or not sending at all.
         </div>
       </div>
 
@@ -1415,7 +1483,7 @@
             <div class="flow-card-body">
               <div class="flow-findings-title">Key Findings</div>
               <ul class="flow-findings-list">
-                <li>Gender split sending 99% to "no gender preference" lane — profile data exists but the conditional split isn't reading it correctly</li>
+                <li>Gender split sending 99% to "no gender preference" lane - profile data exists but the conditional split isn't reading it correctly</li>
                 <li>New subscribers receiving 12.8 emails in first 7 days (welcome flow + campaign overlap with no suppression)</li>
                 <li>Competing offers: some subscribers receiving both 20% off welcome AND 25% off first frame simultaneously</li>
               </ul>
@@ -1452,14 +1520,14 @@
             <div class="flow-card-body">
               <div class="flow-findings-title">Key Findings</div>
               <ul class="flow-findings-list">
-                <li>Click rates &gt;8% — both lanes qualify for additional follow-up emails that aren't there</li>
-                <li>Flow only 2 days long — cutting off recovery window too early</li>
+                <li>Click rates &gt;8% - both lanes qualify for additional follow-up emails that aren't there</li>
+                <li>Flow only 2 days long - cutting off recovery window too early</li>
                 <li>New customer lane uses different discount code than welcome offer (competing discounts in-market simultaneously)</li>
                 <li>No loyalty points lane for enrolled members</li>
               </ul>
               <div class="flow-fix">
                 <strong>Fix</strong>
-                Extend to 5–7 days. Standardize and audit discount code strategy. Add loyalty points lane for Frame Fanatics members.
+                Extend to 5-7 days. Standardize and audit discount code strategy. Add loyalty points lane for Frame Fanatics members.
               </div>
             </div>
           </div>
@@ -1490,7 +1558,7 @@
             <div class="flow-card-body">
               <div class="flow-findings-title">Key Findings</div>
               <ul class="flow-findings-list">
-                <li>Strongest RPR of all standard flows ($8.25) — these are your closest buyers, they've entered payment info</li>
+                <li>Strongest RPR of all standard flows ($8.25) - these are your closest buyers, they've entered payment info</li>
                 <li>Missing a "last call" email with an upgraded offer at the end of the sequence</li>
                 <li>Same discount code conflict present as in Abandoned Cart</li>
               </ul>
@@ -1519,7 +1587,7 @@
                 </div>
                 <div class="flow-stat">
                   <div class="flow-stat-label">RPR</div>
-                  <div class="flow-stat-value">$0.70–$1.17</div>
+                  <div class="flow-stat-value">$0.70-$1.17</div>
                 </div>
               </div>
               <span class="verdict-badge verdict-needs">⚠️ Needs Work</span>
@@ -1527,14 +1595,14 @@
             <div class="flow-card-body">
               <div class="flow-findings-title">Key Findings</div>
               <ul class="flow-findings-list">
-                <li>MeMola version is the #1 flow earner at $133,901 — converting primarily through volume</li>
-                <li>Email 1 for new customers pushes 15% off — directly conflicts with the 20% welcome offer in-flight</li>
+                <li>MeMola version is the #1 flow earner at $133,901 - converting primarily through volume</li>
+                <li>Email 1 for new customers pushes 15% off - directly conflicts with the 20% welcome offer in-flight</li>
                 <li>Flow only 2 days long, cutting off the long-consideration window</li>
-                <li>Journey data shows 268-day browsers converting from this flow — they need significantly more time in sequence</li>
+                <li>Journey data shows 268-day browsers converting from this flow - they need significantly more time in sequence</li>
               </ul>
               <div class="flow-fix">
                 <strong>Fix</strong>
-                Extend to 5–7 days. Remove flat discount from new customer email; replace with loyalty points reminder. Add loyalty lane. Ensure new customers in welcome flow are suppressed from competing discount.
+                Extend to 5-7 days. Remove flat discount from new customer email; replace with loyalty points reminder. Add loyalty lane. Ensure new customers in welcome flow are suppressed from competing discount.
               </div>
             </div>
           </div>
@@ -1565,15 +1633,15 @@
             <div class="flow-card-body">
               <div class="flow-findings-title">Key Findings</div>
               <ul class="flow-findings-list">
-                <li>46 emails in the flow, $0.29 RPR — severely underperforming relative to email count and delivery volume</li>
+                <li>46 emails in the flow, $0.29 RPR - severely underperforming relative to email count and delivery volume</li>
                 <li>Draft emails creating a Day 5 → Day 52 gap with zero customer contact</li>
-                <li>Filter using "since starting this flow" may not register the most recent purchase correctly — causing suppression errors</li>
-                <li>Birthday capture email placed at Day 60 — far too late to capture data before churn risk</li>
+                <li>Filter using "since starting this flow" may not register the most recent purchase correctly - causing suppression errors</li>
+                <li>Birthday capture email placed at Day 60 - far too late to capture data before churn risk</li>
                 <li>No loyalty enrollment prompt anywhere in the 46-email sequence</li>
               </ul>
               <div class="flow-fix">
                 <strong>Fix</strong>
-                Activate draft emails to close the Day 5–52 gap. Fix the purchase filter logic. Add loyalty enrollment prompt at Email 1. Move birthday capture to Day 14–21. Add "spare pair" angle for 1-order customers between Days 21–45.
+                Activate draft emails to close the Day 5-52 gap. Fix the purchase filter logic. Add loyalty enrollment prompt at Email 1. Move birthday capture to Day 14-21. Add "spare pair" angle for 1-order customers between Days 21-45.
               </div>
             </div>
           </div>
@@ -1600,7 +1668,7 @@
             <div class="flow-card-body">
               <div class="flow-findings-title">Key Findings</div>
               <ul class="flow-findings-list">
-                <li>This flow has <strong>never sent a single email.</strong> The trigger requires 100 days to pass after a Placed Order event — a condition no existing customer has yet satisfied under the current configuration</li>
+                <li>This flow has <strong>never sent a single email.</strong> The trigger requires 100 days to pass after a Placed Order event - a condition no existing customer has yet satisfied under the current configuration</li>
                 <li>Loyalist inter-order gap averages 154 days. Gap distribution confirms a 90-day primary trigger would catch 44% of the natural repurchase window</li>
                 <li>Every lapsed customer in the database is currently unreached</li>
               </ul>
@@ -1635,7 +1703,7 @@
             </div>
             <div class="flow-card-body">
               <ul class="flow-findings-list">
-                <li>Strong RPR — but reach is limited by the enrollment gap (60% of eligible customers never enrolled)</li>
+                <li>Strong RPR - but reach is limited by the enrollment gap (60% of eligible customers never enrolled)</li>
                 <li>Fix the enrollment gap and this flow earns significantly more automatically</li>
               </ul>
             </div>
@@ -1656,8 +1724,8 @@
             </div>
             <div class="flow-card-body">
               <ul class="flow-findings-list">
-                <li>Top earner in the loyalty suite — strong engagement and conversion</li>
-                <li>Missing a "next tier" value layer — customers don't know what they're working toward after earning current tier</li>
+                <li>Top earner in the loyalty suite - strong engagement and conversion</li>
+                <li>Missing a "next tier" value layer - customers don't know what they're working toward after earning current tier</li>
               </ul>
               <div class="flow-fix">
                 <strong>Enhancement</strong>
@@ -1666,7 +1734,7 @@
             </div>
           </div>
 
-          <!-- Points Reminder — CRITICAL CALLOUT -->
+          <!-- Points Reminder - CRITICAL CALLOUT -->
           <div class="flow-card fix-now">
             <div class="flow-card-header">
               <div class="flow-title-group">
@@ -1696,13 +1764,13 @@
                   </div>
                 </div>
                 <div class="callout-context">
-                  Smart sending is suppressing 99% of sends from this flow. These 10,811 profiles have earned points — they're sitting in the account, tracked, attributed, completely unspent — because the trigger and suppression logic are broken. This is the equivalent of printing gift cards and locking them in a drawer.
+                  Smart sending is suppressing 99% of sends from this flow. These 10,811 profiles have earned points - they're sitting in the account, tracked, attributed, completely unspent - because the trigger and suppression logic are broken. This is the equivalent of printing gift cards and locking them in a drawer.
                 </div>
               </div>
 
               <ul class="flow-findings-list">
-                <li>Smart sending is killing delivery rate — the flow sends but almost no one receives it</li>
-                <li>Wrong trigger type — needs to fire based on points balance milestone, not time-based cadence</li>
+                <li>Smart sending is killing delivery rate - the flow sends but almost no one receives it</li>
+                <li>Wrong trigger type - needs to fire based on points balance milestone, not time-based cadence</li>
                 <li>No SMS version to reach non-email-openers</li>
               </ul>
               <div class="flow-fix">
@@ -1727,7 +1795,7 @@
             </div>
             <div class="flow-card-body">
               <ul class="flow-findings-list">
-                <li>Missing a 90-day advance notice email — customers currently only learn about expiration at the moment it's imminent</li>
+                <li>Missing a 90-day advance notice email - customers currently only learn about expiration at the moment it's imminent</li>
               </ul>
               <div class="flow-fix"><strong>Fix</strong> Add 90-day heads-up email to create urgency lead time.</div>
             </div>
@@ -1748,7 +1816,7 @@
             </div>
             <div class="flow-card-body">
               <ul class="flow-findings-list">
-                <li>Only 2 emails in sequence — dramatically underdeveloped</li>
+                <li>Only 2 emails in sequence - dramatically underdeveloped</li>
                 <li>No pre-birthday anticipation, no day-of celebration, no post-birthday urgency</li>
               </ul>
               <div class="flow-fix"><strong>Fix</strong> Expand to 5-email series: pre-birthday tease → day-of offer → day 3 reminder → day 5 last call → day 7 extended.</div>
@@ -1770,7 +1838,7 @@
             </div>
             <div class="flow-card-body">
               <ul class="flow-findings-list">
-                <li>Underdeveloped — single email with no follow-up sequence</li>
+                <li>Underdeveloped - single email with no follow-up sequence</li>
                 <li>No urgency ladder or behavioral branching</li>
               </ul>
               <div class="flow-fix"><strong>Fix</strong> Develop into a 3-email sequence with urgency escalation.</div>
@@ -1807,10 +1875,10 @@
             <div class="flow-card-body">
               <ul class="flow-findings-list">
                 <li>45,000+ buyers exist in the database who purchased before the loyalty program launched in January 2025</li>
-                <li>Many have Yotpo profiles with tracked spend and assigned tiers — but <code>swell_has_account: False</code></li>
+                <li>Many have Yotpo profiles with tracked spend and assigned tiers - but <code>swell_has_account: False</code></li>
                 <li>These customers were never invited to enroll and have never been targeted with enrollment messaging</li>
               </ul>
-              <div class="flow-fix"><strong>Build</strong> Segment-based re-enrollment flow + one-time campaign: "You have $X waiting — claim your account."</div>
+              <div class="flow-fix"><strong>Build</strong> Segment-based re-enrollment flow + one-time campaign: "You have $X waiting - claim your account."</div>
             </div>
           </div>
 
@@ -1834,7 +1902,7 @@
           </div>
           <div class="stat-card">
             <div class="stat-label">Email YoY</div>
-            <div class="stat-value">−20.9%</div>
+            <div class="stat-value">-20.9%</div>
             <div class="stat-note down">From $961,932 in 2025 H1</div>
           </div>
           <div class="stat-card">
@@ -1844,7 +1912,7 @@
           </div>
           <div class="stat-card">
             <div class="stat-label">SMS YoY</div>
-            <div class="stat-value">−0.3%</div>
+            <div class="stat-value">-0.3%</div>
             <div class="stat-note flat">Effectively flat</div>
           </div>
         </div>
@@ -1852,7 +1920,7 @@
         <div class="callout-box amber mb-24">
           <div class="callout-box-title">The Segmentation Opportunity</div>
           <div class="callout-box-body">
-            VIP and early-access sends consistently return <strong>$0.25–$0.58 RPR</strong> vs. <strong>$0.04–$0.08</strong> for broad sends — a 5 to 10x difference from the same list, for the same product, with the same offer. The difference is who receives it and how it's framed. Smarter segmentation is the single highest-leverage campaign fix available.
+            VIP and early-access sends consistently return <strong>$0.25-$0.58 RPR</strong> vs. <strong>$0.04-$0.08</strong> for broad sends - a 5 to 10x difference from the same list, for the same product, with the same offer. The difference is who receives it and how it's framed. Smarter segmentation is the single highest-leverage campaign fix available.
           </div>
         </div>
 
@@ -1871,7 +1939,7 @@
             </thead>
             <tbody>
               <tr>
-                <td>VIP Early Access — Spring Sale</td>
+                <td>VIP Early Access - Spring Sale</td>
                 <td>$38,200</td>
                 <td>15,200</td>
                 <td class="tag-up">49.1%</td>
@@ -1895,7 +1963,7 @@
                 <td>$0.25</td>
               </tr>
               <tr>
-                <td>25% Off Ends Tonight — Broad</td>
+                <td>25% Off Ends Tonight - Broad</td>
                 <td>$18,900</td>
                 <td>104,000</td>
                 <td>41.8%</td>
@@ -1914,7 +1982,7 @@
           </table>
         </div>
         <div class="narrative">
-          <strong>Note:</strong> VIP early access emails consistently return 47–49% open rates vs. 41–46% for broad sends. The RPR gap is even wider — $1.58–$2.51 for VIP vs. $0.14–$0.25 for broad campaigns. Same list. Same product. Different frame. The segmentation opportunity here is significant.
+          <strong>Note:</strong> VIP early access emails consistently return 47-49% open rates vs. 41-46% for broad sends. The RPR gap is even wider - $1.58-$2.51 for VIP vs. $0.14-$0.25 for broad campaigns. Same list. Same product. Different frame. The segmentation opportunity here is significant.
         </div>
 
         <div class="section-label mt-32">Findings & Recommendations</div>
@@ -1925,7 +1993,7 @@
             </thead>
             <tbody>
               <tr>
-                <td>SMS click rates declining: 2025 avg 3–4.5% → 2026 avg 0.5–2%</td>
+                <td>SMS click rates declining: 2025 avg 3-4.5% → 2026 avg 0.5-2%</td>
                 <td>Investigate list quality, offer structure, and send frequency</td>
               </tr>
               <tr>
@@ -1959,7 +2027,7 @@
         </div>
 
         <div class="narrative">
-          We pulled 20 real eyebobs customer profiles — 10 first-time buyers, 10 loyalists — and traced every email received, every product view, every cart abandoned, every purchase made. Here's what the lifecycle actually looks like.
+          We pulled 20 real eyebobs customer profiles - 10 first-time buyers, 10 loyalists - and traced every email received, every product view, every cart abandoned, every purchase made. Here's what the lifecycle actually looks like.
         </div>
 
         <!-- Persona 1 -->
@@ -1972,31 +2040,31 @@
             <div class="vtimeline-item">
               <div class="vtimeline-dot"></div>
               <div class="vtimeline-time">Day 0</div>
-              <div class="vtimeline-event">Subscribe — Welcome series fires within minutes</div>
+              <div class="vtimeline-event">Subscribe - Welcome series fires within minutes</div>
               <div class="vtimeline-detail">Enters the general list; immediately enters welcome flow</div>
             </div>
             <div class="vtimeline-item">
               <div class="vtimeline-dot alert"></div>
-              <div class="vtimeline-time">Days 1–7</div>
+              <div class="vtimeline-time">Days 1-7</div>
               <div class="vtimeline-event">12.8 emails total</div>
-              <div class="vtimeline-detail">Welcome flow (4–5 emails) + campaign overlap (7–8 sends) with no suppression in place</div>
+              <div class="vtimeline-detail">Welcome flow (4-5 emails) + campaign overlap (7-8 sends) with no suppression in place</div>
               <div class="email-count-badge">⚠ 12.8 avg emails in first 7 days</div>
             </div>
             <div class="vtimeline-item">
               <div class="vtimeline-dot"></div>
-              <div class="vtimeline-time">Weeks 2–6</div>
+              <div class="vtimeline-time">Weeks 2-6</div>
               <div class="vtimeline-event">Browse abandonment triggers</div>
-              <div class="vtimeline-detail">If they browse without buying, abandon flow fires — competing with active welcome discount</div>
+              <div class="vtimeline-detail">If they browse without buying, abandon flow fires - competing with active welcome discount</div>
             </div>
             <div class="vtimeline-item">
               <div class="vtimeline-dot win"></div>
               <div class="vtimeline-time">Day 46 avg</div>
-              <div class="vtimeline-event">First purchase — almost always a reader frame</div>
+              <div class="vtimeline-event">First purchase - almost always a reader frame</div>
               <div class="vtimeline-detail">Converts. Usually triggered by a sale or flash event in a campaign.</div>
             </div>
             <div class="vtimeline-item">
               <div class="vtimeline-dot alert"></div>
-              <div class="vtimeline-time">Days 46–154</div>
+              <div class="vtimeline-time">Days 46-154</div>
               <div class="vtimeline-event">Campaign emails only. No proactive flow.</div>
               <div class="vtimeline-detail">Post-purchase flow active but underperforming ($0.29 RPR). No loyalty enrollment prompt.</div>
             </div>
@@ -2009,13 +2077,13 @@
             <div class="vtimeline-item">
               <div class="vtimeline-dot win"></div>
               <div class="vtimeline-time">Day 154 avg</div>
-              <div class="vtimeline-event">Returns — triggered by a campaign flash sale</div>
+              <div class="vtimeline-event">Returns - triggered by a campaign flash sale</div>
               <div class="vtimeline-detail">Repeat purchase cycle begins. Still not in loyalty. Points accumulating silently.</div>
             </div>
           </div>
 
           <div class="callout-box teal mt-24">
-            <div class="callout-box-title">Real Profile — Reader Loyalist</div>
+            <div class="callout-box-title">Real Profile - Reader Loyalist</div>
             <div class="callout-box-body">
               One loyalist bought the same <strong>Kvetcher Wide in Tortoise</strong> four times. Never enrolled in Frame Fanatics. Had <strong>400+ points</strong> waiting. She has no idea. The program has been tracking her spend for 18 months and has never told her she has money on the table.
             </div>
@@ -2032,7 +2100,7 @@
             <div class="vtimeline-item">
               <div class="vtimeline-dot"></div>
               <div class="vtimeline-time">Consideration</div>
-              <div class="vtimeline-event">Long browse window — 30–90 days pre-purchase</div>
+              <div class="vtimeline-event">Long browse window - 30-90 days pre-purchase</div>
               <div class="vtimeline-detail">High-consideration buyer. Compares styles, checks prescription compatibility.</div>
             </div>
             <div class="vtimeline-item">
@@ -2045,19 +2113,19 @@
               <div class="vtimeline-dot alert"></div>
               <div class="vtimeline-time">~12 months later</div>
               <div class="vtimeline-event">Annual prescription renewal creates predictable next order window</div>
-              <div class="vtimeline-detail">This buyer has a predictable return date based on annual prescription cycle — and it's not being used to time outreach.</div>
+              <div class="vtimeline-detail">This buyer has a predictable return date based on annual prescription cycle - and it's not being used to time outreach.</div>
             </div>
           </div>
           <div class="callout-box amber">
             <div class="callout-box-title">Missed Opportunity</div>
-            <div class="callout-box-body">Annual prescription renewal = predictable next purchase date. A flow triggered at 10–11 months post-purchase with VIP early access framing and an "upgrade your prescription" angle would convert this persona at high rates. Currently: this customer receives the same broad campaigns as everyone else.</div>
+            <div class="callout-box-body">Annual prescription renewal = predictable next purchase date. A flow triggered at 10-11 months post-purchase with VIP early access framing and an "upgrade your prescription" angle would convert this persona at high rates. Currently: this customer receives the same broad campaigns as everyone else.</div>
           </div>
         </div>
 
-        <!-- Persona 3 — chesson — THE VISUAL TIMELINE -->
+        <!-- Persona 3 - chesson - THE VISUAL TIMELINE -->
         <div class="timeline-section" style="border: 2px solid var(--teal);">
           <div class="timeline-header">
-            <div class="timeline-name" style="color:#CC2222;">📬 Persona 3: The New Subscriber — chesson@sc.rr.com</div>
+            <div class="timeline-name" style="color:#CC2222;">📬 Persona 3: The New Subscriber - chesson@sc.rr.com</div>
             <div class="timeline-desc">A real subscriber. Every email documented. The clearest illustration of the welcome chaos problem.</div>
           </div>
 
@@ -2065,13 +2133,13 @@
             <div class="vtimeline-item">
               <div class="vtimeline-dot win"></div>
               <div class="vtimeline-time">May 22 · 10:03am</div>
-              <div class="vtimeline-event">Subscribes — Memorial Day sale landing page</div>
+              <div class="vtimeline-event">Subscribes - Memorial Day sale landing page</div>
               <div class="vtimeline-detail">Opts in. Enters general list.</div>
             </div>
             <div class="vtimeline-item">
               <div class="vtimeline-dot alert"></div>
               <div class="vtimeline-time">May 22 · 10:04am</div>
-              <div class="vtimeline-event">"Sale Access = Granted" — Welcome email fires</div>
+              <div class="vtimeline-event">"Sale Access = Granted" - Welcome email fires</div>
               <div class="vtimeline-email-burst">
                 <span class="email-chip bold">Welcome #1</span>
               </div>
@@ -2079,7 +2147,7 @@
             <div class="vtimeline-item">
               <div class="vtimeline-dot alert"></div>
               <div class="vtimeline-time">May 22 · 10:07am</div>
-              <div class="vtimeline-event">"You missed this 👀" — Browse abandonment fires (4 min after subscribe)</div>
+              <div class="vtimeline-event">"You missed this 👀" - Browse abandonment fires (4 min after subscribe)</div>
               <div class="vtimeline-detail">She browsed the sale page before subscribing. Abandon flow triggered immediately.</div>
               <div class="vtimeline-email-burst">
                 <span class="email-chip warn">Browse Abandon #1</span>
@@ -2088,14 +2156,14 @@
             <div class="vtimeline-item">
               <div class="vtimeline-dot alert"></div>
               <div class="vtimeline-time">May 22 · 10:12am</div>
-              <div class="vtimeline-event">"Still thinking about us?" — Another abandon touchpoint</div>
+              <div class="vtimeline-event">"Still thinking about us?" - Another abandon touchpoint</div>
               <div class="vtimeline-email-burst">
                 <span class="email-chip warn">Browse Abandon #2</span>
               </div>
             </div>
             <div class="vtimeline-item">
               <div class="vtimeline-dot alert"></div>
-              <div class="vtimeline-time">May 23–26 (Days 1–4)</div>
+              <div class="vtimeline-time">May 23-26 (Days 1-4)</div>
               <div class="vtimeline-event">4 campaign emails: "25% off ends tonight" · Abandon cart fires twice</div>
               <div class="vtimeline-email-burst">
                 <span class="email-chip warn">Campaign: 25% ends tonight</span>
@@ -2108,14 +2176,14 @@
             </div>
             <div class="vtimeline-item">
               <div class="vtimeline-dot alert"></div>
-              <div class="vtimeline-time">Days 1–7 total</div>
+              <div class="vtimeline-time">Days 1-7 total</div>
               <div class="vtimeline-event">13 emails in her first week</div>
               <div class="email-count-badge">⚠ 13 emails · 7 days · 1 subscriber</div>
             </div>
             <div class="vtimeline-item">
               <div class="vtimeline-dot win"></div>
               <div class="vtimeline-time">June 28 · Day 36</div>
-              <div class="vtimeline-event">Converts — "Let's finish what you started" abandon flow</div>
+              <div class="vtimeline-event">Converts - "Let's finish what you started" abandon flow</div>
               <div class="vtimeline-detail">She bought. Welcome offer converted. ~40 total emails over 36 days.</div>
             </div>
           </div>
@@ -2123,7 +2191,7 @@
           <div class="callout-box red mt-24">
             <div class="callout-box-title">The Takeaway</div>
             <div class="callout-box-body">
-              She bought. It took 36 days and approximately 40 emails. This isn't a failure story — she converted. But the path to conversion was chaotic, discount-heavy, and completely unorchestrated. A smart welcome window with flow suppression would have gotten here faster with less offer erosion and a better brand impression. <strong>There's a better way.</strong>
+              She bought. It took 36 days and approximately 40 emails. This isn't a failure story - she converted. But the path to conversion was chaotic, discount-heavy, and completely unorchestrated. A smart welcome window with flow suppression would have gotten here faster with less offer erosion and a better brand impression. <strong>There's a better way.</strong>
             </div>
           </div>
         </div>
@@ -2149,13 +2217,13 @@
           <div class="segment-card">
             <div class="segment-num">23,971</div>
             <div class="segment-label">Potential Loyalists</div>
-            <div class="segment-note">2–3 orders</div>
+            <div class="segment-note">2-3 orders</div>
           </div>
           <div class="segment-card action">
             <div class="priority-badge">Priority</div>
             <div class="segment-num">36,354</div>
             <div class="segment-label">One Hit Wonders</div>
-            <div class="segment-note">1 order — prime winback targets</div>
+            <div class="segment-note">1 order - prime winback targets</div>
           </div>
           <div class="segment-card">
             <div class="segment-num">174,423</div>
@@ -2171,7 +2239,7 @@
 
         <div class="section-label mt-32">Points Redeemable Right Now</div>
         <div class="points-funnel">
-          <div class="points-funnel-header">Redeemable Points Balance — Active Profiles</div>
+          <div class="points-funnel-header">Redeemable Points Balance - Active Profiles</div>
           <div class="points-row">
             <div class="points-tier">$5 off (100 pts)</div>
             <div class="points-bar-wrap"><div class="points-bar" style="width:56%"></div></div>
@@ -2201,25 +2269,25 @@
 
         <div class="callout-box red">
           <div class="callout-box-title">10,811 profiles holding redeemable points</div>
-          <div class="callout-box-body">These customers have earned real discounts — $5 to $20+ off. Currently generating <strong>$46</strong> in 6 months because the Points Reminder flow is suppressed. Fix the flow, rebuild the trigger, and this becomes a consistent re-engagement engine.</div>
+          <div class="callout-box-body">These customers have earned real discounts - $5 to $20+ off. Currently generating <strong>$46</strong> in 6 months because the Points Reminder flow is suppressed. Fix the flow, rebuild the trigger, and this becomes a consistent re-engagement engine.</div>
         </div>
 
-        <div class="section-label mt-32">Engagement Health — L90D</div>
+        <div class="section-label mt-32">Engagement Health - L90D</div>
         <div class="stat-grid">
           <div class="stat-card">
             <div class="stat-label">Clicked</div>
             <div class="stat-value">111,777</div>
-            <div class="stat-note up">44% of active base — strong</div>
+            <div class="stat-note up">44% of active base - strong</div>
           </div>
           <div class="stat-card">
             <div class="stat-label">Opened, no click</div>
             <div class="stat-value">70,013</div>
-            <div class="stat-note">27% — warming segment</div>
+            <div class="stat-note">27% - warming segment</div>
           </div>
           <div class="stat-card">
             <div class="stat-label">No opens L90D</div>
             <div class="stat-value">74,268</div>
-            <div class="stat-note down">29% — suppress from broad sends</div>
+            <div class="stat-note down">29% - suppress from broad sends</div>
           </div>
         </div>
       </div>
@@ -2230,7 +2298,7 @@
       <div class="report-section">
         <div class="report-section-header">
           <div class="section-num">6</div>
-          <div class="report-section-title">Loyalty Program — Frame Fanatics</div>
+          <div class="report-section-title">Loyalty Program - Frame Fanatics</div>
         </div>
 
         <div class="hero-block" style="margin-bottom:32px;">
@@ -2263,14 +2331,14 @@
         <!-- The Silent Tracking Problem -->
         <div class="section-label mt-8">The Silent Tracking Problem</div>
         <div class="narrative">
-          Every eyebobs buyer has a Yotpo profile — with a referral link, tracked spend, and an assigned tier. But most have <code>swell_has_account: False</code>. They have loyalty data they will never act on because they don't know it exists. This is the most structurally haunting gap in the program.
+          Every eyebobs buyer has a Yotpo profile - with a referral link, tracked spend, and an assigned tier. But most have <code>swell_has_account: False</code>. They have loyalty data they will never act on because they don't know it exists. This is the most structurally haunting gap in the program.
         </div>
 
         <!-- galbraith profile data block -->
         <div class="data-profile-wrap">
           <div class="data-profile-card">
             <div class="data-line">
-              <span class="data-comment">// Real eyebobs customer profile — ordered today</span>
+              <span class="data-comment">// Real eyebobs customer profile - ordered today</span>
             </div>
             <div class="data-line">
               <span class="data-key">email:</span>
@@ -2278,7 +2346,7 @@
             </div>
             <div class="data-line">
               <span class="data-key">last_order:</span>
-              <span class="data-value"> Waylaid Reader — $38</span>
+              <span class="data-value"> Waylaid Reader - $38</span>
             </div>
             <div class="data-line">
               <span class="data-key">swell_has_account:</span>
@@ -2315,12 +2383,12 @@
           </div>
         </div>
 
-        <div class="section-label mt-32">Top Recommendations — Loyalty</div>
+        <div class="section-label mt-32">Top Recommendations - Loyalty</div>
         <div class="table-wrap">
           <table>
             <thead><tr><th>#</th><th>Action</th><th>Expected Impact</th></tr></thead>
             <tbody>
-              <tr><td>1</td><td>Fix Points Reminder — remove smart sending, rebuild trigger by points balance, add SMS</td><td class="tag-up">High</td></tr>
+              <tr><td>1</td><td>Fix Points Reminder - remove smart sending, rebuild trigger by points balance, add SMS</td><td class="tag-up">High</td></tr>
               <tr><td>2</td><td>Launch loyalty enrollment campaign targeting 45K+ pre-2025 buyers: "You have $X waiting"</td><td class="tag-up">High</td></tr>
               <tr><td>3</td><td>Post-purchase Email 1 = loyalty enrollment prompt (universal, immediate)</td><td class="tag-up">High</td></tr>
               <tr><td>4</td><td>Points Expiration: add 90-day heads-up email</td><td>Medium</td></tr>
@@ -2364,9 +2432,9 @@
         </div>
 
         <div class="callout-box amber">
-          <div class="callout-box-title">⚠ Privacy Flag — UTM Parameters</div>
+          <div class="callout-box-title">⚠ Privacy Flag - UTM Parameters</div>
           <div class="callout-box-body">
-            UTM parameters are passing Klaviyo profile IDs into destination URLs — specifically <code>bxid</code>, <code>utm_klaviyo_id</code>, and <code>nb_klid</code>. Klaviyo has flagged this with a privacy warning in the account. This creates potential privacy exposure and regulatory risk. <strong>Recommend removing these parameters from UTM configuration immediately.</strong>
+            UTM parameters are passing Klaviyo profile IDs into destination URLs - specifically <code>bxid</code>, <code>utm_klaviyo_id</code>, and <code>nb_klid</code>. Klaviyo has flagged this with a privacy warning in the account. This creates potential privacy exposure and regulatory risk. <strong>Recommend removing these parameters from UTM configuration immediately.</strong>
           </div>
         </div>
       </div>
@@ -2405,7 +2473,7 @@
               </tr>
               <tr>
                 <td>3</td>
-                <td>Loyalty enrollment campaign — 45K+ pre-2025 buyers</td>
+                <td>Loyalty enrollment campaign - 45K+ pre-2025 buyers</td>
                 <td><span class="impact-badge impact-imm">🔴 One-Time</span></td>
                 <td>Week 2</td>
               </tr>
@@ -2417,7 +2485,7 @@
               </tr>
               <tr>
                 <td>5</td>
-                <td>Abandon flows: extend to 5–7 days, fix discount codes, add loyalty lane</td>
+                <td>Abandon flows: extend to 5-7 days, fix discount codes, add loyalty lane</td>
                 <td><span class="impact-badge impact-high">🔴 High</span></td>
                 <td>Month 1</td>
               </tr>
@@ -2471,13 +2539,13 @@
               </tr>
               <tr>
                 <td>14</td>
-                <td>Fix UTM privacy issue — remove <code>bxid</code>, <code>utm_klaviyo_id</code>, <code>nb_klid</code></td>
+                <td>Fix UTM privacy issue - remove <code>bxid</code>, <code>utm_klaviyo_id</code>, <code>nb_klid</code></td>
                 <td><span class="impact-badge impact-comp">🛡️ Compliance</span></td>
                 <td>Week 1</td>
               </tr>
               <tr>
                 <td>15</td>
-                <td>Archive 230+ legacy draft flows — clean account structure</td>
+                <td>Archive 230+ legacy draft flows - clean account structure</td>
                 <td><span class="impact-badge impact-hyg">🧹 Hygiene</span></td>
                 <td>Week 2</td>
               </tr>
@@ -2510,23 +2578,23 @@
           <div class="phase-header">
             <div class="phase-num">1</div>
             <div>
-              <div class="phase-title">Month 1 — Foundation Fix</div>
+              <div class="phase-title">Month 1 - Foundation Fix</div>
               <div class="phase-subtitle">The revenue is there. We just need to unlock it.</div>
             </div>
           </div>
           <div class="phase-body">
             <ul class="phase-items">
               <li>Winback trigger conversion to segment-based (start sending now)</li>
-              <li>Points Reminder rebuild — remove smart sending, trigger by balance, add SMS</li>
+              <li>Points Reminder rebuild - remove smart sending, trigger by balance, add SMS</li>
               <li>Welcome flow: fix gender split condition + smart sending</li>
-              <li>Abandon cart/checkout: extend to 5–7 days + discount code audit</li>
+              <li>Abandon cart/checkout: extend to 5-7 days + discount code audit</li>
               <li>Abandon cart/checkout: add loyalty lane</li>
-              <li>Post-purchase: activate draft emails, close Day 5–52 gap</li>
+              <li>Post-purchase: activate draft emails, close Day 5-52 gap</li>
               <li>Post-purchase: add loyalty enrollment at Email 1</li>
-              <li>Post-purchase: spare pair angle (Days 21–45, 1-order segment)</li>
-              <li>Loyalty enrollment campaign — 45K+ buyers, one-time send</li>
+              <li>Post-purchase: spare pair angle (Days 21-45, 1-order segment)</li>
+              <li>Loyalty enrollment campaign - 45K+ buyers, one-time send</li>
               <li>UTM privacy fix (remove bxid / utm_klaviyo_id / nb_klid)</li>
-              <li>Account cleanup — archive 230+ legacy draft flows</li>
+              <li>Account cleanup - archive 230+ legacy draft flows</li>
             </ul>
           </div>
         </div>
@@ -2535,7 +2603,7 @@
           <div class="phase-header">
             <div class="phase-num">2</div>
             <div>
-              <div class="phase-title">Month 2 — Loyalty Expansion</div>
+              <div class="phase-title">Month 2 - Loyalty Expansion</div>
               <div class="phase-subtitle">Build the flows that compound over time.</div>
             </div>
           </div>
@@ -2557,7 +2625,7 @@
           <div class="phase-header">
             <div class="phase-num">3</div>
             <div>
-              <div class="phase-title">Month 3 — Optimization & Scale</div>
+              <div class="phase-title">Month 3 - Optimization & Scale</div>
               <div class="phase-subtitle">Test, iterate, extend into new surfaces.</div>
             </div>
           </div>
@@ -2576,24 +2644,51 @@
 
       <!-- Investment -->
       <div class="section-label">Investment</div>
-      <div class="investment-block">
-        <div class="investment-item">
-          <div class="investment-label">Monthly Retainer</div>
-          <div class="investment-value">$3,750</div>
-          <div class="investment-note">Per month · cancel with 30-day notice</div>
+      <div style="margin-bottom: 40px;">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 24px;" class="pricing-grid-2col">
+
+          <div style="background:#fff; border-radius:16px; box-shadow:0 2px 12px rgba(0,0,0,0.08); padding:36px 40px; border-top: 5px solid var(--teal);">
+            <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:2px; color:var(--text-muted); font-weight:700; margin-bottom:16px;">Lifecycle Automation</div>
+            <div style="font-size:3rem; font-weight:900; color:var(--teal); letter-spacing:-2px; line-height:1; margin-bottom:6px;">$3,950</div>
+            <div style="font-size:0.82rem; color:var(--text-light); margin-bottom:20px;">per month · cancel with 30-day notice</div>
+            <ul style="list-style:none; display:flex; flex-direction:column; gap:8px;">
+              <li style="font-size:0.88rem; color:var(--text-muted); padding-left:18px; position:relative;">
+                <span style="position:absolute; left:0; color:var(--teal); font-weight:700;">→</span>
+                All flows and automations - lifecycle, loyalty, abandonment, post-purchase
+              </li>
+              <li style="font-size:0.88rem; color:var(--text-muted); padding-left:18px; position:relative;">
+                <span style="position:absolute; left:0; color:var(--teal); font-weight:700;">→</span>
+                Campaign strategy included - execution stays with your team
+              </li>
+              <li style="font-size:0.88rem; color:var(--text-muted); padding-left:18px; position:relative;">
+                <span style="position:absolute; left:0; color:var(--teal); font-weight:700;">→</span>
+                Full Yotpo loyalty integration and optimization
+              </li>
+            </ul>
+          </div>
+
+          <div style="background:var(--teal); border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.12); padding:36px 40px; border-top: 5px solid var(--lime);">
+            <div style="font-size:0.72rem; text-transform:uppercase; letter-spacing:2px; color:var(--lime); font-weight:700; margin-bottom:16px;">Full Service</div>
+            <div style="font-size:3rem; font-weight:900; color:#fff; letter-spacing:-2px; line-height:1; margin-bottom:6px;">$5,750</div>
+            <div style="font-size:0.82rem; color:rgba(255,255,255,0.55); margin-bottom:20px;">per month · cancel with 30-day notice</div>
+            <ul style="list-style:none; display:flex; flex-direction:column; gap:8px;">
+              <li style="font-size:0.88rem; color:rgba(255,255,255,0.85); padding-left:18px; position:relative;">
+                <span style="position:absolute; left:0; color:var(--lime); font-weight:700;">→</span>
+                Everything in Lifecycle Automation
+              </li>
+              <li style="font-size:0.88rem; color:rgba(255,255,255,0.85); padding-left:18px; position:relative;">
+                <span style="position:absolute; left:0; color:var(--lime); font-weight:700;">→</span>
+                Campaign strategy + full send calendar managed by DigitsUp
+              </li>
+              <li style="font-size:0.88rem; color:rgba(255,255,255,0.85); padding-left:18px; position:relative;">
+                <span style="position:absolute; left:0; color:var(--lime); font-weight:700;">→</span>
+                Segmentation architecture - loyalty-aware, purchase-type splits, engagement tiers
+              </li>
+            </ul>
+          </div>
+
         </div>
-        <div class="investment-divider"></div>
-        <div class="investment-item">
-          <div class="investment-label">Annual Value</div>
-          <div class="investment-value">$45,294</div>
-          <div class="investment-note">Full year engagement</div>
-        </div>
-        <div class="investment-divider"></div>
-        <div class="investment-item">
-          <div class="investment-label">Klaviyo Partner Tier</div>
-          <div class="investment-value">Platinum</div>
-          <div class="investment-note">11+ years retention marketing</div>
-        </div>
+        <div style="text-align:center; margin-top:16px; font-size:0.82rem; color:var(--text-light);">Both options include onboarding, monthly reporting, and direct access to your DigitsUp strategist.</div>
       </div>
 
       <!-- Why DigitsUp -->
@@ -2601,7 +2696,7 @@
         <div class="why-title">Why DigitsUp</div>
         <div class="why-body">
           <p>This audit wasn't built from a template.</p>
-          <p>We pulled 20 real eyebobs customers and traced every email they received, every product they viewed, every cart they abandoned. We found the 268-day browser who converted from a single abandon flow email. We found the loyalist who bought the same Kvetcher Wide four times without ever knowing she had 400 points waiting. We found the subscriber who received 13 emails in her first 7 days and still bought — 36 days later.</p>
+          <p>We pulled 20 real eyebobs customers and traced every email they received, every product they viewed, every cart they abandoned. We found the 268-day browser who converted from a single abandon flow email. We found the loyalist who bought the same Kvetcher Wide four times without ever knowing she had 400 points waiting. We found the subscriber who received 13 emails in her first 7 days and still bought - 36 days later.</p>
           <p>We know exactly what's happening in your program. We know exactly what to fix. And we've done this 45+ times.</p>
         </div>
         <div class="why-creds">
