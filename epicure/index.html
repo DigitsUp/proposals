@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Epicure · Growth & Persona Audit — June 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+ :root{
+ --cream:#FBF5EA;
+ --paper:#FFFFFF;
+ --blush:#F4E5D8;
+ --sand:#EFE3D2;
+ --ink:#1E1A15;
+ --ink-soft:#5C544A;
+ --line:#E3D6C4;
+ --red:#D24228; /* Epicure tomato */
+ --red-deep:#A8331D;
+ --green:#2E5A41; /* herb */
+ --green-soft:#7F9C82;
+ --gold:#E0972F;
+ --clay:#B5654A; /* muted negative */
+ --shadow:0 1px 0 rgba(30,26,21,.04), 0 18px 40px -28px rgba(30,26,21,.35);
+ --radius:18px;
+ }
+ *{box-sizing:border-box;margin:0;padding:0}
+ html{scroll-behavior:smooth}
+ body{
+ font-family:'Hanken Grotesk',system-ui,sans-serif;
+ background:var(--cream);
+ color:var(--ink);
+ line-height:1.55;
+ -webkit-font-smoothing:antialiased;
+ overflow-x:hidden;
+ }
+ /* paper grain */
+ body::before{
+ content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
+ background:
+ radial-gradient(circle at 18% 12%, rgba(210,66,40,.05), transparent 30%),
+ radial-gradient(circle at 82% 78%, rgba(46,90,65,.05), transparent 32%);
+ }
+ .wrap{max-width:1120px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+
+ /* ---------- typography helpers ---------- */
+ .display{font-family:'Fraunces',serif;font-weight:600;line-height:1.04;letter-spacing:-.015em}
+ .eyebrow{
+ font-size:11.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+ color:var(--red);display:inline-flex;align-items:center;gap:10px;
+ }
+ .eyebrow::before{content:"";width:22px;height:1.5px;background:var(--red);display:inline-block}
+ .eyebrow.green{color:var(--green)}
+ .eyebrow.green::before{background:var(--green)}
+ .mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+ /* ---------- top bar ---------- */
+ .topbar{
+ position:sticky;top:0;z-index:50;background:rgba(251,245,234,.86);
+ backdrop-filter:blur(12px);border-bottom:1px solid var(--line);
+ }
+ .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+ .brand{display:flex;align-items:baseline;gap:11px}
+ .brand .logo{font-family:'Fraunces',serif;font-weight:700;font-size:22px;letter-spacing:-.02em}
+ .brand .logo sup{font-size:9px;font-weight:600;top:-.9em}
+ .brand .tag{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+ .navlinks{display:flex;gap:26px}
+ .navlinks a{
+ font-size:12.5px;font-weight:600;color:var(--ink-soft);text-decoration:none;
+ letter-spacing:.02em;transition:color .2s;position:relative;padding:4px 0;
+ }
+ .navlinks a:hover,.navlinks a.active{color:var(--ink)}
+ .navlinks a.active::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:2px;background:var(--red);border-radius:2px}
+ @media(max-width:780px){.navlinks{display:none}}
+
+ /* ---------- hero ---------- */
+ .hero{padding:74px 0 36px;position:relative}
+ .hero .kicker{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+ .pill{
+ font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+ padding:7px 13px;border-radius:100px;border:1px solid var(--line);background:var(--paper);color:var(--ink-soft);
+ }
+ .pill.solid{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+ .hero h1{font-size:clamp(42px,7vw,80px);max-width:14ch}
+ .hero h1 .em{color:var(--red);font-style:italic;font-weight:500}
+ .hero .lede{
+ margin-top:24px;max-width:60ch;font-size:18px;color:var(--ink-soft);
+ }
+ .hero .meta{
+ display:flex;gap:32px;flex-wrap:wrap;margin-top:34px;padding-top:24px;border-top:1px solid var(--line);
+ }
+ .hero .meta .m b{display:block;font-family:'Fraunces',serif;font-size:15px;font-weight:600;color:var(--ink)}
+ .hero .meta .m span{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+
+ /* hero headline stat band */
+ .heroband{
+ margin-top:44px;background:var(--ink);color:var(--cream);border-radius:var(--radius);
+ padding:34px 38px;display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:8px;position:relative;overflow:hidden;
+ }
+ .heroband::after{
+ content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;
+ background:radial-gradient(circle,rgba(210,66,40,.4),transparent 70%);
+ }
+ .heroband .hb{position:relative;z-index:1;padding-right:18px}
+ .heroband .hb + .hb{border-left:1px solid rgba(251,245,234,.16);padding-left:26px}
+ .heroband .hb .lab{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:#C9B89E;font-weight:600;margin-bottom:10px}
+ .heroband .hb .big{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(30px,4.4vw,46px);line-height:1}
+ .heroband .hb .sub{margin-top:9px;font-size:13.5px;color:#D9CBB5}
+ .delta{display:inline-flex;align-items:center;gap:4px;font-weight:700;font-size:13px;font-variant-numeric:tabular-nums}
+ .delta.up{color:#7FD49A}.delta.dn{color:#E89B86}
+ .delta.up.dark{color:var(--green)}.delta.dn.dark{color:var(--clay)}
+ @media(max-width:780px){.heroband{grid-template-columns:1fr;gap:22px}
+ .heroband .hb + .hb{border-left:none;padding-left:0;border-top:1px solid rgba(251,245,234,.16);padding-top:20px}}
+
+ /* ---------- section frame ---------- */
+ section.block{padding:64px 0;border-top:1px solid var(--line)}
+ .sechead{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:38px;flex-wrap:wrap}
+ .sechead h2{font-size:clamp(28px,4.4vw,44px);max-width:18ch}
+ .sechead .num{font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:var(--red);letter-spacing:.04em}
+ .sechead p{max-width:42ch;font-size:14.5px;color:var(--ink-soft)}
+
+ /* ---------- KPI callout cards ---------- */
+ .kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+ @media(max-width:880px){.kgrid{grid-template-columns:repeat(2,1fr)}}
+ @media(max-width:480px){.kgrid{grid-template-columns:1fr}}
+ .kcard{
+ background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);
+ position:relative;overflow:hidden;
+ }
+ .kcard .klab{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+ .kcard .kval{font-family:'Fraunces',serif;font-weight:600;font-size:33px;line-height:1;margin:12px 0 8px;letter-spacing:-.01em}
+ .kcard .kfoot{display:flex;align-items:center;justify-content:space-between;gap:8px}
+ .kcard .kfoot .note{font-size:11.5px;color:var(--ink-soft)}
+ .kcard .accent{position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red)}
+ .kcard.g .accent{background:var(--green)}
+ .kcard.gold .accent{background:var(--gold)}
+ .kcard.warn .accent{background:var(--clay)}
+
+ /* two-up narrative */
+ .twoup{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+ @media(max-width:780px){.twoup{grid-template-columns:1fr}}
+ .panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow)}
+ .panel h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+ .panel h3 .dot{width:9px;height:9px;border-radius:50%;background:var(--green)}
+ .panel.leak h3 .dot{background:var(--red)}
+ .checklist{list-style:none;display:flex;flex-direction:column;gap:13px}
+ .checklist li{display:flex;gap:12px;font-size:14px;color:var(--ink);line-height:1.45}
+ .checklist li .mk{flex-shrink:0;width:20px;height:20px;border-radius:6px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;margin-top:1px}
+ .panel.leak .checklist li .mk{background:var(--red)}
+ .checklist li b{font-weight:700}
+
+ /* ---------- deep dive: shopify funnel + bars ---------- */
+ .ddgrid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+ @media(max-width:880px){.ddgrid{grid-template-columns:1fr}}
+ .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow)}
+ .card .ch{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin-bottom:4px}
+ .card .csub{font-size:12.5px;color:var(--ink-soft);margin-bottom:22px}
+
+ /* funnel */
+ .funnel{display:flex;flex-direction:column;gap:10px}
+ .frow{display:grid;grid-template-columns:120px 1fr 84px;align-items:center;gap:14px}
+ .frow .fl{font-size:12.5px;font-weight:600;color:var(--ink)}
+ .ftrack{height:34px;border-radius:8px;background:var(--sand);overflow:hidden;position:relative}
+ .fbar{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--green),var(--green-soft));display:flex;align-items:center;padding-left:12px;color:#fff;font-size:12px;font-weight:700}
+ .frow .fpct{text-align:right;font-family:'Fraunces',serif;font-weight:600;font-size:17px}
+ .frow .fpct small{display:block;font-family:'Hanken Grotesk';font-size:10.5px;color:var(--ink-soft);font-weight:600}
+
+ /* mini stat rows */
+ .statrows{display:flex;flex-direction:column;gap:0}
+ .srow{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line)}
+ .srow:last-child{border-bottom:none}
+ .srow .sl{font-size:13.5px;font-weight:600}
+ .srow .sl small{display:block;font-size:11px;color:var(--ink-soft);font-weight:500}
+ .srow .sv{display:flex;align-items:center;gap:12px}
+ .srow .sv .n{font-family:'Fraunces',serif;font-weight:600;font-size:19px}
+
+ /* email split donut */
+ .splitwrap{display:flex;align-items:center;gap:26px;flex-wrap:wrap}
+ .donut{flex-shrink:0}
+ .legend{display:flex;flex-direction:column;gap:14px}
+ .legend .li{display:flex;gap:12px;align-items:flex-start}
+ .legend .sw{width:14px;height:14px;border-radius:4px;margin-top:3px;flex-shrink:0}
+ .legend .lt b{font-family:'Fraunces',serif;font-size:20px;font-weight:600;display:block;line-height:1}
+ .legend .lt span{font-size:12px;color:var(--ink-soft);font-weight:600}
+ .legend .lt em{font-style:normal;font-size:11px;color:var(--ink-soft);display:block;margin-top:2px}
+
+ /* flow leaderboard table */
+ .ftable{width:100%;border-collapse:collapse;margin-top:6px}
+ .ftable th{text-align:left;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;padding:0 14px 12px;border-bottom:1px solid var(--line)}
+ .ftable th.r,.ftable td.r{text-align:right}
+ .ftable td{padding:15px 14px;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:middle}
+ .ftable tr:last-child td{border-bottom:none}
+ .ftable .fname{font-weight:700;display:flex;align-items:center;gap:10px}
+ .ftable .rank{width:22px;height:22px;border-radius:6px;background:var(--blush);color:var(--red-deep);display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0}
+ .ftable .rev{font-family:'Fraunces',serif;font-weight:600;font-size:16px}
+ .barmini{height:6px;border-radius:4px;background:var(--sand);overflow:hidden;width:90px;display:inline-block;vertical-align:middle}
+ .barmini i{display:block;height:100%;background:var(--green);border-radius:4px}
+ .tag-hero{font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--gold);padding:2px 7px;border-radius:5px}
+
+ /* spotlight callout (winning email) */
+ .spotlight{margin-top:16px;background:linear-gradient(135deg,#2E5A41,#234634);color:#EFE7D8;border-radius:var(--radius);padding:30px 34px;display:grid;grid-template-columns:1.2fr 1fr;gap:24px;position:relative;overflow:hidden}
+ .spotlight::after{content:"";position:absolute;right:-40px;bottom:-50px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(224,151,47,.35),transparent 70%)}
+ .spotlight .sp-l{position:relative;z-index:1}
+ .spotlight .eyebrow{color:var(--gold)}.spotlight .eyebrow::before{background:var(--gold)}
+ .spotlight h3{font-family:'Fraunces',serif;font-size:23px;font-weight:600;margin:14px 0 10px;color:#fff;line-height:1.15}
+ .spotlight p{font-size:13.5px;color:#D8CEBC;max-width:42ch}
+ .spotlight .sp-r{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-self:center}
+ .spotlight .spstat .n{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:#fff;line-height:1}
+ .spotlight .spstat .l{font-size:11px;color:#C7BBA6;font-weight:600;margin-top:4px;letter-spacing:.04em}
+ @media(max-width:780px){.spotlight{grid-template-columns:1fr}}
+
+ /* opportunity / idle flows callout */
+ .opp{margin-top:16px;background:var(--paper);border:1.5px dashed var(--red);border-radius:var(--radius);padding:28px 30px}
+ .opp .oh{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+ .opp .oh .ic{width:34px;height:34px;border-radius:9px;background:var(--blush);display:grid;place-items:center;font-size:17px}
+ .opp .oh b{font-family:'Fraunces',serif;font-size:20px;font-weight:600}
+ .opp .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+ .chip{font-size:12px;font-weight:600;padding:6px 12px;border-radius:100px;background:var(--cream);border:1px solid var(--line);color:var(--ink-soft)}
+ .chip.off{color:var(--red-deep);border-color:#E9C4B8;background:#FBEAE3}
+
+ /* traffic row */
+ .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+ @media(max-width:880px){.trio{grid-template-columns:1fr}}
+ .blist{display:flex;flex-direction:column;gap:13px;margin-top:4px}
+ .brow .bt{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:5px}
+ .brow .bt .bn{color:var(--ink-soft);font-weight:600;font-size:11.5px}
+ .btrack{height:8px;border-radius:6px;background:var(--sand);overflow:hidden}
+ .btrack i{display:block;height:100%;border-radius:6px;background:var(--red)}
+ .btrack.g i{background:var(--green)}
+
+ /* ---------- PERSONAS ---------- */
+ .persona-intro{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+ @media(max-width:880px){.persona-intro{grid-template-columns:1fr}}
+ .pmini{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+ .pmini .pp{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ink-soft)}
+ .pmini .pn{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:6px 0 2px}
+ .pmini .pshare{font-family:'Fraunces',serif;font-size:36px;font-weight:600;line-height:1}
+ .pmini .pdesc{font-size:12px;color:var(--ink-soft);margin-top:6px}
+
+ .pcard{
+ background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+ box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px;
+ }
+ .pcard .phead{padding:26px 30px;color:#fff;position:relative;overflow:hidden}
+ .pcard .phead::after{content:"";position:absolute;right:-30px;top:-40px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.08)}
+ .pcard.aff .phead{background:linear-gradient(120deg,#A8331D,#D24228)}
+ .pcard.coa .phead{background:linear-gradient(120deg,#235139,#2E5A41)}
+ .pcard.dtc .phead{background:linear-gradient(120deg,#B97A22,#E0972F)}
+ .phead .ptop{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;gap:14px;flex-wrap:wrap}
+ .phead .pcat{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+ .phead h3{font-family:'Fraunces',serif;font-size:30px;font-weight:600;margin-top:8px;line-height:1.05}
+ .phead .psum{font-size:13.5px;opacity:.9;margin-top:8px;max-width:48ch}
+ .phead .pchips{display:flex;gap:18px;position:relative;z-index:1;text-align:right}
+ .phead .pchips .pc b{font-family:'Fraunces',serif;font-size:26px;font-weight:600;display:block;line-height:1}
+ .phead .pchips .pc span{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.85;font-weight:600}
+
+ .pbody{padding:26px 30px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+ @media(max-width:780px){.pbody{grid-template-columns:1fr;gap:24px}}
+ .pmetrics{display:grid;grid-template-columns:1fr 1fr;gap:2px 22px}
+ .pm{padding:11px 0;border-bottom:1px solid var(--line)}
+ .pm .pmv{font-family:'Fraunces',serif;font-size:22px;font-weight:600;line-height:1}
+ .pm .pml{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-top:4px}
+
+ .panchor{margin-top:4px}
+ .panchor .alab{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin-bottom:10px}
+ .skuwrap{display:flex;flex-wrap:wrap;gap:7px}
+ .sku{font-size:12px;font-weight:600;padding:6px 11px;border-radius:8px;background:var(--cream);border:1px solid var(--line)}
+ .sku.anchor{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+
+ /* cadence meter */
+ .cadence{margin-top:22px;background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+ .cadence .clab{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+ .cadence .clab .ct{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ink-soft)}
+ .cadence .clab .cd{font-family:'Fraunces',serif;font-weight:600;font-size:15px}
+ .cadtrack{position:relative;height:30px}
+ .cadline{position:absolute;top:50%;left:0;right:0;height:2px;background:var(--line);transform:translateY(-50%)}
+ .cadtick{position:absolute;top:50%;width:11px;height:11px;border-radius:50%;border:2px solid var(--paper);transform:translate(-50%,-50%)}
+ .cadtrack .scale{position:absolute;bottom:-4px;font-size:9.5px;color:var(--ink-soft);font-weight:600;transform:translateX(-50%)}
+
+ /* copy guidance block */
+ .guidance{background:var(--blush);border-radius:12px;padding:18px 20px;margin-top:2px}
+ .guidance .gh{display:flex;align-items:center;gap:9px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--red-deep);margin-bottom:12px}
+ .guidance .gh .pen{font-size:14px}
+ .guidance ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+ .guidance li{font-size:13px;line-height:1.45;display:flex;gap:9px}
+ .guidance li::before{content:"";flex-shrink:0;width:6px;height:6px;border-radius:50%;background:var(--red);margin-top:7px}
+ .guidance li b{font-weight:700}
+
+ /* universal products band */
+ .univ{margin-top:18px;background:var(--ink);color:var(--cream);border-radius:var(--radius);padding:30px 34px}
+ .univ .eyebrow{color:var(--gold)}.univ .eyebrow::before{background:var(--gold)}
+ .univ h3{font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:#fff;margin:14px 0 6px}
+ .univ p{font-size:13.5px;color:#CDBFA8;max-width:60ch}
+ .univ .ulist{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+ .univ .upill{background:rgba(251,245,234,.08);border:1px solid rgba(251,245,234,.18);color:var(--cream);font-family:'Fraunces',serif;font-size:15px;font-weight:500;padding:9px 16px;border-radius:100px}
+
+ /* ---------- big insights / recommendations ---------- */
+ .recgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+ @media(max-width:880px){.recgrid{grid-template-columns:1fr}}
+ .rec{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);position:relative}
+ .rec .rnum{font-family:'Fraunces',serif;font-size:13px;font-weight:700;color:var(--red);letter-spacing:.04em}
+ .rec h3{font-family:'Fraunces',serif;font-size:21px;font-weight:600;margin:14px 0 12px;line-height:1.15}
+ .rec p{font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+ .rec .rwho{margin-top:16px;display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green);background:#E8F0E9;padding:6px 11px;border-radius:100px}
+
+ /* ---------- footer ---------- */
+ footer{border-top:1px solid var(--line);padding:48px 0 60px;margin-top:20px}
+ .ftop{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;flex-wrap:wrap;margin-bottom:30px}
+ .ftop .fl h4{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin-bottom:6px}
+ .ftop .fl p{font-size:13px;color:var(--ink-soft);max-width:46ch}
+ .notes{font-size:11.5px;color:var(--ink-soft);line-height:1.7;border-top:1px solid var(--line);padding-top:24px}
+ .notes b{color:var(--ink);font-weight:700}
+
+ /* reveal */
+ .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+ .reveal.in{opacity:1;transform:none}
+ @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none}}
+
+ :focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+ <div class="wrap">
+ <div class="brand">
+ <span class="logo">Epicure<sup>™</sup></span>
+ <span class="tag">Growth Audit</span>
+ </div>
+ <nav class="navlinks">
+ <a href="#summary" class="active">Summary</a>
+ <a href="#performance">Performance</a>
+ <a href="#personas">Personas</a>
+ <a href="#moves">Moves</a>
+ </nav>
+ </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+ <div class="wrap">
+ <div class="kicker reveal">
+ <span class="pill solid">Confidential</span>
+ <span class="pill">Last 30 days · May 31 → Jun 30, 2026</span>
+ <span class="pill">vs. previous 30 days</span>
+ </div>
+ <h1 class="display reveal">Real food, <span class="em">real momentum.</span></h1>
+ <p class="lede reveal">A growth &amp; persona audit of Epicure's store and lifecycle email — what's driving the lift, where revenue is leaking, and exactly who Amelia should be writing to next.</p>
+
+ <div class="meta reveal">
+ <div class="m"><b>Epicure™</b><span>Client</span></div>
+ <div class="m"><b>DigitsUp</b><span>Prepared by</span></div>
+ <div class="m"><b>Amelia · Copywriter</b><span>Prepared for</span></div>
+ <div class="m"><b>Shopify · Klaviyo</b><span>Data sources</span></div>
+ </div>
+
+ <div class="heroband reveal">
+ <div class="hb">
+ <div class="lab">Total store revenue · 30 days</div>
+ <div class="big mono" data-count="409469" data-prefix="CA$">CA$409,469</div>
+ <div class="sub"><span class="delta up">▲ 30%</span> &nbsp;vs. previous period · 4,782 orders</div>
+ </div>
+ <div class="hb">
+ <div class="lab">Email-attributed revenue</div>
+ <div class="big mono" data-count="239345" data-prefix="CA$">CA$239,345</div>
+ <div class="sub"><span class="delta up">▲ 40%</span> &nbsp;58% of all revenue</div>
+ </div>
+ <div class="hb">
+ <div class="lab">Returning customer rate</div>
+ <div class="big mono" data-count="45.84" data-suffix="%" data-dec="2">45.84%</div>
+ <div class="sub"><span class="delta up">▲ 9%</span> &nbsp;loyalty is compounding</div>
+ </div>
+ </div>
+ </div>
+</header>
+
+<!-- SUMMARY -->
+<section class="block" id="summary">
+ <div class="wrap">
+ <div class="sechead reveal">
+ <div>
+ <div class="num">01 — Executive Summary</div>
+ <h2 class="display">A strong month, built on a leaky funnel.</h2>
+ </div>
+ <p>Demand is up across every store metric. The growth ceiling now sits in retention and in flows that aren't switched on.</p>
+ </div>
+
+ <div class="kgrid">
+ <div class="kcard reveal"><div class="accent"></div>
+ <div class="klab">Gross Sales</div>
+ <div class="kval mono">CA$416.5K</div>
+ <div class="kfoot"><span class="delta up dark">▲ 28%</span><span class="note">Net CA$393.7K</span></div>
+ </div>
+ <div class="kcard g reveal"><div class="accent"></div>
+ <div class="klab">Orders</div>
+ <div class="kval mono">4,782</div>
+ <div class="kfoot"><span class="delta up dark">▲ 23%</span><span class="note">AOV CA$82.67 ▲5%</span></div>
+ </div>
+ <div class="kcard g reveal"><div class="accent"></div>
+ <div class="klab">Sessions</div>
+ <div class="kval mono">120,573</div>
+ <div class="kfoot"><span class="delta up dark">▲ 25%</span><span class="note">69% mobile</span></div>
+ </div>
+ <div class="kcard warn reveal"><div class="accent"></div>
+ <div class="klab">Conversion Rate</div>
+ <div class="kval mono">3.8%</div>
+ <div class="kfoot"><span class="delta dn dark">▼ 0.8%</span><span class="note">traffic outran checkout</span></div>
+ </div>
+ </div>
+
+ <div class="twoup">
+ <div class="panel reveal">
+ <h3><span class="dot"></span>What's working</h3>
+ <ul class="checklist">
+ <li><span class="mk">✓</span><div><b>Email is carrying the business.</b> 58% of all revenue is email-attributed, and it grew +40% — faster than the store itself.</div></li>
+ <li><span class="mk">✓</span><div><b>Flows compounded +50%.</b> Added to Cart, Abandoned Checkout and the Marry Me Chicken welcome are all firing well above last period.</div></li>
+ <li><span class="mk">✓</span><div><b>Engagement is healthier.</b> Campaign open rate climbed to 56.8% (+10 pts) while unsubscribes fell — a more receptive list, not a fatigued one.</div></li>
+ <li><span class="mk">✓</span><div><b>Loyalty is building.</b> Returning-customer rate hit 45.84% (+9%), led by an affiliate channel that punches far above its size.</div></li>
+ </ul>
+ </div>
+ <div class="panel leak reveal">
+ <h3><span class="dot"></span>Where revenue is leaking</h3>
+ <ul class="checklist">
+ <li><span class="mk">!</span><div><b>Conversion fell as traffic rose.</b> Sessions +25% but CVR −0.8% — the contest &amp; new-arrival traffic is high-volume, lower-intent. The checkout isn't keeping pace.</div></li>
+ <li><span class="mk">!</span><div><b>The retention flows are switched off.</b> Every Winback, the full Post-Purchase series, Back-in-Stock and Review-Request sit in <b>draft</b> — earning CA$0.</div></li>
+ <li><span class="mk">!</span><div><b>Second orders are the gap.</b> 60% of DTC and 50% of affiliate-referred buyers never return — exactly the people winback flows exist to recover.</div></li>
+ <li><span class="mk">!</span><div><b>SMS is at zero.</b> 100% of attributed revenue is email; a mobile-first audience (69%) has an untouched channel.</div></li>
+ </ul>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- PERFORMANCE DEEP DIVE -->
+<section class="block" id="performance">
+ <div class="wrap">
+ <div class="sechead reveal">
+ <div>
+ <div class="num">02 — Performance Deep Dive</div>
+ <h2 class="display">Last 30 days, measured against the 30 before.</h2>
+ </div>
+ <p>Store, funnel and the full email program — campaigns and flows — side by side with the prior period.</p>
+ </div>
+
+ <div class="ddgrid">
+ <div class="card reveal">
+ <div class="ch">The shopping funnel</div>
+ <div class="csub">120,573 sessions → 4,592 completed orders. Each step grew ~25%, but completion grew slowest — the conversion squeeze.</div>
+ <div class="funnel">
+ <div class="frow"><span class="fl">Sessions</span><div class="ftrack"><div class="fbar" style="width:100%">120,573</div></div><span class="fpct mono">100%<small>▲ 25%</small></span></div>
+ <div class="frow"><span class="fl">Added to cart</span><div class="ftrack"><div class="fbar" style="width:54%">13,117</div></div><span class="fpct mono">10.9%<small>▲ 24%</small></span></div>
+ <div class="frow"><span class="fl">Reached checkout</span><div class="ftrack"><div class="fbar" style="width:42%">8,285</div></div><span class="fpct mono">6.9%<small>▲ 26%</small></span></div>
+ <div class="frow"><span class="fl">Completed</span><div class="ftrack"><div class="fbar" style="width:30%">4,592</div></div><span class="fpct mono">3.8%<small>▲ 24%</small></span></div>
+ </div>
+ </div>
+
+ <div class="card reveal">
+ <div class="ch">Store vitals</div>
+ <div class="csub">Shopify · vs. previous 30 days</div>
+ <div class="statrows">
+ <div class="srow"><div class="sl">Total sales</div><div class="sv"><span class="n mono">CA$409.5K</span><span class="delta up dark">▲ 30%</span></div></div>
+ <div class="srow"><div class="sl">Net sales<small>after CA$21.2K discounts, CA$1.6K returns</small></div><div class="sv"><span class="n mono">CA$393.7K</span><span class="delta up dark">▲ 30%</span></div></div>
+ <div class="srow"><div class="sl">Average order value</div><div class="sv"><span class="n mono">CA$82.67</span><span class="delta up dark">▲ 5%</span></div></div>
+ <div class="srow"><div class="sl">Shipping charges<small>free-shipping threshold pulling baskets up</small></div><div class="sv"><span class="n mono">CA$15.7K</span><span class="delta up dark">▲ 40%</span></div></div>
+ <div class="srow"><div class="sl">Returning customer rate</div><div class="sv"><span class="n mono">45.8%</span><span class="delta up dark">▲ 9%</span></div></div>
+ </div>
+ </div>
+ </div>
+
+ <div class="ddgrid" style="margin-top:16px">
+ <div class="card reveal">
+ <div class="ch">Email program · where the revenue comes from</div>
+ <div class="csub">CA$239,345 attributed in 30 days · campaigns do the volume, flows do the efficiency</div>
+ <div class="splitwrap">
+ <svg class="donut" width="170" height="170" viewBox="0 0 42 42">
+ <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--sand)" stroke-width="6"></circle>
+ <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--red)" stroke-width="6"
+ stroke-dasharray="77.1 22.9" stroke-dashoffset="25" stroke-linecap="butt"></circle>
+ <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--green)" stroke-width="6"
+ stroke-dasharray="22.9 77.1" stroke-dashoffset="-52.1" stroke-linecap="butt"></circle>
+ <text x="21" y="20" text-anchor="middle" font-family="Fraunces" font-size="6.5" font-weight="600" fill="var(--ink)">58%</text>
+ <text x="21" y="26" text-anchor="middle" font-family="Hanken Grotesk" font-size="2.6" font-weight="700" fill="var(--ink-soft)" letter-spacing=".1">OF REVENUE</text>
+ </svg>
+ <div class="legend">
+ <div class="li"><span class="sw" style="background:var(--red)"></span><div class="lt"><b class="mono">CA$184,605</b><span>Campaigns · 77.1%</span><em>1,899 orders · +32% vs prev</em></div></div>
+ <div class="li"><span class="sw" style="background:var(--green)"></span><div class="lt"><b class="mono">CA$54,740</b><span>Flows · 22.9%</span><em>600 orders · +50% vs prev</em></div></div>
+ <div class="li"><span class="sw" style="background:var(--sand)"></span><div class="lt"><b class="mono">CA$0</b><span>SMS · 0.0%</span><em>channel not yet activated</em></div></div>
+ </div>
+ </div>
+ </div>
+
+ <div class="card reveal">
+ <div class="ch">Campaign engagement</div>
+ <div class="csub">49 sends this period (42 prior) · the list is more receptive</div>
+ <div class="statrows">
+ <div class="srow"><div class="sl">Open rate</div><div class="sv"><span class="n mono">56.8%</span><span class="delta up dark">▲ 10 pts</span></div></div>
+ <div class="srow"><div class="sl">Click rate</div><div class="sv"><span class="n mono">0.79%</span><span class="delta up dark">▲ 0.19 pts</span></div></div>
+ <div class="srow"><div class="sl">Placed-order rate</div><div class="sv"><span class="n mono">0.04%</span><span class="delta up dark">▲ vs prev</span></div></div>
+ <div class="srow"><div class="sl">Unsubscribe rate</div><div class="sv"><span class="n mono">0.17%</span><span class="delta up dark">▼ from 0.19%</span></div></div>
+ <div class="srow"><div class="sl">Campaign revenue</div><div class="sv"><span class="n mono">CA$161.6K</span><span class="delta up dark">▲ 32%</span></div></div>
+ </div>
+ </div>
+ </div>
+
+ <div class="card reveal" style="margin-top:16px">
+ <div class="ch">Flow leaderboard · last 30 days</div>
+ <div class="csub">Revenue, momentum vs. the previous period, and revenue per recipient — the real efficiency signal.</div>
+ <table class="ftable">
+ <thead>
+ <tr><th>Flow</th><th class="r">Revenue</th><th class="r">vs prev</th><th>Efficiency (rev / recipient)</th><th class="r">Per&nbsp;recip.</th></tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><div class="fname"><span class="rank">1</span>Added to Cart</div></td>
+ <td class="r rev mono">CA$21,972</td>
+ <td class="r"><span class="delta up dark">▲ 55%</span></td>
+ <td><span class="barmini"><i style="width:38%"></i></span></td>
+ <td class="r mono">CA$1.87</td>
+ </tr>
+ <tr>
+ <td><div class="fname"><span class="rank">2</span>Welcome · Free Marry Me Chicken <span class="tag-hero">Hero</span></div></td>
+ <td class="r rev mono">CA$16,242</td>
+ <td class="r"><span class="delta up dark">▲ 30%</span></td>
+ <td><span class="barmini"><i style="width:100%"></i></span></td>
+ <td class="r mono">CA$4.97</td>
+ </tr>
+ <tr>
+ <td><div class="fname"><span class="rank">3</span>Abandoned Checkout</div></td>
+ <td class="r rev mono">CA$11,991</td>
+ <td class="r"><span class="delta up dark">▲ 61%</span></td>
+ <td><span class="barmini"><i style="width:62%"></i></span></td>
+ <td class="r mono">CA$3.06</td>
+ </tr>
+ <tr>
+ <td><div class="fname"><span class="rank">4</span>Post-Purchase</div></td>
+ <td class="r rev mono">CA$2,521</td>
+ <td class="r"><span class="delta up dark">▲ 9%</span></td>
+ <td><span class="barmini"><i style="width:11%"></i></span></td>
+ <td class="r mono">CA$0.57</td>
+ </tr>
+ <tr>
+ <td><div class="fname"><span class="rank">5</span>Browse Abandonment</div></td>
+ <td class="r rev mono">CA$1,898</td>
+ <td class="r"><span class="delta up dark">▲ 13%</span></td>
+ <td><span class="barmini"><i style="width:8%"></i></span></td>
+ <td class="r mono">CA$0.39</td>
+ </tr>
+ <tr>
+ <td><div class="fname"><span class="rank">6</span>NPS Flow</div></td>
+ <td class="r rev mono">CA$116</td>
+ <td class="r"><span class="delta dn dark">▼ 32%</span></td>
+ <td><span class="barmini"><i style="width:2%"></i></span></td>
+ <td class="r mono">CA$0.04</td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+
+ <div class="spotlight reveal">
+ <div class="sp-l">
+ <span class="eyebrow">Standout creative</span>
+ <h3>"First Meal Free — Marry Me Chicken" is the best-performing email in the account.</h3>
+ <p>The CA welcome offer converts better than anything else Epicure sends. It's the template for how the brand should talk to every new buyer: one famous, low-risk product, given away, with the outcome in the name.</p>
+ </div>
+ <div class="sp-r">
+ <div class="spstat"><div class="n mono">67.8%</div><div class="l">Open rate</div></div>
+ <div class="spstat"><div class="n mono">15.5%</div><div class="l">Click rate</div></div>
+ <div class="spstat"><div class="n mono">12.4%</div><div class="l">Placed-order rate</div></div>
+ <div class="spstat"><div class="n mono">CA$9.30</div><div class="l">Per recipient</div></div>
+ </div>
+ </div>
+
+ <div class="opp reveal">
+ <div class="oh">
+ <span class="ic">⚠️</span>
+ <b>The biggest opportunity is revenue you're already set up to earn.</b>
+ </div>
+ <p style="font-size:14px;color:var(--ink-soft);max-width:72ch">These flows are fully built in Klaviyo but sit in <b style="color:var(--red-deep)">draft / off</b>. They target the exact moments the personas leak — the lapsed second order, the back-in-stock nudge, the post-purchase replenishment. Turning them on is the closest thing to free revenue in this audit.</p>
+ <div class="chips">
+ <span class="chip off">Winback — CA · Free CCB</span>
+ <span class="chip off">Winback — FR · Free CCB</span>
+ <span class="chip off">Winback — US · Free Banana Bread</span>
+ <span class="chip off">Customer Winback (Standard)</span>
+ <span class="chip off">Post-Purchase · Replenishment</span>
+ <span class="chip off">Post-Purchase · Recipes</span>
+ <span class="chip off">Back in Stock</span>
+ <span class="chip off">Review Request</span>
+ </div>
+ </div>
+
+ <div class="trio">
+ <div class="card reveal">
+ <div class="ch" style="font-size:15px">Where sessions come from</div>
+ <div class="csub">Mobile-first audience</div>
+ <div class="blist">
+ <div class="brow"><div class="bt"><span>Mobile</span><span class="bn mono">83.5K · ▲26%</span></div><div class="btrack"><i style="width:100%"></i></div></div>
+ <div class="brow"><div class="bt"><span>Desktop</span><span class="bn mono">34.7K · ▲22%</span></div><div class="btrack"><i style="width:42%"></i></div></div>
+ <div class="brow"><div class="bt"><span>Tablet</span><span class="bn mono">2.0K · ▲16%</span></div><div class="btrack"><i style="width:4%"></i></div></div>
+ </div>
+ </div>
+ <div class="card reveal">
+ <div class="ch" style="font-size:15px">Top markets</div>
+ <div class="csub">Sessions by city · all Canada</div>
+ <div class="blist">
+ <div class="brow"><div class="bt"><span>Montreal</span><span class="bn mono">5.6K · ▲17%</span></div><div class="btrack g"><i style="width:100%"></i></div></div>
+ <div class="brow"><div class="bt"><span>Calgary</span><span class="bn mono">4.1K · ▲41%</span></div><div class="btrack g"><i style="width:73%"></i></div></div>
+ <div class="brow"><div class="bt"><span>Toronto</span><span class="bn mono">4.0K · ▲25%</span></div><div class="btrack g"><i style="width:71%"></i></div></div>
+ <div class="brow"><div class="bt"><span>Edmonton</span><span class="bn mono">3.2K · ▲36%</span></div><div class="btrack g"><i style="width:57%"></i></div></div>
+ </div>
+ </div>
+ <div class="card reveal">
+ <div class="ch" style="font-size:15px">Momentum pages</div>
+ <div class="csub">Landing-page sessions · growth vs prev</div>
+ <div class="blist">
+ <div class="brow"><div class="bt"><span>/collections/bestsellers</span><span class="bn mono">▲ 1,800%</span></div><div class="btrack"><i style="width:100%"></i></div></div>
+ <div class="brow"><div class="bt"><span>/products/lemon-dilly-dip</span><span class="bn mono">▲ 1,600%</span></div><div class="btrack"><i style="width:90%"></i></div></div>
+ <div class="brow"><div class="bt"><span>/collections/new</span><span class="bn mono">▲ 473%</span></div><div class="btrack"><i style="width:60%"></i></div></div>
+ <div class="brow"><div class="bt"><span>/pages/enter-to-win</span><span class="bn mono">▲ 4,400%</span></div><div class="btrack"><i style="width:78%"></i></div></div>
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- PERSONAS -->
+<section class="block" id="personas">
+ <div class="wrap">
+ <div class="sechead reveal">
+ <div>
+ <div class="num">03 — Customer Personas</div>
+ <h2 class="display">Three buyers. Three rhythms. One pantry.</h2>
+ </div>
+ <p>Built from live Klaviyo data — 288 unique profiles across 300 recent orders. The brief for every email Amelia writes.</p>
+ </div>
+
+ <div class="persona-intro">
+ <div class="pmini reveal"><div class="pp" style="color:var(--red-deep)">Group 01</div><div class="pn">Affiliates</div><div class="pshare mono">8%</div><div class="pdesc">of profiles — but <b>45% of orders</b> have affiliate involvement.</div></div>
+ <div class="pmini reveal"><div class="pp" style="color:var(--green)">Group 02</div><div class="pn">Customers of Affiliates</div><div class="pshare mono">37%</div><div class="pdesc">Referred in. Half convert to repeat — and go deep when they do.</div></div>
+ <div class="pmini reveal"><div class="pp" style="color:var(--gold)">Group 03</div><div class="pn">Direct to Consumer</div><div class="pshare mono">55%</div><div class="pdesc">Found Epicure themselves. The largest group, the lightest baskets.</div></div>
+ </div>
+
+ <article class="pcard aff reveal">
+ <div class="phead">
+ <div class="ptop">
+ <div>
+ <div class="pcat">Group 01 · The Powerhouse</div>
+ <h3>The Affiliate</h3>
+ <p class="psum">She arrives ready to buy. A bilingual, savoury-first home cook who runs Epicure like a pantry — and often a small business.</p>
+ </div>
+ <div class="pchips">
+ <div class="pc"><b class="mono">100%</b><span>repeat rate</span></div>
+ <div class="pc"><b class="mono">CA$1,664</b><span>lifetime</span></div>
+ </div>
+ </div>
+ </div>
+ <div class="pbody">
+ <div>
+ <div class="pmetrics">
+ <div class="pm"><div class="pmv mono">9.4</div><div class="pml">Avg orders</div></div>
+ <div class="pm"><div class="pmv mono">CA$142</div><div class="pml">AOV</div></div>
+ <div class="pm"><div class="pmv mono">CA$184</div><div class="pml">First order</div></div>
+ <div class="pm"><div class="pmv mono">24.6</div><div class="pml">Unique SKUs</div></div>
+ <div class="pm"><div class="pmv mono">48 days</div><div class="pml">Reorder gap</div></div>
+ <div class="pm"><div class="pmv mono">30%</div><div class="pml">French (FR-CA)</div></div>
+ </div>
+ <div class="panchor" style="margin-top:18px">
+ <div class="alab">Anchor pantry — what she buys</div>
+ <div class="skuwrap">
+ <span class="sku anchor">3 Onion · in 80% of orders</span>
+ <span class="sku">CCB</span><span class="sku">Mac &amp; Cheese</span><span class="sku">SPG</span>
+ <span class="sku">Roasted Garlic Aioli</span><span class="sku">Lemon Dilly</span>
+ </div>
+ </div>
+ <div class="cadence">
+ <div class="clab"><span class="ct">Buying rhythm</span><span class="cd">every 48 days</span></div>
+ <div class="cadtrack">
+ <div class="cadline"></div>
+ <div class="cadtick" style="left:8%;background:var(--red)"></div>
+ <div class="cadtick" style="left:30%;background:var(--red)"></div>
+ <div class="cadtick" style="left:52%;background:var(--red)"></div>
+ <div class="cadtick" style="left:74%;background:var(--red)"></div>
+ <div class="cadtick" style="left:96%;background:var(--red)"></div>
+ <span class="scale" style="left:8%">restock</span>
+ <span class="scale" style="left:96%">restock</span>
+ </div>
+ </div>
+ </div>
+ <div class="guidance">
+ <div class="gh"><span class="pen">✍</span>Write to her like…</div>
+ <ul>
+ <li>…an <b>insider, not a prospect</b>. She knows the brand — skip the convincing, lead with what's new and what's back in stock.</li>
+ <li>…someone <b>restocking a pantry</b>. Frame around 3 Onion and savoury staples; "running low?" beats "discover."</li>
+ <li>…a partner. Many order for customers too — give her <b>bundle and bulk</b> reasons, and an easy path deeper into the program.</li>
+ <li>…a <b>bilingual</b> reader. 30% are FR-CA; the French send isn't an afterthought.</li>
+ </ul>
+ </div>
+ </div>
+ </article>
+
+ <article class="pcard coa reveal">
+ <div class="phead">
+ <div class="ptop">
+ <div>
+ <div class="pcat">Group 02 · The Convert-in-Waiting</div>
+ <h3>The Customer of an Affiliate</h3>
+ <p class="psum">Recruited by someone she trusts. Starts with safe, recipe-forward picks. When she sticks, she starts to look like tomorrow's affiliate.</p>
+ </div>
+ <div class="pchips">
+ <div class="pc"><b class="mono">50%</b><span>repeat rate</span></div>
+ <div class="pc"><b class="mono">CA$342</b><span>lifetime</span></div>
+ </div>
+ </div>
+ </div>
+ <div class="pbody">
+ <div>
+ <div class="pmetrics">
+ <div class="pm"><div class="pmv mono">3.4</div><div class="pml">Avg orders</div></div>
+ <div class="pm"><div class="pmv mono">CA$83</div><div class="pml">AOV</div></div>
+ <div class="pm"><div class="pmv mono">CA$87</div><div class="pml">First order</div></div>
+ <div class="pm"><div class="pmv mono">10.2</div><div class="pml">Unique SKUs</div></div>
+ <div class="pm"><div class="pmv mono">84 days</div><div class="pml">Reorder gap</div></div>
+ <div class="pm"><div class="pmv mono">10%</div><div class="pml">French (FR-CA)</div></div>
+ </div>
+ <div class="panchor" style="margin-top:18px">
+ <div class="alab">Anchor pantry — what she buys</div>
+ <div class="skuwrap">
+ <span class="sku anchor">Marry Me Chicken · the recommended pick</span>
+ <span class="sku">3 Onion</span><span class="sku">CCB</span><span class="sku">Mac &amp; Cheese</span>
+ <span class="sku">Better Than Bacon</span><span class="sku">Fudgy Brownie</span>
+ </div>
+ </div>
+ <div class="cadence">
+ <div class="clab"><span class="ct">Buying rhythm</span><span class="cd">every 84 days</span></div>
+ <div class="cadtrack">
+ <div class="cadline"></div>
+ <div class="cadtick" style="left:8%;background:var(--green)"></div>
+ <div class="cadtick" style="left:54%;background:var(--green)"></div>
+ <div class="cadtick" style="left:96%;background:var(--green)"></div>
+ <span class="scale" style="left:8%">1st order</span>
+ <span class="scale" style="left:54%">⚠ the gap</span>
+ <span class="scale" style="left:96%">if she returns</span>
+ </div>
+ </div>
+ </div>
+ <div class="guidance">
+ <div class="gh"><span class="pen">✍</span>Write to her like…</div>
+ <ul>
+ <li>…the <b>second order is the whole game</b>. Half never come back; this email is the single most valuable one Epicure sends her.</li>
+ <li>…she already <b>loves the thing she bought</b>. Don't re-sell it — hand her the obvious next product beside it.</li>
+ <li>…someone who responds to <b>names that promise an outcome</b>: Marry Me Chicken, Cheeseburger Pasta — the dish, not the spice.</li>
+ <li>…a future affiliate. The deepest spenders here (CA$2,000+) came in this way — give the heavy buyers a door in.</li>
+ </ul>
+ </div>
+ </div>
+ </article>
+
+ <article class="pcard dtc reveal">
+ <div class="phead">
+ <div class="ptop">
+ <div>
+ <div class="pcat">Group 03 · The Discoverer</div>
+ <h3>The Direct-to-Consumer Buyer</h3>
+ <p class="psum">Found Epicure through Google, a recipe, or the giveaway. Tries before she commits — small first basket, often a single curiosity.</p>
+ </div>
+ <div class="pchips">
+ <div class="pc"><b class="mono">40%</b><span>repeat rate</span></div>
+ <div class="pc"><b class="mono">CA$122</b><span>lifetime</span></div>
+ </div>
+ </div>
+ </div>
+ <div class="pbody">
+ <div>
+ <div class="pmetrics">
+ <div class="pm"><div class="pmv mono">2.0</div><div class="pml">Avg orders</div></div>
+ <div class="pm"><div class="pmv mono">CA$65</div><div class="pml">AOV</div></div>
+ <div class="pm"><div class="pmv mono">CA$64</div><div class="pml">First order</div></div>
+ <div class="pm"><div class="pmv mono">6.2</div><div class="pml">Unique SKUs</div></div>
+ <div class="pm"><div class="pmv mono">54 days</div><div class="pml">Reorder gap</div></div>
+ <div class="pm"><div class="pmv mono">20%</div><div class="pml">US buyers</div></div>
+ </div>
+ <div class="panchor" style="margin-top:18px">
+ <div class="alab">Anchor pantry — what she buys</div>
+ <div class="skuwrap">
+ <span class="sku anchor">Guacamole · the recipe-SEO gateway</span>
+ <span class="sku">3 Onion</span><span class="sku">Better Than Bacon</span>
+ <span class="sku">Summer Berry</span><span class="sku">Sweet desserts</span><span class="sku">Marry Me Chicken</span>
+ </div>
+ </div>
+ <div class="cadence">
+ <div class="clab"><span class="ct">Buying rhythm</span><span class="cd">60% never reorder</span></div>
+ <div class="cadtrack">
+ <div class="cadline"></div>
+ <div class="cadtick" style="left:8%;background:var(--gold)"></div>
+ <div class="cadtick" style="left:50%;background:#E3CFA6;border-style:dashed"></div>
+ <div class="cadtick" style="left:92%;background:#E3CFA6;border-style:dashed"></div>
+ <span class="scale" style="left:8%">1st order</span>
+ <span class="scale" style="left:50%">14–30d window</span>
+ <span class="scale" style="left:92%">mostly lost</span>
+ </div>
+ </div>
+ </div>
+ <div class="guidance">
+ <div class="gh"><span class="pen">✍</span>Write to her like…</div>
+ <ul>
+ <li>…you have <b>14–30 days</b>. The window after the first order is everything; most never make it to day 54.</li>
+ <li>…she <b>sampled one thing</b>. Build the next email around what she actually bought — guacamole buyer ≠ dessert buyer.</li>
+ <li>…sweet is a <b>real front door</b> here. Desserts and Summer Berry pull people in who'd never start with a seasoning.</li>
+ <li>…some are <b>American</b> (20%). Shipping, currency and timing differ — the US send earns its own version.</li>
+ </ul>
+ </div>
+ </div>
+ </article>
+
+ <div class="univ reveal">
+ <span class="eyebrow">The common language</span>
+ <h3>Five products speak to all three personas.</h3>
+ <p>These appear on first orders across every group — the brand's universal vocabulary. Any campaign built on them lands with the whole list, regardless of how each customer arrived.</p>
+ <div class="ulist">
+ <span class="upill">3 Onion</span>
+ <span class="upill">Mac &amp; Cheese</span>
+ <span class="upill">Better Than Bacon</span>
+ <span class="upill">CCB</span>
+ <span class="upill">Lemon Dilly</span>
+ </div>
+ </div>
+ </div>
+</section>
+
+<!-- MOVES -->
+<section class="block" id="moves">
+ <div class="wrap">
+ <div class="sechead reveal">
+ <div>
+ <div class="num">04 — The Moves That Matter</div>
+ <h2 class="display">Where performance meets persona.</h2>
+ </div>
+ <p>Three priorities that connect what the data shows to what Amelia can write this week.</p>
+ </div>
+
+ <div class="recgrid">
+ <div class="rec reveal">
+ <div class="rnum">Move 01</div>
+ <h3>Switch on the winback &amp; post-purchase flows.</h3>
+ <p>The retention flows are already built and sitting in draft — earning nothing. They target the precise leak: 60% of DTC and 50% of referred buyers never return. Turning them on, with a free anchor product (CCB, Banana Bread), is the fastest revenue in this audit.</p>
+ <span class="rwho">For · DTC &amp; Customers of Affiliates</span>
+ </div>
+ <div class="rec reveal">
+ <div class="rnum">Move 02</div>
+ <h3>Make the second-order email a flagship.</h3>
+ <p>The Marry Me Chicken welcome proves the model: one famous product, outcome in the name, low risk. Apply that voice to a dedicated second-purchase email — built around the obvious next product beside what they first bought.</p>
+ <span class="rwho">For · Customers of Affiliates</span>
+ </div>
+ <div class="rec reveal">
+ <div class="rnum">Move 03</div>
+ <h3>Open a path from buyer to affiliate.</h3>
+ <p>Affiliates are 8% of profiles but touch 45% of orders. The highest-value referred customers already buy on a 22-day cadence without being asked. Identify the affiliate-behaving and invite them in — the channel is the brand's biggest compounding asset.</p>
+ <span class="rwho">For · Affiliates &amp; near-affiliates</span>
+ </div>
+ </div>
+ </div>
+</section>
+
+<footer>
+ <div class="wrap">
+ <div class="ftop">
+ <div class="fl">
+ <h4>Real nourishing food for busy people.</h4>
+ <p>This audit pairs Epicure's Shopify &amp; Klaviyo performance with a live persona analysis to give the copy team a single, data-grounded brief.</p>
+ </div>
+ <div class="brand"><span class="logo">Epicure<sup>™</sup></span><span class="tag">× DigitsUp</span></div>
+ </div>
+ <div class="notes">
+ <b>Data notes.</b> Store metrics from Shopify; email metrics from Epicure Klaviyo (account Yf3Lr3). Comparison period: last 30 days (May 31 – Jun 30, 2026) vs. previous 30 days. Campaign &amp; flow figures aggregated from the May and June Klaviyo exports; attributed-revenue headline figures from the Klaviyo performance dashboard. Persona analysis built from the 300 most recent Placed Order events → 288 unique profiles, deduplicated for double-fire events. All amounts in CAD. &nbsp;Prepared by DigitsUp · June 30, 2026 · Confidential — internal use only.
+ </div>
+ </div>
+</footer>
+
+<script>
+ const io = new IntersectionObserver((entries)=>{
+ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+ },{threshold:.12, rootMargin:'0px 0px -40px 0px'});
+ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+ const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function fmt(n,dec){return n.toLocaleString('en-CA',{minimumFractionDigits:dec,maximumFractionDigits:dec});}
+ document.querySelectorAll('[data-count]').forEach(el=>{
+ const target=parseFloat(el.dataset.count); const dec=parseInt(el.dataset.dec||'0');
+ const pre=el.dataset.prefix||''; const suf=el.dataset.suffix||'';
+ if(reduce){el.textContent=pre+fmt(target,dec)+suf;return;}
+ let start=null; const dur=1300;
+ function step(ts){ if(!start)start=ts; const p=Math.min((ts-start)/dur,1);
+ const ease=1-Math.pow(1-p,3); const v=target*ease;
+ el.textContent=pre+fmt(v,dec)+suf; if(p<1)requestAnimationFrame(step);}
+ const obs=new IntersectionObserver((en)=>{en.forEach(x=>{if(x.isIntersecting){requestAnimationFrame(step);obs.disconnect();}});},{threshold:.4});
+ obs.observe(el);
+ });
+
+ const secs=[...document.querySelectorAll('section[id], header')];
+ const links=document.querySelectorAll('.navlinks a');
+ const navObs=new IntersectionObserver((entries)=>{
+ entries.forEach(e=>{ if(e.isIntersecting){
+ const id=e.target.id;
+ links.forEach(l=>l.classList.toggle('active', l.getAttribute('href')==='#'+id));
+ }});
+ },{rootMargin:'-45% 0px -50% 0px'});
+ document.querySelectorAll('section[id]').forEach(s=>navObs.observe(s));
+</script>
+</body>
+</html>
