@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OhSnap · H1 Signal Audit — Klaviyo 2026 vs 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0b0d; --panel:#121418; --panel2:#181b21; --panel3:#1f232b;
+    --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.16);
+    --fg:#eef0f3; --muted:#8b929c; --dim:#5c626c;
+    --up:#35d29a; --up-dim:rgba(53,210,154,.16);
+    --down:#ff5f52; --down-dim:rgba(255,95,82,.14);
+    --amber:#ffc24b;
+    --disp:'Archivo Black','Arial Black',system-ui,sans-serif;
+    --sans:'Archivo',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+    --wrap:1080px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink); color:var(--fg); font-family:var(--sans);
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* readout grid texture */
+  body::before{
+    content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),
+                     linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px; opacity:.35;
+    mask-image:radial-gradient(circle at 50% 30%,#000 0%,transparent 78%);
+  }
+  .wrap{max-width:var(--wrap); margin:0 auto; padding:0 26px; position:relative; z-index:1}
+  .mono{font-family:var(--mono)}
+  .up{color:var(--up)} .down{color:var(--down)} .amber{color:var(--amber)}
+
+  /* ---------- progress rail ---------- */
+  #rail{position:fixed; top:0; left:0; height:3px; width:0%; z-index:60;
+    background:linear-gradient(90deg,var(--up),#7ef0c5); box-shadow:0 0 14px var(--up)}
+  #nav{position:fixed; top:50%; right:18px; transform:translateY(-50%); z-index:55;
+    display:flex; flex-direction:column; gap:13px}
+  #nav a{width:9px; height:9px; border-radius:50%; border:1px solid var(--line2);
+    background:transparent; transition:.25s; position:relative}
+  #nav a.on{background:var(--up); border-color:var(--up); box-shadow:0 0 10px var(--up)}
+  #nav a span{position:absolute; right:18px; top:50%; transform:translateY(-50%);
+    font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--muted); white-space:nowrap; opacity:0; pointer-events:none; transition:.2s}
+  #nav a:hover span{opacity:1}
+  @media(max-width:720px){#nav{display:none}}
+
+  /* ---------- shared section ---------- */
+  section{padding:120px 0; position:relative}
+  .eyebrow{font-family:var(--mono); font-size:11.5px; letter-spacing:.34em; text-transform:uppercase;
+    color:var(--up); display:flex; align-items:center; gap:12px; margin-bottom:22px}
+  .eyebrow::before{content:""; width:30px; height:1px; background:var(--up); display:inline-block}
+  .act-no{font-family:var(--mono); color:var(--dim); font-size:11.5px; letter-spacing:.2em}
+  h2{font-family:var(--disp); font-size:clamp(30px,5.2vw,58px); line-height:.98;
+    letter-spacing:-.02em; text-transform:uppercase; margin-bottom:20px}
+  .lede{font-size:clamp(16px,2vw,19px); color:#c6cbd2; max-width:660px; margin-bottom:14px}
+  .lede b{color:#fff; font-weight:800}
+
+  /* reveal */
+  .rv{opacity:0; transform:translateY(26px); transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1; transform:none}
+  .rv.d1{transition-delay:.08s} .rv.d2{transition-delay:.16s} .rv.d3{transition-delay:.24s} .rv.d4{transition-delay:.32s}
+
+  /* ---------- HERO ---------- */
+  #hero{min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+    padding:80px 0 90px; border-bottom:1px solid var(--line)}
+  .brandbar{position:fixed; top:0; left:0; right:0; height:52px; background:#000;
+    display:flex; align-items:center; z-index:40; border-bottom:1px solid var(--line)}
+  .brandbar .wrap{display:flex; align-items:center; justify-content:space-between; width:100%}
+  .wordmark{font-family:var(--disp); font-style:italic; letter-spacing:-.03em; font-size:19px}
+  .wordmark span{color:var(--up)}
+  .brandbar .tag{font-family:var(--mono); font-size:10.5px; letter-spacing:.2em; color:var(--muted); text-transform:uppercase}
+  .hero-kick{font-family:var(--mono); font-size:12px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); margin-bottom:26px}
+  .hero-kick b{color:var(--up)}
+  h1{font-family:var(--disp); text-transform:uppercase; letter-spacing:-.025em;
+    font-size:clamp(46px,10.5vw,128px); line-height:.86; margin-bottom:28px}
+  h1 .thin{-webkit-text-stroke:1.5px var(--fg); color:transparent}
+  .hero-thesis{font-size:clamp(17px,2.4vw,23px); max-width:640px; color:#cfd4db; margin-bottom:44px}
+  .hero-thesis b{color:#fff}
+  .hero-meta{display:flex; flex-wrap:wrap; gap:14px 40px; font-family:var(--mono); font-size:12.5px; color:var(--muted)}
+  .hero-meta b{color:var(--fg); font-weight:500}
+  .scrollcue{margin-top:60px; font-family:var(--mono); font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--dim); display:flex; align-items:center; gap:12px}
+  .scrollcue .dot{width:6px;height:6px;border-radius:50%;background:var(--up);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.5)}}
+
+  /* ---------- big stat trio ---------- */
+  .trio{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:14px; overflow:hidden}
+  .trio .cell{background:var(--panel); padding:34px 28px}
+  .trio .cell:nth-child(2){background:var(--panel2)}
+  .stat-k{font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:16px}
+  .stat-v{font-family:var(--disp); font-size:clamp(34px,5.5vw,60px); line-height:1; letter-spacing:-.02em}
+  .stat-sub{font-family:var(--mono); font-size:12.5px; color:var(--muted); margin-top:14px; display:flex; align-items:baseline; gap:8px; flex-wrap:wrap}
+  .chip{font-family:var(--mono); font-size:12px; font-weight:700; padding:3px 9px; border-radius:20px; display:inline-block}
+  .chip.up{background:var(--up-dim); color:var(--up)}
+  .chip.down{background:var(--down-dim); color:var(--down)}
+  @media(max-width:720px){.trio{grid-template-columns:1fr}}
+
+  /* ---------- divergence signature ---------- */
+  .diverge{border:1px solid var(--line); border-radius:16px; background:linear-gradient(180deg,var(--panel2),var(--panel)); padding:38px 34px 30px; margin-top:12px}
+  .dv-row{margin:30px 0}
+  .dv-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; font-family:var(--mono); font-size:13px}
+  .dv-top .lab{letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+  .dv-top .lab b{color:var(--fg)}
+  .dv-val{font-family:var(--disp); font-size:22px}
+  .dv-track{height:26px; background:rgba(255,255,255,.05); border-radius:7px; overflow:hidden; position:relative}
+  .dv-fill{height:100%; width:0; border-radius:7px; transition:width 1.4s cubic-bezier(.2,.75,.2,1)}
+  .dv-fill.sends{background:linear-gradient(90deg,#3a3f48,#565d68)}
+  .dv-fill.rev{background:linear-gradient(90deg,var(--up),#8ff2ce)}
+  .gap-note{margin-top:24px; padding-top:22px; border-top:1px dashed var(--line2); display:flex; gap:16px; align-items:flex-start}
+  .gap-note .big{font-family:var(--disp); font-size:clamp(30px,4vw,42px); color:var(--up); line-height:1}
+  .gap-note p{font-size:15px; color:#c6cbd2; max-width:520px}
+  .gap-note p b{color:#fff}
+
+  /* supporting stat strip */
+  .strip{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:26px}
+  .scard{border:1px solid var(--line); border-radius:12px; background:var(--panel); padding:20px 18px}
+  .scard .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:12px}
+  .scard .v{font-family:var(--disp); font-size:27px; line-height:1}
+  .scard .d{font-family:var(--mono); font-size:11.5px; margin-top:9px}
+  @media(max-width:720px){.strip{grid-template-columns:1fr 1fr}}
+
+  /* ---------- monthly chart ---------- */
+  .chart-wrap{border:1px solid var(--line); border-radius:16px; background:var(--panel); padding:30px 26px 22px; margin-top:10px}
+  .legend{display:flex; gap:22px; font-family:var(--mono); font-size:11.5px; color:var(--muted); margin-bottom:26px; flex-wrap:wrap}
+  .legend i{width:11px; height:11px; border-radius:3px; display:inline-block; margin-right:7px; vertical-align:-1px}
+  .chart{display:flex; align-items:flex-end; gap:10px; height:290px; padding-top:44px}
+  .mcol{flex:1; display:flex; flex-direction:column; align-items:center; height:100%; justify-content:flex-end; position:relative}
+  .bars{display:flex; align-items:flex-end; gap:5px; height:100%; width:100%; justify-content:center}
+  .bar{width:34px; border-radius:5px 5px 0 0; height:0; transition:height 1.1s cubic-bezier(.2,.75,.2,1); position:relative; cursor:pointer}
+  .bar.y25{background:#3a4049}
+  .bar.y26{background:linear-gradient(180deg,#8ff2ce,var(--up))}
+  .bar:hover{filter:brightness(1.15)}
+  .bar .tip{position:absolute; bottom:100%; left:50%; transform:translate(-50%,-8px); background:#000; border:1px solid var(--line2); border-radius:7px; padding:7px 10px; font-family:var(--mono); font-size:11px; white-space:nowrap; opacity:0; pointer-events:none; transition:.15s; z-index:5}
+  .bar:hover .tip{opacity:1}
+  .mlab{font-family:var(--mono); font-size:11px; color:var(--muted); margin-top:12px; letter-spacing:.08em}
+  .peak-tag{position:absolute; top:-24px; left:50%; transform:translateX(-50%); white-space:nowrap; font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; color:var(--amber); text-transform:uppercase}
+  @media(max-width:720px){.bar{width:20px}.chart{height:220px}.mlab{font-size:9px}}
+
+  /* ---------- flow act ---------- */
+  .flow-grid{display:grid; grid-template-columns:1.1fr 1fr; gap:26px; align-items:stretch; margin-top:6px}
+  .flow-transform{border:1px solid var(--line); border-radius:16px; background:var(--panel); padding:32px 30px; display:flex; flex-direction:column; justify-content:center}
+  .ft-row{display:flex; align-items:center; gap:20px}
+  .ft-node{flex:1}
+  .ft-node .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:10px}
+  .ft-node .v{font-family:var(--disp); font-size:clamp(30px,4.4vw,46px); line-height:1}
+  .ft-node.before .v{color:var(--dim)}
+  .ft-node.after .v{color:var(--up)}
+  .ft-node .s{font-family:var(--mono); font-size:11px; color:var(--muted); margin-top:8px}
+  .ft-arrow{font-family:var(--disp); font-size:30px; color:var(--up)}
+  .ft-foot{margin-top:26px; padding-top:22px; border-top:1px solid var(--line); font-size:14px; color:#c6cbd2}
+  .ft-foot b{color:#fff}
+
+  .share-card{border:1px solid var(--line); border-radius:16px; background:var(--panel); padding:32px 30px; display:flex; flex-direction:column; justify-content:center}
+  .share-card .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:22px}
+  .share-bar{height:44px; border-radius:9px; background:rgba(255,255,255,.05); position:relative; overflow:hidden; margin-bottom:14px}
+  .share-fill{height:100%; width:0; background:linear-gradient(90deg,var(--amber),#ffd57e); border-radius:9px; transition:width 1.3s cubic-bezier(.2,.75,.2,1); display:flex; align-items:center; padding-left:16px; font-family:var(--disp); font-size:19px; color:#1a1200}
+  .band{position:absolute; top:-4px; bottom:-4px; border-left:2px dashed var(--up); border-right:2px dashed var(--up); background:var(--up-dim)}
+  .band-lab{font-family:var(--mono); font-size:11px; color:var(--up); text-align:right}
+  .share-note{font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:16px; line-height:1.6}
+
+  .caveat{margin-top:26px; border:1px solid var(--line2); border-left:3px solid var(--amber); border-radius:0 12px 12px 0; background:rgba(255,194,75,.05); padding:22px 24px}
+  .caveat .h{font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--amber); margin-bottom:10px; display:flex; align-items:center; gap:8px}
+  .caveat p{font-size:14px; color:#cdd2d9}
+  .caveat p b{color:#fff}
+  @media(max-width:820px){.flow-grid{grid-template-columns:1fr}}
+
+  /* ---------- customer funnel ---------- */
+  .funnel{border:1px solid var(--line); border-radius:16px; background:var(--panel); padding:32px 30px; margin-top:6px}
+  .frow{display:flex; align-items:center; gap:18px; margin:14px 0}
+  .frow .flab{width:120px; font-family:var(--mono); font-size:12px; color:var(--muted); text-align:right; flex-shrink:0}
+  .ftrack{flex:1; height:38px; background:rgba(255,255,255,.04); border-radius:8px; overflow:hidden}
+  .ffill{height:100%; width:0; border-radius:8px; transition:width 1.2s cubic-bezier(.2,.75,.2,1); display:flex; align-items:center; padding-left:14px; font-family:var(--mono); font-size:12.5px; font-weight:700; color:#04140d; white-space:nowrap}
+  .frow:first-of-type .ffill{background:linear-gradient(90deg,var(--down),#ff9086); color:#1a0300}
+  .frow:not(:first-of-type) .ffill{background:linear-gradient(90deg,#2a5c48,var(--up))}
+  .funnel-foot{margin-top:26px; padding-top:22px; border-top:1px solid var(--line); display:flex; gap:34px; flex-wrap:wrap}
+  .ff-stat .v{font-family:var(--disp); font-size:30px}
+  .ff-stat .k{font-family:var(--mono); font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.1em; text-transform:uppercase}
+  @media(max-width:720px){.frow .flab{width:70px; font-size:10px}}
+
+  /* ---------- scorecard ---------- */
+  .tabs{display:flex; gap:8px; margin-bottom:26px; flex-wrap:wrap}
+  .tab{font-family:var(--mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; padding:11px 20px; border-radius:30px; border:1px solid var(--line2); background:transparent; color:var(--muted); cursor:pointer; transition:.2s}
+  .tab.on{background:var(--fg); color:#000; border-color:var(--fg); font-weight:700}
+  .tab .n{opacity:.6; margin-left:6px}
+  .panel-tab{display:none}
+  .panel-tab.on{display:grid; grid-template-columns:1fr 1fr; gap:14px; animation:fade .4s}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+  .item{border:1px solid var(--line); border-radius:12px; background:var(--panel); padding:22px 22px; border-left-width:3px}
+  .item.good{border-left-color:var(--up)}
+  .item.watch{border-left-color:var(--amber)}
+  .item.opp{border-left-color:#5b9dff}
+  .item .h{font-family:var(--disp); font-size:15px; text-transform:uppercase; letter-spacing:.01em; margin-bottom:9px}
+  .item p{font-size:13.5px; color:#c2c8d0}
+  @media(max-width:720px){.panel-tab.on{grid-template-columns:1fr}}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line); padding:60px 0 90px; margin-top:40px}
+  .foot-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px}
+  .foot-grid h4{font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--up); margin-bottom:16px}
+  .foot-grid p, .foot-grid li{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.9}
+  .foot-grid ul{list-style:none}
+  .foot-grid li::before{content:"→ "; color:var(--dim)}
+  .signoff{margin-top:46px; font-family:var(--mono); font-size:11px; color:var(--dim); letter-spacing:.1em}
+  @media(max-width:720px){.foot-grid{grid-template-columns:1fr}}
+
+  /* ---------- persona explorer ---------- */
+  .px-grid{display:grid; grid-template-columns:.92fr 1.08fr; gap:26px; align-items:start; margin-top:8px}
+  .px-list{border:1px solid var(--line); border-radius:16px; background:var(--panel); padding:22px 20px}
+  .px-head{font-family:var(--mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); display:flex; justify-content:space-between; margin-bottom:18px}
+  .px-row{display:flex; align-items:center; gap:12px; padding:9px 8px; border-radius:10px; cursor:pointer; transition:.18s}
+  .px-row:hover{background:rgba(255,255,255,.04)}
+  .px-row.on{background:rgba(255,255,255,.07)}
+  .px-name{width:118px; flex-shrink:0; font-size:13px; font-weight:700; line-height:1.15}
+  .px-name small{display:block; font-family:var(--mono); font-weight:400; font-size:10px; color:var(--muted); letter-spacing:.04em; text-transform:uppercase; margin-top:2px}
+  .px-track{flex:1; height:22px; background:rgba(255,255,255,.05); border-radius:6px; overflow:hidden}
+  .px-fill{height:100%; width:0; border-radius:6px; transition:width 1s cubic-bezier(.2,.75,.2,1)}
+  .px-pct{font-family:var(--disp); font-size:15px; width:52px; text-align:right; flex-shrink:0}
+  .px-row.unc{opacity:.6}
+  .px-row.unc .px-fill{background:repeating-linear-gradient(45deg,#40454e,#40454e 6px,#2c3037 6px,#2c3037 12px)}
+
+  .px-card{border:1px solid var(--line2); border-radius:16px; background:linear-gradient(180deg,var(--panel2),var(--panel)); padding:30px 30px; position:relative; overflow:hidden; min-height:420px}
+  .px-accent{position:absolute; top:0; left:0; right:0; height:4px; transition:.4s}
+  .px-card h3{font-family:var(--disp); font-size:clamp(24px,3.4vw,34px); text-transform:uppercase; letter-spacing:-.01em; line-height:1; margin-bottom:8px; transition:.3s}
+  .px-tagline{font-family:var(--mono); font-size:12px; color:var(--muted); margin-bottom:24px; letter-spacing:.02em}
+  .px-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-bottom:24px}
+  .px-stats .s{background:var(--panel); padding:16px 14px}
+  .px-stats .s .k{font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:8px}
+  .px-stats .s .v{font-family:var(--disp); font-size:24px; line-height:1}
+  .px-sec-lab{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 12px}
+  .tags{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:22px}
+  .tg{font-family:var(--mono); font-size:12px; padding:6px 12px; border-radius:20px; border:1px solid var(--line2)}
+  .tg.feat{background:var(--up-dim); color:var(--up); border-color:transparent}
+  .tg.skip{color:var(--dim); text-decoration:line-through; text-decoration-color:var(--down)}
+  .mcon-badge{display:inline-flex; align-items:center; gap:9px; font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:9px 16px; border-radius:24px}
+  .mcon-badge.yes{background:var(--up-dim); color:var(--up)}
+  .mcon-badge.no{background:var(--down-dim); color:var(--down)}
+  @media(max-width:820px){.px-grid{grid-template-columns:1fr}.px-name{width:96px}}
+
+  .px-foot{margin-top:26px; padding:22px 24px; border:1px solid var(--line); border-radius:12px; background:var(--panel); display:flex; gap:28px; align-items:center; flex-wrap:wrap}
+  .px-foot .v{font-family:var(--disp); font-size:30px; line-height:1}
+  .px-foot .k{font-family:var(--mono); font-size:12px; color:var(--muted); max-width:420px; line-height:1.6}
+  .px-foot .k b{color:#fff}
+
+  /* ---------- champion journey timeline ---------- */
+  .tl-wrap{border:1px solid var(--line); border-radius:16px; background:var(--panel); padding:34px 30px 26px; margin-top:8px}
+  .tl-meta{display:flex; gap:26px; flex-wrap:wrap; margin-bottom:38px; font-family:var(--mono); font-size:12px; color:var(--muted)}
+  .tl-meta b{color:var(--fg)}
+  .tl-line{position:relative; height:120px; margin:0 8px 8px}
+  .tl-axis{position:absolute; top:76px; left:0; right:0; height:2px; background:var(--line2)}
+  .tl-dot{position:absolute; top:76px; transform:translate(-50%,-50%); width:15px; height:15px; border-radius:50%; background:var(--up); border:2px solid var(--ink); cursor:pointer; transition:.5s cubic-bezier(.2,.75,.2,1); opacity:0; z-index:2}
+  .tl-dot.sale{background:var(--amber); box-shadow:0 0 0 4px rgba(255,194,75,.18)}
+  .tl-dot.in{opacity:1}
+  .tl-dot:hover{transform:translate(-50%,-50%) scale(1.35)}
+  .tl-lab{position:absolute; top:24px; transform:translateX(-50%); font-family:var(--mono); font-size:9.5px; color:var(--muted); text-align:center; white-space:nowrap; opacity:0; transition:.6s}
+  .tl-lab.in{opacity:1}
+  .tl-lab b{display:block; color:var(--fg); font-size:11px}
+  .tl-date{position:absolute; top:94px; transform:translateX(-50%); font-family:var(--mono); font-size:9px; color:var(--dim); opacity:0; transition:.6s}
+  .tl-date.in{opacity:1}
+  .tl-gap{position:absolute; top:70px; height:14px; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:9px; color:var(--amber); opacity:0; transition:.8s}
+  .tl-gap.in{opacity:1}
+  .tl-gap::before,.tl-gap::after{content:""; position:absolute; top:50%; height:1px; background:rgba(255,194,75,.4)}
+  .tl-legend{display:flex; gap:22px; font-family:var(--mono); font-size:11px; color:var(--muted); margin-top:10px; flex-wrap:wrap}
+  .tl-legend i{width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:-1px}
+  .champs{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:26px}
+  .champ{border:1px solid var(--line); border-left:3px solid var(--up); border-radius:12px; background:var(--panel); padding:20px 20px}
+  .champ .nm{font-weight:800; font-size:15px; margin-bottom:3px}
+  .champ .rfm{font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--up); margin-bottom:14px}
+  .champ .cs{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.9}
+  .champ .cs b{color:var(--fg)}
+  .champ .cs .amber{color:var(--amber)}
+  @media(max-width:820px){.champs{grid-template-columns:1fr}.tl-line{height:130px}}
+
+  /* multi-timeline nodes + tooltip */
+  .tl-block{margin-bottom:30px}
+  .tl-node{position:absolute; top:0; height:120px; width:0}
+  .tl-node .dot{position:absolute; top:76px; left:0; transform:translate(-50%,-50%); width:15px; height:15px; border-radius:50%; background:var(--up); border:2px solid var(--ink); cursor:pointer; opacity:0; transition:opacity .5s, transform .2s; z-index:3}
+  .tl-node.sale .dot{background:var(--amber); box-shadow:0 0 0 4px rgba(255,194,75,.16)}
+  .tl-node .dot.in{opacity:1}
+  .tl-node:hover .dot{transform:translate(-50%,-50%) scale(1.4)}
+  .tl-node .num{position:absolute; top:94px; left:0; transform:translateX(-50%); font-family:var(--mono); font-size:10px; color:var(--dim); opacity:0; transition:.5s}
+  .tl-node .num.in{opacity:1}
+  .tl-node .tip{position:absolute; top:6px; left:0; transform:translateX(-50%); background:#000; border:1px solid var(--line2); border-radius:9px; padding:10px 13px; font-family:var(--mono); font-size:11px; line-height:1.55; white-space:nowrap; opacity:0; pointer-events:none; transition:.15s; z-index:8}
+  .tl-node:hover .tip{opacity:1; transform:translateX(-50%) translateY(-2px)}
+  .tl-node .tip b{color:#fff} .tl-node .tip .a{color:var(--amber)} .tl-node .tip .g{color:var(--up)}
+  .tl-node .tip .p{color:var(--muted)}
+  /* ---------- per-customer journey cards ---------- */
+  .jcard{border:1px solid var(--line); border-radius:16px; background:var(--panel); padding:26px 28px 18px; margin-bottom:18px}
+  .jhead{display:flex; align-items:baseline; justify-content:space-between; gap:14px; flex-wrap:wrap; padding-bottom:16px; border-bottom:1px solid var(--line)}
+  .jname{font-family:var(--disp); font-size:20px; text-transform:uppercase; letter-spacing:-.01em}
+  .jname em{font-family:var(--mono); font-style:normal; font-size:10px; letter-spacing:.18em; color:var(--up); margin-left:10px; vertical-align:middle}
+  .jstats{font-family:var(--mono); font-size:12px; color:var(--muted)}
+  .jstats b{color:var(--fg)}
+  .jtrack{position:relative; height:158px; margin-top:22px}
+  .jline{position:absolute; top:64px; left:0; right:0; height:2px; background:var(--line2)}
+  .jconn{position:absolute; top:64px; height:2px; z-index:1}
+  .jconn.big{background:repeating-linear-gradient(90deg,var(--amber),var(--amber) 5px,transparent 5px,transparent 10px); opacity:.65}
+  .jconn.small{background:var(--line2)}
+  .jgap{position:absolute; top:42px; transform:translateX(-50%); font-family:var(--mono); font-size:10px; color:var(--dim); white-space:nowrap; z-index:1}
+  .jgap.big{color:var(--amber)}
+  .jnode{position:absolute; top:0; width:0; z-index:2}
+  .jdot{position:absolute; top:64px; left:0; transform:translate(-50%,-50%); width:16px; height:16px; border-radius:50%; border:2px solid var(--ink); background:var(--up); cursor:pointer; opacity:0; transition:opacity .5s, transform .2s; z-index:3}
+  .jnode.sale .jdot{background:var(--amber); box-shadow:0 0 0 4px rgba(255,194,75,.16)}
+  .jnode.first .jdot{box-shadow:0 0 0 4px rgba(53,210,154,.16)}
+  .jdot.in{opacity:1}
+  .jnode:hover .jdot{transform:translate(-50%,-50%) scale(1.35)}
+  .jnum{position:absolute; top:80px; left:0; transform:translateX(-50%); font-family:var(--mono); font-size:11px; font-weight:700; color:var(--muted); opacity:0; transition:.5s}
+  .jnum.in{opacity:1}
+  .jcap{position:absolute; top:96px; left:0; width:110px; transform:translateX(-50%); text-align:center; opacity:0; transition:.6s}
+  .jcap.in{opacity:1}
+  .jcap .l{font-family:var(--mono); font-size:10.5px; color:var(--fg); line-height:1.25}
+  .jcap .m{font-family:var(--mono); font-size:10px; color:var(--muted); margin-top:3px}
+  .jtip{position:absolute; top:0; left:0; transform:translateX(-50%); background:#000; border:1px solid var(--line2); border-radius:9px; padding:9px 12px; font-family:var(--mono); font-size:11px; line-height:1.55; white-space:nowrap; opacity:0; pointer-events:none; transition:.15s; z-index:9}
+  .jnode:hover .jtip{opacity:1; top:-4px}
+  .jtip b{color:#fff} .jtip .a{color:var(--amber)} .jtip .g{color:var(--up)} .jtip .p{color:var(--muted)}
+  .jlegend{display:flex; gap:22px; font-family:var(--mono); font-size:11px; color:var(--muted); margin-top:6px; flex-wrap:wrap}
+  .jlegend i{width:11px;height:11px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:-1px}
+  @media(max-width:720px){
+    .jcap{width:74px} .jcap .l{font-size:8.5px} .jcap .m{font-size:8px} .jnum{font-size:9px} .jdot{width:13px;height:13px}
+    .jstats{font-size:11px}
+  }
+
+  /* ---------- password gate · Magnetic Snap ---------- */
+  html.gate-lock{overflow:hidden}
+  #gate{position:fixed; inset:0; z-index:9999; background:radial-gradient(circle at 50% 34%,#111418,#07080a 72%); display:flex; align-items:center; justify-content:center; overflow:hidden; transition:opacity .6s ease, transform .6s ease}
+  #gate::before{content:""; position:absolute; inset:0; background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px); background-size:56px 56px; opacity:.4; mask-image:radial-gradient(circle at 50% 40%,#000,transparent 74%)}
+  #gate.lift{opacity:0; transform:translateY(-26px) scale(1.01); pointer-events:none}
+  .gate-scan{position:absolute; left:0; right:0; height:130px; background:linear-gradient(180deg,transparent,rgba(53,210,154,.10),transparent); animation:scan 5.5s linear infinite; pointer-events:none}
+  @keyframes scan{0%{top:-150px}100%{top:100%}}
+  .gate-inner{position:relative; z-index:2; width:min(440px,90vw); text-align:center; padding:20px}
+  .gate-wm{font-family:var(--disp); font-style:italic; font-size:26px; letter-spacing:-.03em; margin-bottom:14px}
+  .gate-wm span{color:var(--up)}
+  .gate-eyebrow{font-family:var(--mono); font-size:10.5px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); margin-bottom:2px}
+  .gate-art{width:260px; height:250px; margin:0 auto 4px}
+  .gate-art svg{width:100%; height:100%; overflow:visible}
+  .bobwrap{animation:bob 2.9s ease-in-out infinite; transform-box:fill-box; transform-origin:center}
+  @keyframes bob{0%,100%{transform:translateY(-5px)}50%{transform:translateY(7px)}}
+  .ring{transition:transform .55s cubic-bezier(.34,1.56,.64,1); transform-box:fill-box; transform-origin:center}
+  .field{stroke:var(--up); stroke-width:1.4; stroke-dasharray:3 7; fill:none; opacity:.45; animation:flow 1s linear infinite}
+  @keyframes flow{to{stroke-dashoffset:-20}}
+  .shock{fill:none; stroke:var(--up); stroke-width:2; opacity:0; transform-box:fill-box; transform-origin:center}
+  .flare{opacity:0; transform-box:fill-box; transform-origin:center}
+  .gate-art.snapped .ring{transform:translateY(100px) scale(.96)}
+  .gate-art.snapped .bobwrap{animation:none}
+  .gate-art.snapped .field{opacity:0; transition:opacity .3s}
+  .gate-art.snapped .base{stroke:var(--up); filter:drop-shadow(0 0 12px rgba(53,210,154,.55)); transition:.3s}
+  .gate-art.snapped .shock{animation:shock .75s ease-out .3s}
+  .gate-art.snapped .flare{animation:flare .8s ease-out .3s}
+  @keyframes shock{0%{opacity:.75; transform:scale(.25)}100%{opacity:0; transform:scale(3.2)}}
+  @keyframes flare{0%{opacity:.9; transform:scale(.4)}100%{opacity:0; transform:scale(2)}}
+  .gate-art.repel .ring{transform:translateY(-42px) rotate(-9deg); transition:transform .16s cubic-bezier(.5,-.6,.5,1.6)}
+  .gate-art.repel .bobwrap{animation:none}
+  .gate-art.repel .field{stroke:var(--down); opacity:.9}
+  .gate-art.nudge .ring{transform:translateY(7px); transition:transform .1s ease}
+  .gate-label{display:block; font-family:var(--mono); font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); margin-bottom:12px}
+  .gate-row{display:flex; gap:8px; justify-content:center}
+  .gate-row.shake{animation:shk .5s}
+  @keyframes shk{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-7px)}40%,60%{transform:translateX(7px)}}
+  #gate-input{flex:1; max-width:250px; background:var(--panel); border:1px solid var(--line2); border-radius:30px; padding:14px 20px; color:var(--fg); font-family:var(--mono); font-size:15px; letter-spacing:.18em; text-align:center; outline:none; transition:.2s}
+  #gate-input::placeholder{color:var(--dim); letter-spacing:.3em}
+  #gate-input:focus{border-color:var(--up); box-shadow:0 0 0 3px rgba(53,210,154,.16)}
+  .gate-btn{font-family:var(--mono); font-weight:700; font-size:13px; letter-spacing:.1em; text-transform:uppercase; padding:14px 24px; border-radius:30px; border:none; background:var(--up); color:#04140d; cursor:pointer; transition:.2s}
+  .gate-btn:hover{filter:brightness(1.08); transform:translateY(-1px)}
+  .gate-btn:active{transform:translateY(0)}
+  .gate-msg{min-height:20px; margin-top:16px; font-family:var(--mono); font-size:12px; letter-spacing:.1em}
+  .gate-msg.grant{color:var(--up)} .gate-msg.deny{color:var(--down)}
+  .gate-foot{margin-top:26px; font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim)}
+  @media (prefers-reduced-motion:reduce){ .bobwrap,.gate-scan,.field{animation:none!important} .ring{transition:none} }
+
+  /* journey bio + summary */
+  .jbio{font-size:14.5px; color:#c6cbd2; line-height:1.6; margin-top:14px}
+  .jbio b{color:#fff}
+  .jsummary{margin-top:20px; padding:18px 20px; border-left:3px solid var(--up); background:rgba(53,210,154,.05); border-radius:0 12px 12px 0}
+  .jsummary .lab{font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--up); margin-bottom:8px}
+  .jsummary p{font-size:13.5px; color:#cdd2d9; line-height:1.6}
+  .jsummary p b{color:#fff}
+
+  /* flow playbook accordion */
+  .fp{border:1px solid var(--line); border-radius:16px; background:var(--panel); overflow:hidden; margin-top:12px}
+  .fp-item{border-bottom:1px solid var(--line)}
+  .fp-item:last-child{border-bottom:none}
+  .fp-head{display:flex; align-items:center; gap:16px; padding:19px 24px; cursor:pointer; transition:background .2s}
+  .fp-head:hover{background:rgba(255,255,255,.03)}
+  .fp-idx{font-family:var(--mono); font-size:12px; color:var(--dim); width:22px; flex-shrink:0}
+  .fp-name{font-family:var(--disp); font-size:15px; text-transform:uppercase; letter-spacing:.01em; flex-shrink:0; width:180px}
+  .fp-now{font-family:var(--mono); font-size:11.5px; color:var(--muted); flex:1; min-width:0}
+  .fp-caret{font-family:var(--mono); color:var(--up); transition:transform .3s; flex-shrink:0; font-size:14px}
+  .fp-item.open .fp-caret{transform:rotate(90deg)}
+  .fp-body{max-height:0; overflow:hidden; transition:max-height .4s ease}
+  .fp-inner{padding:2px 24px 22px 62px}
+  .fp-inner .lab{font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--up); margin-bottom:12px}
+  .fp-rec{display:flex; gap:10px; font-size:13.5px; color:#cdd2d9; padding:5px 0; align-items:flex-start}
+  .fp-rec::before{content:"→"; color:var(--up); flex-shrink:0}
+  .fp-rec b{color:#fff}
+  @media(max-width:760px){.fp-name{width:auto}.fp-now{flex-basis:100%; order:3}.fp-inner{padding-left:24px}}
+
+  /* gains & losses */
+  .gl-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px}
+  .gl-card{border:1px solid var(--line); border-radius:16px; background:var(--panel); padding:26px 26px}
+  .gl-chan{font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-bottom:20px}
+  .gl-two{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px}
+  .gl-stat .v{font-family:var(--disp); font-size:29px; line-height:1}
+  .gl-stat .k{font-family:var(--mono); font-size:11px; color:var(--muted); margin-top:7px; text-transform:uppercase; letter-spacing:.06em}
+  .gl-stat .c{font-family:var(--mono); font-size:11.5px; margin-top:8px}
+  .gl-rows{border-top:1px solid var(--line); padding-top:14px}
+  .gl-row{display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:12.5px; padding:7px 0; color:var(--muted)}
+  .gl-row b{color:var(--fg); font-weight:500}
+  @media(max-width:820px){.gl-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="gate-scan"></div>
+  <div class="gate-inner">
+    <div class="gate-wm">oh<span>|</span>snap<span>.</span></div>
+    <div class="gate-eyebrow">Confidential · H1 Signal Audit</div>
+    <div id="gate-art" class="gate-art">
+      <svg viewBox="0 0 260 250" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <radialGradient id="gflare" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#35d29a" stop-opacity=".8"/>
+            <stop offset="100%" stop-color="#35d29a" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle class="flare" cx="130" cy="200" r="62" fill="url(#gflare)"/>
+        <!-- base / phone edge -->
+        <rect class="base" x="72" y="200" width="116" height="42" rx="12" fill="#181b21" stroke="#3a3f48" stroke-width="2"/>
+        <circle cx="130" cy="200" r="22" fill="none" stroke="#3a3f48" stroke-width="2"/>
+        <!-- magnetic field lines -->
+        <path class="field" d="M112,134 Q106,170 124,198"/>
+        <path class="field" d="M130,136 L130,198"/>
+        <path class="field" d="M148,134 Q154,170 136,198"/>
+        <!-- shockwave on snap -->
+        <circle class="shock" cx="130" cy="200" r="22"/>
+        <!-- floating snap grip -->
+        <g class="bobwrap">
+          <g class="ring">
+            <circle cx="130" cy="100" r="32" fill="none" stroke="#eef0f3" stroke-width="6"/>
+            <path d="M130,68 A32,32 0 0 1 162,100" fill="none" stroke="#35d29a" stroke-width="6" stroke-linecap="round"/>
+            <circle cx="130" cy="100" r="15" fill="none" stroke="#8b929c" stroke-width="3"/>
+            <circle cx="130" cy="100" r="4" fill="#35d29a"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div id="gate-form">
+      <label class="gate-label" for="gate-input">Enter access key</label>
+      <div id="gate-row" class="gate-row">
+        <input id="gate-input" type="password" inputmode="text" placeholder="••••••••" aria-label="Access key" autocomplete="off">
+        <button id="gate-btn" type="button" class="gate-btn">Unlock</button>
+      </div>
+      <div id="gate-msg" class="gate-msg">&nbsp;</div>
+    </div>
+    <div class="gate-foot">Authorized recipients only</div>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='ohsnap2026'; /* <-- CHANGE THE ACCESS KEY HERE */
+  var gate=document.getElementById('gate'), art=document.getElementById('gate-art'),
+      btn=document.getElementById('gate-btn'), input=document.getElementById('gate-input'),
+      row=document.getElementById('gate-row'), msg=document.getElementById('gate-msg');
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  document.documentElement.classList.add('gate-lock');
+  setTimeout(function(){ try{input.focus();}catch(e){} },350);
+  var AC;
+  function tone(f,type,dur,vol){ try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    var o=AC.createOscillator(),g=AC.createGain(); o.type=type; o.frequency.value=f;
+    o.connect(g); g.connect(AC.destination); var t=AC.currentTime;
+    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(vol||0.14,t+0.005);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur); o.start(t); o.stop(t+dur+0.02);
+  }catch(e){} }
+  function snap(){ tone(80,'sine',0.10,0.20); setTimeout(function(){ tone(440,'triangle',0.05,0.08); },45); }
+  function buzz(){ tone(150,'sawtooth',0.14,0.12); }
+  function success(){
+    art.classList.remove('repel'); art.classList.add('snapped');
+    msg.textContent='ACCESS GRANTED'; msg.className='gate-msg grant';
+    try{input.blur();}catch(e){} snap();
+    setTimeout(function(){ gate.classList.add('lift'); document.documentElement.classList.remove('gate-lock'); },1050);
+    setTimeout(function(){ gate.style.display='none'; },1750);
+  }
+  function fail(){
+    art.classList.remove('snapped'); void art.offsetWidth; art.classList.add('repel'); row.classList.add('shake');
+    msg.textContent='ACCESS DENIED — TRY AGAIN'; msg.className='gate-msg deny'; input.value=''; buzz();
+    setTimeout(function(){ art.classList.remove('repel'); row.classList.remove('shake'); },620);
+  }
+  function attempt(){ var v=(input.value||'').trim().toLowerCase(); if(v===KEY) success(); else fail(); }
+  btn.addEventListener('click',attempt);
+  input.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); attempt(); } });
+  input.addEventListener('input',function(){ if(reduce||!input.value) return;
+    art.classList.add('nudge'); setTimeout(function(){ art.classList.remove('nudge'); },110); });
+})();
+</script>
+
+<div id="rail"></div>
+<nav id="nav">
+  <a href="#hero" data-s="hero"><span>Open</span></a>
+  <a href="#headline" data-s="headline"><span>The number</span></a>
+  <a href="#scale" data-s="scale"><span>Scale-up</span></a>
+  <a href="#efficiency" data-s="efficiency"><span>The gap</span></a>
+  <a href="#rhythm" data-s="rhythm"><span>Rhythm</span></a>
+  <a href="#gains" data-s="gains"><span>List health</span></a>
+  <a href="#flows" data-s="flows"><span>Flows</span></a>
+  <a href="#base" data-s="base"><span>The base</span></a>
+  <a href="#personas" data-s="personas"><span>Six faces</span></a>
+  <a href="#journey" data-s="journey"><span>The journey</span></a>
+  <a href="#verdict" data-s="verdict"><span>Verdict</span></a>
+</nav>
+
+<div class="brandbar">
+  <div class="wrap">
+    <div class="wordmark">oh<span>|</span>snap<span style="color:var(--up)">.</span></div>
+    <div class="tag">Klaviyo Signal Audit</div>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header id="hero"><div class="wrap">
+  <div class="hero-kick">H1 Performance Audit &nbsp;·&nbsp; <b>Jan – Jun 2026</b> vs <b>Jan – Jun 2025</b></div>
+  <h1>They didn't<br>just send<br><span class="thin">more.</span></h1>
+  <p class="hero-thesis">OhSnap pushed <b>71% more email</b> this half and pulled back <b>163% more revenue</b> for it — campaigns compounding, not just scaling. But the fuller story runs deeper: flows quietly drive nearly half the program, and <b>71% of customers still never place a second order</b>. This is the audit of all of it.</p>
+  <div class="hero-meta">
+    <div><b>Source</b> · Klaviyo campaigns + flows export</div>
+    <div><b>Scope</b> · Email, H1 YoY</div>
+    <div><b>Attributed rev</b> · $2.93M in H1 '26</div>
+  </div>
+  <div class="scrollcue"><span class="dot"></span> Scroll to read the signal</div>
+</div></header>
+
+<!-- ============ HEADLINE STATS ============ -->
+<section id="headline"><div class="wrap">
+  <div class="eyebrow rv">The one number that matters</div>
+  <h2 class="rv">Revenue ran<br>ahead of reach.</h2>
+  <p class="lede rv d1">Three campaign totals, this half against last. Watch which one moves fastest — that divergence is the entire thesis of this audit.</p>
+
+  <div class="trio rv d2" style="margin-top:44px">
+    <div class="cell">
+      <div class="stat-k">Emails sent</div>
+      <div class="stat-v"><span class="count" data-target="37.8" data-dec="1"></span>M</div>
+      <div class="stat-sub"><span class="chip up">+71%</span> vs 22.1M in '25</div>
+    </div>
+    <div class="cell">
+      <div class="stat-k">Campaign revenue</div>
+      <div class="stat-v up">$<span class="count" data-target="1.55" data-dec="2"></span>M</div>
+      <div class="stat-sub"><span class="chip up">+163%</span> vs $590K in '25</div>
+    </div>
+    <div class="cell">
+      <div class="stat-k">Orders placed</div>
+      <div class="stat-v"><span class="count" data-target="26744"></span></div>
+      <div class="stat-sub"><span class="chip up">+137%</span> vs 11,268 in '25</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ ACT 1 · SCALE ============ -->
+<section id="scale"><div class="wrap">
+  <div class="eyebrow rv"><span class="act-no">Act 01</span> &nbsp;/&nbsp; The scale-up</div>
+  <h2 class="rv">First, they<br>opened the taps.</h2>
+  <p class="lede rv d1">Volume was the obvious move. OhSnap sent <b>76 campaigns</b> this half versus 60 a year ago, and each landed in a much larger audience — <b>37.8 million</b> sends against <b>22.1 million</b>. That alone would lift revenue. But volume is the cheap lever, and it usually costs you the list.</p>
+  <p class="lede rv d2">It didn't. Which is where the story gets interesting.</p>
+
+  <div class="strip rv d2" style="margin-top:34px">
+    <div class="scard"><div class="k">Campaigns sent</div><div class="v">76</div><div class="d up">+16 vs '25</div></div>
+    <div class="scard"><div class="k">Avg audience / send</div><div class="v">497K</div><div class="d up">+35% reach</div></div>
+    <div class="scard"><div class="k">Open rate</div><div class="v">53.3%</div><div class="d" style="color:var(--muted)">held flat · strong</div></div>
+    <div class="scard"><div class="k">Unsub rate</div><div class="v up">0.36%</div><div class="d up">↓ from 0.48%</div></div>
+  </div>
+  <p class="lede rv d3" style="margin-top:30px; max-width:720px">They tripled down on volume <b>and the per-send unsubscribe rate still fell</b> — from 0.48% to 0.36%. Each extra email didn't cost them the list on a per-send basis. The catch is absolute: more volume means more total churn to keep an eye on — a thread we pick back up in list health.</p>
+</div></section>
+
+<!-- ============ ACT 2 · EFFICIENCY (SIGNATURE) ============ -->
+<section id="efficiency"><div class="wrap">
+  <div class="eyebrow rv"><span class="act-no">Act 02</span> &nbsp;/&nbsp; The efficiency gap</div>
+  <h2 class="rv">Then every email<br>started working harder.</h2>
+  <p class="lede rv d1">If revenue had simply tracked volume, both bars below would land in the same place. They don't. Revenue outran sends by more than <b>2×</b> — the shaded space between them is pure efficiency gain.</p>
+
+  <div class="diverge rv d2">
+    <div class="dv-row">
+      <div class="dv-top"><span class="lab">Sends growth <b>YoY</b></span><span class="dv-val" style="color:var(--muted)">+71%</span></div>
+      <div class="dv-track"><div class="dv-fill sends" data-w="46"></div></div>
+    </div>
+    <div class="dv-row">
+      <div class="dv-top"><span class="lab">Revenue growth <b>YoY</b></span><span class="dv-val up">+163%</span></div>
+      <div class="dv-track"><div class="dv-fill rev" data-w="100"></div></div>
+    </div>
+    <div class="gap-note">
+      <div class="big">+92pts</div>
+      <p><b>The efficiency gap.</b> Revenue grew 92 points faster than volume. OhSnap earned more from every message it sent — not just from sending more of them.</p>
+    </div>
+  </div>
+
+  <div class="strip rv d2" style="margin-top:26px">
+    <div class="scard"><div class="k">Revenue / email</div><div class="v up">$0.041</div><div class="d up">+54% RPR</div></div>
+    <div class="scard"><div class="k">Avg order value</div><div class="v">$58</div><div class="d up">+11% vs $52</div></div>
+    <div class="scard"><div class="k">Revenue / campaign</div><div class="v">$20.4K</div><div class="d up">+108%</div></div>
+    <div class="scard"><div class="k">Conversion rate</div><div class="v">0.07%</div><div class="d up">up from 0.05%</div></div>
+  </div>
+  <p class="lede rv d3" style="margin-top:30px; max-width:720px">Higher revenue per email, a fatter basket, and better conversion — all at once, at 1.7× the volume. The engine got more efficient exactly when it was asked to do more. That's the rare combination.</p>
+</div></section>
+
+<!-- ============ RHYTHM · MONTHLY ============ -->
+<section id="rhythm"><div class="wrap">
+  <div class="eyebrow rv">The shape of the half</div>
+  <h2 class="rv">Every month<br>beat itself.</h2>
+  <p class="lede rv d1">Campaign revenue by month, '26 against '25. Not a single month lost ground — and <b>March</b> broke out to <b>$431K</b>, more than 6× the same month last year, powered by the Snap Grip Stand launch and March Madness push.</p>
+
+  <div class="chart-wrap rv d2">
+    <div class="legend">
+      <span><i style="background:#3a4049"></i>2025 revenue</span>
+      <span><i style="background:var(--up)"></i>2026 revenue</span>
+      <span style="color:var(--dim)">· hover any bar for exact figures</span>
+    </div>
+    <div class="chart" id="chart"></div>
+  </div>
+</div></section>
+
+<!-- ============ GAINS & LOSSES ============ -->
+<section id="gains"><div class="wrap">
+  <div class="eyebrow rv">List health · gains &amp; losses</div>
+  <h2 class="rv">Still growing —<br>cleaning and all.</h2>
+  <p class="lede rv d1">The list grew where it counts. Email added <b>216K</b> subscribers while <b>143K</b> profiles were deliberately pruned in list cleaning. Set that intentional cleanup aside and sign-ups beat organic churn nearly <b>2-to-1</b> — a net <b>+111K of engaged growth</b>. The total mailable count only dips ~32K, and that's entirely the deliberate pruning, not lost demand. The one thing to watch is send fatigue: one-click unsubscribes.</p>
+
+  <div class="gl-grid" style="margin-top:34px">
+    <div class="gl-card rv d2">
+      <div class="gl-chan">Email</div>
+      <div class="gl-two">
+        <div class="gl-stat"><div class="v up">215,889</div><div class="k">New subscribers</div><div class="c up">▲ +78.5% vs prev period</div></div>
+        <div class="gl-stat"><div class="v">247,726</div><div class="k">Exclusions</div><div class="c" style="color:var(--muted)">▲ +138.0% · 143K deliberate</div></div>
+      </div>
+      <div class="gl-rows">
+        <div class="gl-row"><span>Manually excluded (deliberate cleaning)</span><b>143,000</b></div>
+        <div class="gl-row"><span>One-click unsubscribe</span><b>57,763 &nbsp;<span class="up">−2.7%</span></b></div>
+        <div class="gl-row"><span>Email-link unsubscribe</span><b>44,436 &nbsp;<span class="down">+15.9%</span></b></div>
+        <div class="gl-row"><span>Net engaged growth (excl. cleaning)</span><b class="up">+111,163</b></div>
+      </div>
+    </div>
+
+    <div class="gl-card rv d3">
+      <div class="gl-chan">SMS</div>
+      <div class="gl-two">
+        <div class="gl-stat"><div class="v up">34,705</div><div class="k">New subscribers</div><div class="c up">▲ +109.7% vs prev period</div></div>
+        <div class="gl-stat"><div class="v">29,198</div><div class="k">Exclusions</div><div class="c up">▼ −29.5% vs prev period</div></div>
+      </div>
+      <div class="gl-rows">
+        <div class="gl-row"><span>From "STOP" replies</span><b>~21,000</b></div>
+        <div class="gl-row"><span>Net list change</span><b class="up">+5,507</b></div>
+        <div class="gl-row"><span>Trend</span><b class="up">healthy — churn falling</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="caveat rv d3" style="border-left-color:var(--amber); background:rgba(255,194,75,.05)">
+    <div class="h">◆ The one thing to watch</div>
+    <p>Growth is real, but two markers point to send fatigue as volume scaled: <b>one-click unsubscribes (57,763)</b> and a <b>+16% rise in email-link unsubs</b>. SMS is the opposite story — subscribers up +110% while exclusions fell −30% — one more reason to <b>lean on SMS</b> across the flows, where it drives just 6% of revenue today.</p>
+  </div>
+</div></section>
+
+<!-- ============ ACT 3 · FLOWS ============ -->
+<section id="flows"><div class="wrap">
+  <div class="eyebrow rv"><span class="act-no">Act 03</span> &nbsp;/&nbsp; The other half</div>
+  <h2 class="rv">Flows quietly run<br>half the program.</h2>
+  <p class="lede rv d1">Automated flows drive nearly half of email revenue — <b>$1.38M</b>, or <b>46%</b> of the total, against 54% from campaigns. They grew <b>+68%</b> year over year too. The twist isn't that flows are weak; it's that their <b>share slipped</b> from 58% to 46%, because campaigns grew even faster this half. And Klaviyo as a whole drives about <b>25% of total revenue</b>.</p>
+
+  <div class="strip rv d2" style="margin-top:30px; grid-template-columns:repeat(3,1fr)">
+    <div class="scard"><div class="k">Klaviyo share of total revenue</div><div class="v">25%</div><div class="d" style="color:var(--muted)">email + SMS attributed</div></div>
+    <div class="scard"><div class="k">Campaigns vs flows</div><div class="v">54 / 46</div><div class="d" style="color:var(--muted)">balanced revenue mix</div></div>
+    <div class="scard"><div class="k">Email vs SMS</div><div class="v">94 / 6</div><div class="d amber">SMS barely tapped</div></div>
+  </div>
+
+  <div class="flow-grid" style="margin-top:26px">
+    <div class="flow-transform rv d2">
+      <div class="ft-row">
+        <div class="ft-node before"><div class="k">Flow revenue · H1 '25</div><div class="v">$820K</div><div class="s">58% of email revenue</div></div>
+        <div class="ft-arrow">→</div>
+        <div class="ft-node after"><div class="k">Flow revenue · H1 '26</div><div class="v up">$1.38M</div><div class="s">46% · 21,556 orders</div></div>
+      </div>
+      <div class="ft-foot"><b>+68% growth, −12pts share.</b> Flows earned more in real dollars, but campaigns' +163% surge pulled the revenue mix toward the calendar. Both engines grew; campaigns simply grew faster.</div>
+    </div>
+
+    <div class="share-card rv d3">
+      <div class="k">Flow share of email revenue</div>
+      <div class="share-bar">
+        <div class="band" style="left:25%; width:10%"></div>
+        <div class="share-fill" data-w="46" style="background:linear-gradient(90deg,var(--up),#8ff2ce);color:#04140d">46%</div>
+      </div>
+      <div class="band-lab" style="color:var(--up)">healthy DTC band 25–35% — flows clear it</div>
+      <div class="share-note">At <b style="color:var(--fg)">46%</b>, flows sit above the typical DTC benchmark — a mature program, not a gap. The watch item is the <b style="color:var(--amber)">downward drift</b> in share as campaigns scaled.</div>
+    </div>
+  </div>
+
+  <div class="funnel rv d3" style="margin-top:26px">
+    <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:18px">Where flow revenue comes from · H1 2026</div>
+    <div class="frow"><div class="flab">Welcome</div><div class="ftrack"><div class="ffill" data-w="100" style="background:linear-gradient(90deg,#2a5c48,var(--up));color:#04140d">$720K · 52%</div></div></div>
+    <div class="frow"><div class="flab">Abandonment</div><div class="ftrack"><div class="ffill" data-w="76" style="background:linear-gradient(90deg,#2a5c48,var(--up));color:#04140d">$544K · 40%</div></div></div>
+    <div class="frow"><div class="flab">Post-Purchase</div><div class="ftrack"><div class="ffill" data-w="8" style="background:linear-gradient(90deg,var(--amber),#ffd57e);color:#1a1200">&nbsp;</div></div><div style="width:96px;flex-shrink:0;font-family:var(--mono);font-size:12.5px" class="amber">$57K · 4%</div></div>
+    <div class="frow"><div class="flab">Review / NPS</div><div class="ftrack"><div class="ffill" data-w="6" style="background:#3a4049;color:var(--fg)">&nbsp;</div></div><div style="width:96px;flex-shrink:0;font-family:var(--mono);font-size:12.5px;color:var(--muted)">$42K · 3%</div></div>
+    <div class="frow"><div class="flab">Winback</div><div class="ftrack"><div class="ffill" data-w="2" style="background:linear-gradient(90deg,var(--down),#ff9086);color:#1a0300">&nbsp;</div></div><div style="width:96px;flex-shrink:0;font-family:var(--mono);font-size:12.5px" class="down">$14K · 1%</div></div>
+    <div class="funnel-foot"><div class="ff-stat"><div class="v amber">$71K</div><div class="k"><b>post-purchase + winback combined</b> — the thin slice of the flow program, and exactly where the 71% one-and-done problem leaks out.</div></div></div>
+  </div>
+
+  <div class="caveat rv d3">
+    <div class="h">◆ How flow revenue is counted here</div>
+    <p>Flow revenue is summed across <b>all message statuses</b>, not just currently-live ones. The export's status is a snapshot of today's flow library, so flows OhSnap rebuilt and renamed in 2026 (the JD- and LDM- versions) now sit under <b>draft</b> or <b>manual</b> yet still earned in-period — counting live-only would understate flows by roughly 4×. Because several 2026-built flows show $0 in the 2025 window, the +68% flow YoY is, if anything, conservative.</p>
+  </div>
+
+  <h3 class="rv" style="font-family:var(--disp);font-size:clamp(22px,3vw,30px);text-transform:uppercase;letter-spacing:-.01em;margin:64px 0 6px">The flow playbook</h3>
+  <p class="lede rv d1" style="margin-bottom:6px">Flow by flow: what's running today, and the moves to make. Tap any flow to open its build notes.</p>
+
+  <div class="fp rv d2" id="fp">
+    <div class="fp-item open">
+      <div class="fp-head"><span class="fp-idx">01</span><span class="fp-name">Post-Purchase</span><span class="fp-now">Now: <b>1 email</b>, 24-hour window</span><span class="fp-caret">▸</span></div>
+      <div class="fp-body"><div class="fp-inner">
+        <div class="lab">Recommended moves</div>
+        <div class="fp-rec">Split the flow <b>by order count</b> — new vs returning buyers.</div>
+        <div class="fp-rec"><b>Incentivise first-time customers</b> to lock in the second order.</div>
+        <div class="fp-rec"><b>Extend the series to 30 days</b> from the current single touch.</div>
+        <div class="fp-rec">Add <b>persona-based cross-sell</b> using the six-avatar affinities.</div>
+      </div></div>
+    </div>
+    <div class="fp-item">
+      <div class="fp-head"><span class="fp-idx">02</span><span class="fp-name">Welcome · Email</span><span class="fp-now">Now: <b>1 email</b> at signup</span><span class="fp-caret">▸</span></div>
+      <div class="fp-body"><div class="fp-inner">
+        <div class="lab">Recommended moves</div>
+        <div class="fp-rec"><b>Add offer-reminder emails</b> — the series is a single touch today.</div>
+        <div class="fp-rec">Huge headroom: <b>5K clicks on 1.5K orders</b> means the intent is there.</div>
+        <div class="fp-rec">Branch on behavior — <b>"never added to cart / never viewed a product."</b></div>
+        <div class="fp-rec">Set exclusions carefully, <b>but don't leave a coverage gap.</b></div>
+      </div></div>
+    </div>
+    <div class="fp-item">
+      <div class="fp-head"><span class="fp-idx">03</span><span class="fp-name">Welcome · SMS</span><span class="fp-now">Now: <b>3 messages</b> over 24 hours</span><span class="fp-caret">▸</span></div>
+      <div class="fp-body"><div class="fp-inner">
+        <div class="lab">Recommended moves</div>
+        <div class="fp-rec"><b>Add messages</b> — layer in offer reminders beyond the first day.</div>
+      </div></div>
+    </div>
+    <div class="fp-item">
+      <div class="fp-head"><span class="fp-idx">04</span><span class="fp-name">Abandoned Cart</span><span class="fp-now">Now: MCON-split · 2 emails / 20h · other lane 3 emails / 2d · +4 third-party flows</span><span class="fp-caret">▸</span></div>
+      <div class="fp-body"><div class="fp-inner">
+        <div class="lab">Recommended moves</div>
+        <div class="fp-rec"><b>Shorten the first delay</b> — 3 hours down to 1 hour.</div>
+        <div class="fp-rec"><b>Extend the series</b> from 5 to 7 days.</div>
+        <div class="fp-rec"><b>Split lanes by new vs returning</b>, on top of the MCON split.</div>
+        <div class="fp-rec"><b>Leverage SMS</b> — currently absent from this flow.</div>
+      </div></div>
+    </div>
+    <div class="fp-item">
+      <div class="fp-head"><span class="fp-idx">05</span><span class="fp-name">Abandoned Checkout</span><span class="fp-now">Now: MCON-split · 2 emails / 1d · other lane 3 emails / 1d · split new vs return (no offer reminder) · +4 third-party flows</span><span class="fp-caret">▸</span></div>
+      <div class="fp-body"><div class="fp-inner">
+        <div class="lab">Recommended moves</div>
+        <div class="fp-rec"><b>Shorten the first delay</b> — 3 hours down to 1 hour.</div>
+        <div class="fp-rec"><b>Extend the series</b> from 5 to 7 days.</div>
+        <div class="fp-rec"><b>Add a welcome code</b> for the lead (new-customer) lane.</div>
+        <div class="fp-rec"><b>Leverage SMS</b> across the flow.</div>
+      </div></div>
+    </div>
+    <div class="fp-item">
+      <div class="fp-head"><span class="fp-idx">06</span><span class="fp-name">Browse Abandoned</span><span class="fp-now">Now: MCON-split · 2 emails / 1d · other lane 3 emails / 2d · +4 third-party flows</span><span class="fp-caret">▸</span></div>
+      <div class="fp-body"><div class="fp-inner">
+        <div class="lab">Recommended moves</div>
+        <div class="fp-rec"><b>Extend the series</b> from 5 to 7 days.</div>
+        <div class="fp-rec"><b>Split lanes by new vs returning.</b></div>
+        <div class="fp-rec"><b>Leverage SMS for new customers only.</b></div>
+      </div></div>
+    </div>
+    <div class="fp-item">
+      <div class="fp-head"><span class="fp-idx">07</span><span class="fp-name">Win-back</span><span class="fp-now">Now: triggers 40 days post-order · 2 emails within 15 days</span><span class="fp-caret">▸</span></div>
+      <div class="fp-body"><div class="fp-inner">
+        <div class="lab">Recommended moves</div>
+        <div class="fp-rec"><b>Start at 60–90 days</b> and test the length — post-purchase + campaigns cover the earlier gap.</div>
+        <div class="fp-rec"><b>Test incentives with a minimum order value</b> to protect margin — $ off vs % off vs free shipping.</div>
+        <div class="fp-rec"><b>Split lanes by customer type</b> — one-hit wonders vs loyalists.</div>
+        <div class="fp-rec"><b>Leverage SMS for loyalists only.</b></div>
+      </div></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ ACT 4 · CUSTOMER BASE ============ -->
+<section id="base"><div class="wrap">
+  <div class="eyebrow rv"><span class="act-no">Act 04</span> &nbsp;/&nbsp; Where the runway is</div>
+  <h2 class="rv">Most buyers<br>never come back.</h2>
+  <p class="lede rv d1">Across 365K customers, the shape is lopsided: <b>71% place exactly one order</b> and disappear. Only 29% ever buy again. Campaigns are winning the first sale beautifully — the second sale is the untapped half of the business, and it's exactly what <b>post-purchase and winback flows</b> are built to capture (the two thinnest flows in the program today).</p>
+
+  <div class="funnel rv d2">
+    <div class="frow"><div class="flab">1 order</div><div class="ftrack"><div class="ffill" data-w="100">258,260 &nbsp;·&nbsp; 71%</div></div></div>
+    <div class="frow"><div class="flab">2 orders</div><div class="ftrack"><div class="ffill" data-w="21.7">56,114 · 15%</div></div></div>
+    <div class="frow"><div class="flab">3 orders</div><div class="ftrack"><div class="ffill" data-w="8.3">21,510 · 6%</div></div></div>
+    <div class="frow"><div class="flab">4 orders</div><div class="ftrack"><div class="ffill" data-w="4.4">11,456 · 3%</div></div></div>
+    <div class="frow"><div class="flab">5+ orders</div><div class="ftrack"><div class="ffill" data-w="6.7">17,329 · 5%</div></div></div>
+    <div class="funnel-foot">
+      <div class="ff-stat"><div class="v down">71%</div><div class="k">one &amp; done</div></div>
+      <div class="ff-stat"><div class="v up">29%</div><div class="k">repeat buyers</div></div>
+      <div class="ff-stat"><div class="v">$108</div><div class="k">avg lifetime value</div></div>
+      <div class="ff-stat"><div class="v">$59</div><div class="k">avg order value</div></div>
+    </div>
+  </div>
+  <p class="lede rv d3" style="margin-top:30px; max-width:720px">Nudging even a slice of that 71% into a second purchase is worth more than any additional campaign blast — and it's flow territory. This is why the persona-led post-purchase flow is the right next build.</p>
+</div></section>
+
+<!-- ============ ACT 05 · PERSONAS ============ -->
+<section id="personas"><div class="wrap">
+  <div class="eyebrow rv"><span class="act-no">Act 05</span> &nbsp;/&nbsp; The six faces</div>
+  <h2 class="rv">The repeat buyers<br>aren't one crowd.</h2>
+  <p class="lede rv d1">The 29% who come back sort cleanly into six avatars, together holding <b>79% of revenue</b> — the other 21% is the unclassified "general" lane. And these six repeat at <b>36%</b>, well above the 29% base. Each wants different gear. Tap a persona to see who they are and what belongs in their post-purchase email.</p>
+
+  <div class="px-grid" style="margin-top:38px">
+    <div class="px-list rv d2">
+      <div class="px-head"><span>Persona</span><span>Revenue share</span></div>
+      <div id="px-rows"></div>
+    </div>
+    <div class="px-card rv d3" id="px-card">
+      <div class="px-accent" id="px-accent"></div>
+      <h3 id="px-title"></h3>
+      <div class="px-tagline" id="px-tag"></div>
+      <div class="px-stats" id="px-stats"></div>
+      <div class="px-sec-lab">Feature in their email</div>
+      <div class="tags" id="px-feat"></div>
+      <div class="px-sec-lab">Leave out</div>
+      <div class="tags" id="px-skip"></div>
+      <div id="px-mcon"></div>
+    </div>
+  </div>
+
+  <div class="px-foot rv d3">
+    <div><div class="v up">36%</div></div>
+    <div class="k"><b>Identified beats anonymous.</b> The six personas repeat at ~36% against the 29% whole-base rate — naming a customer makes them stickier. The 21% general lane is the pool to keep classifying into these six.</div>
+  </div>
+</div></section>
+
+<!-- ============ ACT 06 · JOURNEY ============ -->
+<section id="journey"><div class="wrap">
+  <div class="eyebrow rv"><span class="act-no">Act 06</span> &nbsp;/&nbsp; How repeat actually happens</div>
+  <h2 class="rv">Three champions,<br>one restart pattern.</h2>
+  <p class="lede rv d1">Aggregate rates hide the real rhythm. Here are three "Champions" from the lifecycle data, each on their own card, every order plotted in sequence. The shape repeats: purchases arrive in <b>bursts, years apart</b>, and the orders that restart the clock are almost always <b>sale- or offer-triggered</b>. Nodes are evenly spaced so no order hides behind another — the gap between them shows the real days elapsed. Hover any order for the full detail.</p>
+
+  <div class="jcard rv d2" style="margin-top:34px">
+    <div class="jhead">
+      <div class="jname">Matt M. <em>Champion · since 2019</em></div>
+      <div class="jstats"><b>4 orders</b> · $233 LTV · longest gap 1,982d</div>
+    </div>
+    <div class="jbio">A day-one customer who bought a single grip in December 2019, then went silent for <b>five and a half years</b>. A Memorial Day offer finally pulled him back in 2025 — and since returning he's ordered three more times in twelve months.</div>
+    <div class="jtrack" id="tl-matt"></div>
+    <div class="jsummary"><div class="lab">What it tells us</div><p><b>Dormant isn't dead.</b> One well-timed sale reawakened a five-year-cold buyer and unlocked three orders in a year. A winback with the right offer can restart customers you'd written off.</p></div>
+  </div>
+
+  <div class="jcard rv d2">
+    <div class="jhead">
+      <div class="jname">Shawn F. <em>Champion · since 2020</em></div>
+      <div class="jstats"><b>5 orders</b> · $273 LTV · longest gap 1,919d</div>
+    </div>
+    <div class="jbio">An early adopter who ordered three times in 2020–21, then disappeared for over five years. His comeback wasn't a discount — it was a <b>product</b>: a $164 MCON + Dock order, his largest ever, placed on <b>zero email clicks</b>. He reordered two months later.</div>
+    <div class="jtrack" id="tl-shawn"></div>
+    <div class="jsummary"><div class="lab">What it tells us</div><p><b>Not every comeback is offer-driven.</b> A new flagship product (MCON) reactivated a lapsed buyer that discounts never reached. Launches and restocks are their own winback lever — and post-purchase should catch him now that he's active again.</p></div>
+  </div>
+
+  <div class="jcard rv d2">
+    <div class="jhead">
+      <div class="jname">Hadrian H. <em>Champion · since 2020</em></div>
+      <div class="jstats"><b>9 orders</b> · $629 LTV · longest gap 681d</div>
+    </div>
+    <div class="jbio">The most engaged of the three — <b>nine orders and $629 LTV</b> over six years. Nearly every purchase rides a promo (Snap10, Labor Day, Cyber Monday, Mother's Day), and he upgrades to the newest grip generation each cycle.</div>
+    <div class="jtrack" id="tl-hadrian"></div>
+    <div class="jsummary"><div class="lab">What it tells us</div><p><b>The loyalist runs on the calendar.</b> He upgrades every product generation and answers holiday promos like clockwork — the ideal profile for a VIP / early-access track and margin-aware offers rather than deep discounts.</p></div>
+  </div>
+
+  <div class="jlegend rv d2">
+    <span><i style="background:var(--up)"></i>Order</span>
+    <span><i style="background:var(--amber)"></i>Sale / offer-triggered</span>
+    <span style="color:var(--amber)">- - - dormancy gap (500+ days)</span>
+    <span style="color:var(--dim)">· hover an order for product &amp; date</span>
+  </div>
+
+  <p class="lede rv d3" style="margin-top:30px; max-width:730px">The lesson lands the same way three times: repeat revenue is <b>sporadic and offer-triggered</b>. Matt reappears on a Memorial Day code after 5+ years dark; Shawn's biggest-ever order is an MCON comeback on zero clicks; Hadrian buys on Cyber Monday, BFCM and Mother's Day like clockwork. Each one maps to a lane in the flow playbook above — Matt is the <b>winback</b> offer, Shawn is <b>post-purchase</b> catching a reactivated buyer, Hadrian is the <b>loyalist</b> track (margin-aware, early-access, no deep discount needed). Persona-relevant product recs plus a well-timed comeback code — your <b>SNAP20</b> — is the mechanism that turns these gaps into orders.</p>
+</div></section>
+
+<!-- ============ VERDICT ============ -->
+<section id="verdict"><div class="wrap">
+  <div class="eyebrow rv">The verdict</div>
+  <h2 class="rv">What to keep,<br>watch, and chase.</h2>
+  <p class="lede rv d1">Step back and the half tells one story. The campaign engine is firing — more volume, more efficient, healthier per send — and flows are a mature <b>~46% of revenue</b>, carried by Welcome and abandonment. But both are winning the <b>first</b> sale. The prize hiding in plain sight is the <b>second</b> one: 71% of customers never come back, post-purchase and winback are the thinnest flows in the program, and the personas and journeys show exactly how to reach them. Fix the second order and everything else compounds.</p>
+  <p class="lede rv d2" style="margin-top:18px">The scorecard, in plain talking points. Tap through the three lanes.</p>
+
+  <div class="tabs rv d2">
+    <button class="tab on" data-tab="good">Working <span class="n">4</span></button>
+    <button class="tab" data-tab="watch">Needs attention <span class="n">4</span></button>
+    <button class="tab" data-tab="opp">Opportunities <span class="n">4</span></button>
+  </div>
+
+  <div class="panel-tab on rv d2" data-panel="good">
+    <div class="item good"><div class="h">Revenue outpaced volume</div><p>Sends up +71%, but revenue up +163% across the half.</p></div>
+    <div class="item good"><div class="h">Every email worked harder</div><p>Revenue per email climbed +54% year over year.</p></div>
+    <div class="item good"><div class="h">Per-send health held</div><p>Unsub rate fell to 0.36% even at far higher volume.</p></div>
+    <div class="item good"><div class="h">Flows scaled too</div><p>Flow revenue grew +68% to $1.38M, ~46% of email.</p></div>
+  </div>
+
+  <div class="panel-tab" data-panel="watch">
+    <div class="item watch"><div class="h">Churn pressure rising</div><p>One-click unsubs (57.8K) and email-link unsubs (+16%) as volume scaled.</p></div>
+    <div class="item watch"><div class="h">Flow share slipped</div><p>46% of email now versus 58% a year ago.</p></div>
+    <div class="item watch"><div class="h">Post-purchase thin</div><p>Only ~$57K of flow revenue, despite one-and-done base.</p></div>
+    <div class="item watch"><div class="h">SMS barely tapped</div><p>Just 6% of revenue, though the SMS list is growing fast.</p></div>
+  </div>
+
+  <div class="panel-tab" data-panel="opp">
+    <div class="item opp"><div class="h">Fix the one-and-done</div><p>71% never place a second order — biggest single lever.</p></div>
+    <div class="item opp"><div class="h">Persona post-purchase flow</div><p>Route by the six avatars; test the SNAP20 comeback offer.</p></div>
+    <div class="item opp"><div class="h">Grow the winback</div><p>At ~$14K, winback is barely tapped versus lapsed base.</p></div>
+    <div class="item opp"><div class="h">Defend flow share</div><p>Scale flows to keep pace as campaign volume grows.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="foot-grid">
+    <div>
+      <h4>Methodology</h4>
+      <p>Figures are pulled from OhSnap's Klaviyo campaign and flow exports for Jan 1 – Jun 30, comparing 2026 to 2025. Campaign metrics are per-send. Flow revenue is summed across all message statuses within each window, since the export's status field is a current-library snapshot.</p>
+    </div>
+    <div>
+      <h4>Read carefully</h4>
+      <ul>
+        <li>Flow revenue counts all statuses; live-only understates it ~4×</li>
+        <li>Revenue shown is Klaviyo-attributed, not total store revenue</li>
+        <li>Customer-base counts sourced from segment-by-order data</li>
+        <li>SMS reads light in Klaviyo — expected if run off-platform</li>
+      </ul>
+    </div>
+  </div>
+  <div class="signoff">OH|SNAP · KLAVIYO SIGNAL AUDIT · H1 2026 vs 2025 · CONFIDENTIAL</div>
+</div></footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* progress rail + nav dots */
+  var rail=document.getElementById('rail');
+  var dots=[].slice.call(document.querySelectorAll('#nav a'));
+  var secs=[].slice.call(document.querySelectorAll('section, header#hero'));
+  function onScroll(){
+    var h=document.documentElement;
+    var p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    rail.style.width=(p*100)+'%';
+    var mid=window.scrollY+window.innerHeight*0.4, cur='hero';
+    secs.forEach(function(s){ if(s.offsetTop<=mid) cur=s.id; });
+    dots.forEach(function(d){ d.classList.toggle('on', d.dataset.s===cur); });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  /* reveal + trigger animations */
+  function animateCount(el){
+    var target=parseFloat(el.dataset.target), dec=parseInt(el.dataset.dec||'0',10);
+    if(reduce){ el.textContent=fmt(target,dec); return; }
+    var t0=null, dur=1400;
+    function step(ts){ if(!t0)t0=ts; var k=Math.min((ts-t0)/dur,1);
+      var e=1-Math.pow(1-k,3); el.textContent=fmt(target*e,dec);
+      if(k<1) requestAnimationFrame(step); else el.textContent=fmt(target,dec);
+    } requestAnimationFrame(step);
+  }
+  function fmt(v,dec){ return dec>0 ? v.toFixed(dec) : Math.round(v).toLocaleString(); }
+
+  var io=new IntersectionObserver(function(ents){
+    ents.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el=e.target; el.classList.add('in');
+      // counters inside
+      el.querySelectorAll?.('.count:not(.done)').forEach(function(c){ c.classList.add('done'); animateCount(c); });
+      // diverge / share / funnel fills
+      el.querySelectorAll?.('[data-w]').forEach(function(f){ f.style.width=f.dataset.w+'%'; });
+      io.unobserve(el);
+    });
+  },{threshold:.2});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+  // also observe standalone fill containers not marked .rv
+  ['.diverge','.share-card','.funnel','.chart-wrap'].forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){ io.observe(el); });
+  });
+
+  /* monthly chart build */
+  var data=[
+    {m:'JAN', y25:101794, y26:126783},
+    {m:'FEB', y25:98570,  y26:247154},
+    {m:'MAR', y25:67129,  y26:431367, peak:true},
+    {m:'APR', y25:83871,  y26:278797},
+    {m:'MAY', y25:166113, y26:292097},
+    {m:'JUN', y25:72785,  y26:176532}
+  ];
+  var max=431367;
+  var chart=document.getElementById('chart');
+  data.forEach(function(d){
+    var col=document.createElement('div'); col.className='mcol';
+    var h25=(d.y25/max*100), h26=(d.y26/max*100);
+    col.innerHTML =
+      (d.peak?'<div class="peak-tag">↑ peak</div>':'')+
+      '<div class="bars">'+
+        '<div class="bar y25" data-h="'+h25+'"><div class="tip">\'25 · $'+Math.round(d.y25/1000)+'K</div></div>'+
+        '<div class="bar y26" data-h="'+h26+'"><div class="tip">\'26 · $'+Math.round(d.y26/1000)+'K</div></div>'+
+      '</div>'+
+      '<div class="mlab">'+d.m+'</div>';
+    chart.appendChild(col);
+  });
+  // grow bars when chart in view
+  var cio=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(!e.isIntersecting) return;
+      chart.querySelectorAll('.bar').forEach(function(b,i){
+        setTimeout(function(){ b.style.height=b.dataset.h+'%'; }, reduce?0:i*55);
+      });
+      cio.unobserve(e.target);
+    });
+  },{threshold:.3});
+  cio.observe(chart);
+
+  /* scorecard tabs */
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  var panels=[].slice.call(document.querySelectorAll('.panel-tab'));
+  tabs.forEach(function(t){ t.addEventListener('click',function(){
+    tabs.forEach(function(x){x.classList.remove('on');}); t.classList.add('on');
+    panels.forEach(function(p){ p.classList.toggle('on', p.dataset.panel===t.dataset.tab); });
+  });});
+
+  /* ---------- flow playbook accordion ---------- */
+  var fp=document.getElementById('fp');
+  if(fp){
+    fp.querySelectorAll('.fp-head').forEach(function(h){
+      h.addEventListener('click',function(){
+        var it=h.parentElement, body=it.querySelector('.fp-body');
+        var willOpen=!it.classList.contains('open');
+        it.classList.toggle('open',willOpen);
+        body.style.maxHeight = willOpen ? body.scrollHeight+'px' : '0';
+      });
+    });
+    fp.querySelectorAll('.fp-item.open .fp-body').forEach(function(b){ b.style.maxHeight=b.scrollHeight+'px'; });
+  }
+
+  /* ---------- persona explorer ---------- */
+  var PX=[
+   {id:'executive',name:'Corporate Executive',tag:'Premium · discreet · travel-ready',rev:18.3,cust:18.0,ltv:110,aov:56,rep:36.6,size:'4.9K',acc:'#7aa2ff',
+    feat:['Snap Grip Wallet','Snap Case','Snap Grip Stand','Snap Grip','Snap Pack'],skip:['Snap Car Mount','Snap Charge Qi2'],mcon:false},
+   {id:'creative',name:'Digital Creative',tag:'Aesthetic-led · camera-first',rev:15.5,cust:15.4,ltv:109,aov:56,rep:35.0,size:'4.2K',acc:'#ff8fd6',
+    feat:['MCON','Snap Grip','Snap Grip (Open Box)','Snap Charge Qi2','Snap Stand'],skip:['Snap Grip Wallet','Snap Pack'],mcon:true},
+   {id:'rugged',name:'Rugged Professional',tag:'Durable · tactical · no-nonsense',rev:13.0,cust:12.4,ltv:113,aov:57,rep:37.0,size:'3.4K',acc:'#ffa24b',
+    feat:['MCON','Snap Car Mount','Snap Grip (Open Box)','Snap Charge Qi2'],skip:['Snap Grip Stand','Snap Grip Wallet','Snap Case'],mcon:true},
+   {id:'engineer',name:'Systems Engineer',tag:'Mechanical · MagSafe-native',rev:12.6,cust:12.4,ltv:110,aov:56,rep:36.4,size:'3.4K',acc:'#35d29a',
+    feat:['MCON','Snap Grip Stand','Snap Charge Qi2','Snap Stand'],skip:['Snap Grip','Snap Car Mount','Snap Case'],mcon:true},
+   {id:'clinician',name:'Healthcare Clinician',tag:'Ultra-thin · sanitary · one-handed',rev:11.4,cust:10.9,ltv:114,aov:57,rep:37.2,size:'2.9K',acc:'#6fe0e0',
+    feat:['Snap Grip Wallet','Snap Case','Snap Car Mount','Snap Grip Stand'],skip:['MCON'],mcon:false},
+   {id:'educator',name:'Dedicated Educator',tag:'Practical · everyday · unobtrusive',rev:7.9,cust:8.6,ltv:99,aov:54,rep:34.0,size:'2.3K',acc:'#c9a4ff',
+    feat:['Snap Grip','Snap Car Mount','Snap Charge Qi2','Snap Pack','Snap Case'],skip:['Snap Grip Stand','MCON'],mcon:false}
+  ];
+  var pxMax=18.3, rowsEl=document.getElementById('px-rows');
+  PX.forEach(function(p,i){
+    var parts=p.name.split(' ');
+    var r=document.createElement('div'); r.className='px-row'+(i===0?' on':''); r.dataset.id=p.id;
+    r.innerHTML='<div class="px-name">'+parts[1]+'<small>'+parts[0]+'</small></div>'+
+      '<div class="px-track"><div class="px-fill" data-w="'+(p.rev/pxMax*100).toFixed(1)+'" style="background:'+p.acc+'"></div></div>'+
+      '<div class="px-pct">'+p.rev+'%</div>';
+    r.addEventListener('click',function(){ selectPX(p.id); });
+    rowsEl.appendChild(r);
+  });
+  // unclassified row
+  var u=document.createElement('div'); u.className='px-row unc';
+  u.innerHTML='<div class="px-name"><span>General / unclassified</span></div>'+
+    '<div class="px-track"><div class="px-fill" data-w="'+(21.3/pxMax*100).toFixed(1)+'"></div></div>'+
+    '<div class="px-pct">21.3%</div>';
+  rowsEl.appendChild(u);
+
+  function selectPX(id){
+    var p=PX.filter(function(x){return x.id===id;})[0];
+    document.querySelectorAll('.px-row').forEach(function(r){ r.classList.toggle('on', r.dataset.id===id); });
+    document.getElementById('px-accent').style.background=p.acc;
+    var t=document.getElementById('px-title'); t.textContent=p.name; t.style.color=p.acc;
+    document.getElementById('px-tag').textContent=p.tag;
+    document.getElementById('px-stats').innerHTML=
+      stat('Revenue share',p.rev+'%')+stat('Avg LTV','$'+p.ltv)+stat('Avg order','$'+p.aov)+
+      stat('Repeat rate',p.rep+'%')+stat('Segment','~'+p.size)+stat('Customers',p.cust+'%');
+    document.getElementById('px-feat').innerHTML=p.feat.map(function(x){return '<span class="tg feat">'+x+'</span>';}).join('');
+    document.getElementById('px-skip').innerHTML=p.skip.map(function(x){return '<span class="tg skip">'+x+'</span>';}).join('');
+    document.getElementById('px-mcon').innerHTML= p.mcon
+      ? '<div class="mcon-badge yes">▶ MCON controller · feature it</div>'
+      : '<div class="mcon-badge no">✕ MCON controller · leave out</div>';
+  }
+  function stat(k,v){ return '<div class="s"><div class="k">'+k+'</div><div class="v">'+v+'</div></div>'; }
+  selectPX('executive');
+
+  /* ---------- champion journeys (3 timelines) ---------- */
+  var MATT=[
+    {d:'2019-12-22',lab:'First order',prod:'Gray grip',val:29,sale:false},
+    {d:'2025-05-26',lab:'Memorial Day 25%',prod:'Car Mount + Grip',val:56,sale:true},
+    {d:'2026-04-11',lab:'Big Sale · 75% off',prod:'Car Mount + Grip',val:67,sale:true},
+    {d:'2026-05-08',lab:'25% off everything',prod:'Grip + Case',val:81,sale:true}
+  ];
+  var SHAWN=[
+    {d:'2020-01-05',lab:'First order',prod:'ohsnap',val:29,sale:false},
+    {d:'2020-04-02',lab:'Custom discount',prod:'ohsnap ($0)',val:0,sale:true},
+    {d:'2021-01-27',lab:'Reorder',prod:'Install Kit + Grip',val:34,sale:false},
+    {d:'2026-04-30',lab:'MCON comeback',prod:'MCON + MCON Dock',val:164,sale:false},
+    {d:'2026-06-30',lab:'Reorder',prod:'Grip Stand',val:47,sale:false}
+  ];
+  var HADRIAN=[
+    {d:'2020-08-02',lab:'First · 10% off',prod:'Grip',val:23,sale:true},
+    {d:'2022-02-22',lab:'Snap10',prod:'Grip 2.0',val:34,sale:true},
+    {d:'2022-09-03',lab:'Labor Day',prod:'Grip 2.0 x2',val:56,sale:true},
+    {d:'2022-11-29',lab:'Cyber Monday',prod:'Snap 3 Pro x2',val:53,sale:true},
+    {d:'2024-01-18',lab:'Reorder',prod:'Snap 4 Luxe',val:48,sale:false},
+    {d:'2025-11-29',lab:'BFCM comeback',prod:'Snap Grip 5 x2',val:59,sale:true},
+    {d:'2026-02-27',lab:'Reorder',prod:'Grip Stand x2',val:84,sale:false},
+    {d:'2026-05-10',lab:"Mother's Day",prod:'Grip Stand x3',val:197,sale:true},
+    {d:'2026-05-18',lab:'Referral credit',prod:'Grip Stand',val:74,sale:true}
+  ];
+  var DAY=86400000;
+  function gapDays(a,b){ return Math.round((new Date(b)-new Date(a))/DAY); }
+  var MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function fmtMY(d){ var p=d.split('-'); return MO[+p[1]-1]+" '"+p[0].slice(2); }
+
+  function renderJourney(id, orders){
+    var line=document.getElementById(id);
+    var N=orders.length, slot=100/N;
+    function x(i){ return (i+0.5)*slot; }
+    var base=document.createElement('div'); base.className='jline'; line.appendChild(base);
+    // connectors + gap labels (equal slots; magnitude carried by the label)
+    for(var i=0;i<N-1;i++){
+      var g=gapDays(orders[i].d,orders[i+1].d), big=g>=500;
+      var c=document.createElement('div'); c.className='jconn '+(big?'big':'small');
+      c.style.left=x(i)+'%'; c.style.width=(x(i+1)-x(i))+'%'; line.appendChild(c);
+      var gl=document.createElement('div'); gl.className='jgap'+(big?' big':'');
+      gl.style.left=((x(i)+x(i+1))/2)+'%'; gl.textContent=g.toLocaleString()+'d'; line.appendChild(gl);
+    }
+    // order nodes — always distinct
+    orders.forEach(function(o,i){
+      var gtxt = i>0 ? gapDays(orders[i-1].d,o.d).toLocaleString()+'d gap' : 'first order';
+      var cls='jnode'+(o.sale?' sale':'')+(i===0?' first':'');
+      var node=document.createElement('div'); node.className=cls; node.style.left=x(i)+'%';
+      node.innerHTML=
+        '<div class="jdot"></div>'+
+        '<div class="jnum">#'+(i+1)+'</div>'+
+        '<div class="jcap"><div class="l">'+o.lab+'</div><div class="m">$'+o.val+' &middot; '+fmtMY(o.d)+'</div></div>'+
+        '<div class="jtip"><b>#'+(i+1)+' &middot; '+o.lab+'</b><br>'+
+          '<span class="p">'+o.prod+' &middot; $'+o.val+'</span><br>'+
+          '<span class="p">'+o.d+'</span> &middot; <span class="'+(i>0?'a':'g')+'">'+gtxt+'</span></div>';
+      line.appendChild(node);
+    });
+    return line;
+  }
+  function revealJourney(line){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(!e.isIntersecting) return;
+      line.querySelectorAll('.jdot').forEach(function(d,i){ setTimeout(function(){ d.classList.add('in'); }, reduce?0:i*100); });
+      line.querySelectorAll('.jnum,.jcap').forEach(function(n){ setTimeout(function(){ n.classList.add('in'); }, reduce?0:220); });
+      io.unobserve(e.target);
+    });},{threshold:.25}); io.observe(line);
+  }
+  revealJourney(renderJourney('tl-matt', MATT));
+  revealJourney(renderJourney('tl-shawn', SHAWN));
+  revealJourney(renderJourney('tl-hadrian', HADRIAN));
+})();
+</script>
+</body>
+</html>
