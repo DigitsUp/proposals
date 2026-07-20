@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OhSnap · Retention Engagement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0b0d; --panel:#121418; --panel2:#181b21; --panel3:#1f232b;
+    --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.16);
+    --fg:#eef0f3; --muted:#8b929c; --dim:#5c626c;
+    --up:#35d29a; --up-dim:rgba(53,210,154,.16);
+    --down:#ff5f52;
+    --disp:'Archivo Black','Arial Black',system-ui,sans-serif;
+    --sans:'Archivo',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+    --wrap:1080px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink); color:var(--fg); font-family:var(--sans);
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),
+                     linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px; opacity:.35;
+    mask-image:radial-gradient(circle at 50% 30%,#000 0%,transparent 78%);
+  }
+  .wrap{max-width:var(--wrap); margin:0 auto; padding:0 26px; position:relative; z-index:1}
+
+  /* ---------- progress rail ---------- */
+  #rail{position:fixed; top:0; left:0; height:3px; width:0%; z-index:60;
+    background:linear-gradient(90deg,var(--up),#7ef0c5); box-shadow:0 0 14px var(--up)}
+  #nav{position:fixed; top:50%; right:18px; transform:translateY(-50%); z-index:55;
+    display:flex; flex-direction:column; gap:13px}
+  #nav a{width:9px; height:9px; border-radius:50%; border:1px solid var(--line2);
+    background:transparent; transition:.25s; position:relative}
+  #nav a.on{background:var(--up); border-color:var(--up); box-shadow:0 0 10px var(--up)}
+  #nav a span{position:absolute; right:18px; top:50%; transform:translateY(-50%);
+    font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--muted); white-space:nowrap; opacity:0; pointer-events:none; transition:.2s}
+  #nav a:hover span{opacity:1}
+  @media(max-width:720px){#nav{display:none}}
+
+  /* ---------- shared ---------- */
+  section{padding:120px 0; position:relative}
+  .eyebrow{font-family:var(--mono); font-size:11.5px; letter-spacing:.34em; text-transform:uppercase;
+    color:var(--up); display:flex; align-items:center; gap:12px; margin-bottom:22px}
+  .eyebrow::before{content:""; width:30px; height:1px; background:var(--up); display:inline-block}
+  h2{font-family:var(--disp); font-size:clamp(30px,5.2vw,58px); line-height:.98;
+    letter-spacing:-.02em; text-transform:uppercase; margin-bottom:20px}
+  .lede{font-size:clamp(16px,2vw,19px); color:#c6cbd2; max-width:660px; margin-bottom:14px}
+  .lede b{color:#fff; font-weight:800}
+
+  /* reveal */
+  .rv{opacity:0; transform:translateY(26px); transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1; transform:none}
+  .rv.d1{transition-delay:.08s} .rv.d2{transition-delay:.16s} .rv.d3{transition-delay:.24s} .rv.d4{transition-delay:.32s}
+
+  /* ---------- brandbar + hero ---------- */
+  #hero{min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+    padding:80px 0 90px; border-bottom:1px solid var(--line)}
+  .brandbar{position:fixed; top:0; left:0; right:0; height:52px; background:#000;
+    display:flex; align-items:center; z-index:40; border-bottom:1px solid var(--line)}
+  .brandbar .wrap{display:flex; align-items:center; justify-content:space-between; width:100%}
+  .wordmark{font-family:var(--disp); font-style:italic; letter-spacing:-.03em; font-size:19px}
+  .wordmark span{color:var(--up)}
+  .brandbar .tag{font-family:var(--mono); font-size:10.5px; letter-spacing:.2em; color:var(--muted); text-transform:uppercase}
+  .hero-kick{font-family:var(--mono); font-size:12px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); margin-bottom:26px}
+  .hero-kick b{color:var(--up)}
+  h1{font-family:var(--disp); text-transform:uppercase; letter-spacing:-.025em;
+    font-size:clamp(46px,10.5vw,128px); line-height:.86; margin-bottom:28px}
+  h1 .thin{-webkit-text-stroke:1.5px var(--fg); color:transparent}
+  .hero-thesis{font-size:clamp(17px,2.4vw,23px); max-width:640px; color:#cfd4db; margin-bottom:44px}
+  .hero-thesis b{color:#fff}
+  .hero-meta{display:flex; flex-wrap:wrap; gap:14px 40px; font-family:var(--mono); font-size:12.5px; color:var(--muted)}
+  .hero-meta b{color:var(--fg); font-weight:500}
+  .scrollcue{margin-top:60px; font-family:var(--mono); font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--dim); display:flex; align-items:center; gap:12px}
+  .scrollcue .dot{width:6px;height:6px;border-radius:50%;background:var(--up);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.5)}}
+
+  /* ---------- spec list ---------- */
+  .spec-list{list-style:none; margin-top:32px}
+  .spec-list li{font-family:var(--mono); font-size:13px; color:#c6cbd2; padding:18px 0; border-bottom:1px solid var(--line); display:flex; gap:12px; align-items:flex-start; line-height:1.6}
+  .spec-list li:last-child{border-bottom:none}
+  .spec-list li::before{content:"→"; color:var(--up); flex-shrink:0; margin-top:1px; font-weight:700}
+  .spec-list li b{color:#fff}
+
+  /* ---------- volume math ---------- */
+  .vol-math{display:flex; align-items:center; gap:14px; margin-top:38px; flex-wrap:wrap}
+  .vol-box{border:1px solid var(--line); border-radius:14px; background:var(--panel); padding:24px 28px; flex:1; min-width:160px}
+  .vol-box.accent{border-color:var(--up); background:rgba(53,210,154,.07); box-shadow:0 0 0 1px rgba(53,210,154,.18),0 0 40px rgba(53,210,154,.06)}
+  .vol-box-label{font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); margin-bottom:10px}
+  .vol-box-val{font-family:var(--disp); font-size:clamp(22px,3vw,30px); text-transform:uppercase; letter-spacing:-.01em; color:var(--fg)}
+  .vol-box.accent .vol-box-val{color:var(--up)}
+  .vol-op{font-family:var(--disp); font-size:28px; color:var(--up); flex-shrink:0}
+
+  /* ---------- callout strip (green left border) ---------- */
+  .callout{border:1px solid var(--line2); border-left:3px solid var(--up); border-radius:0 14px 14px 0;
+    background:var(--up-dim); padding:24px 28px; margin-top:32px}
+  .callout .lab{font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--up); margin-bottom:8px}
+  .callout p{font-size:14.5px; color:#c6cbd2; line-height:1.7}
+  .callout p b{color:#fff}
+
+  /* ---------- ledger rows ---------- */
+  .ledger{border:1px solid var(--line); border-radius:14px; background:var(--panel); overflow:hidden; margin-top:32px}
+  .ledger-row{display:grid; grid-template-columns:220px 1fr; gap:24px; padding:22px 28px; border-bottom:1px solid var(--line)}
+  .ledger-row:last-child{border-bottom:none}
+  .ledger-key{font-family:var(--mono); font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--up); padding-top:2px}
+  .ledger-val{font-size:14.5px; color:#c6cbd2; line-height:1.65}
+  .ledger-val b{color:#fff}
+  @media(max-width:720px){.ledger-row{grid-template-columns:1fr; gap:8px}}
+
+  /* ---------- all-in dark band ---------- */
+  .allin{border:1px solid var(--line); border-radius:18px; background:var(--ink); padding:40px 36px; margin-top:32px; display:flex; align-items:center; justify-content:space-between; gap:32px; flex-wrap:wrap}
+  .allin-left{font-family:var(--disp); font-size:clamp(20px,3vw,30px); text-transform:uppercase; letter-spacing:-.01em; color:var(--fg); max-width:360px; line-height:1.1}
+  .allin-right{text-align:right}
+  .allin-price{font-family:var(--disp); font-size:clamp(48px,7vw,82px); letter-spacing:-.03em; line-height:1; color:var(--fg)}
+  .allin-per{font-family:var(--mono); font-size:12px; color:var(--muted); margin-top:4px}
+  .allin-divider{width:100%; height:1px; background:var(--line); margin:20px 0}
+  .allin-note{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.7}
+  .allin-note b{color:var(--fg)}
+
+  /* ---------- timeline month track ---------- */
+  .month-track{display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-top:38px}
+  .month-box{border:1px solid var(--line); border-radius:12px; background:var(--panel); padding:20px 16px; text-align:center}
+  .month-box.highlight{border-color:var(--up); background:rgba(53,210,154,.07); box-shadow:0 0 0 1px rgba(53,210,154,.18)}
+  .month-box.optional{border-style:dashed; border-color:var(--dim)}
+  .month-name{font-family:var(--disp); font-size:14px; letter-spacing:.04em; text-transform:uppercase; color:var(--fg); margin-bottom:8px}
+  .month-box.highlight .month-name{color:var(--up)}
+  .month-box.optional .month-name{color:var(--dim)}
+  .month-label{font-family:var(--mono); font-size:10.5px; color:var(--muted); line-height:1.5}
+  .month-box.optional .month-label{color:var(--dim)}
+  @media(max-width:780px){.month-track{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:480px){.month-track{grid-template-columns:repeat(2,1fr)}}
+
+  /* ---------- term line ---------- */
+  .term-line{display:flex; align-items:flex-end; gap:16px; margin-top:40px; flex-wrap:wrap}
+  .term-big{font-family:var(--disp); font-size:clamp(42px,7vw,80px); letter-spacing:-.03em; line-height:1; color:var(--fg)}
+  .term-per{font-family:var(--mono); font-size:13px; color:var(--muted); padding-bottom:8px}
+  .term-text{margin-top:14px; font-size:15px; color:#c6cbd2; max-width:560px; line-height:1.7}
+  .term-text b{color:#fff}
+
+  /* ---------- not-included chips ---------- */
+  .excl{display:flex; flex-wrap:wrap; gap:10px; margin-top:32px}
+  .excl .x{font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); border:1px solid var(--line); background:var(--panel); border-radius:30px; padding:9px 18px}
+  .excl-note{margin-top:22px; font-family:var(--mono); font-size:12px; color:var(--dim)}
+
+  /* ---------- terms cards ---------- */
+  .terms-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:32px}
+  .term-card{border:1px solid var(--line); border-radius:14px; background:var(--panel); padding:28px 26px}
+  .term-card-label{font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--up); margin-bottom:14px}
+  .term-card-body{font-size:14.5px; color:#c6cbd2; line-height:1.7}
+  .term-card-body b{color:#fff}
+  @media(max-width:720px){.terms-grid{grid-template-columns:1fr}}
+
+  /* ---------- audit link strip ---------- */
+  .audit-strip{border:1px solid var(--line2); border-left:3px solid var(--up); border-radius:0 14px 14px 0; background:rgba(53,210,154,.05); padding:24px 28px; display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:14px; flex-wrap:wrap}
+  .audit-strip .txt .lab{font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--up); margin-bottom:6px}
+  .audit-strip .txt p{font-size:14.5px; color:#c6cbd2}
+  .audit-strip .txt p b{color:#fff}
+  .audit-link{font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:12px 22px; border-radius:30px; border:1px solid var(--up); color:var(--up); text-decoration:none; white-space:nowrap; transition:.2s; flex-shrink:0}
+  .audit-link:hover{background:var(--up); color:#04140d}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line); padding:60px 0 90px; margin-top:40px}
+  .foot-inner{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px}
+  .foot-left{font-family:var(--mono); font-size:12px; color:var(--muted); line-height:1.9}
+  .foot-left b{color:var(--fg)}
+  .signoff{font-family:var(--mono); font-size:11px; color:var(--dim); letter-spacing:.1em; text-transform:uppercase}
+
+  /* ---------- password gate ---------- */
+  html.gate-lock{overflow:hidden}
+  #gate{position:fixed; inset:0; z-index:9999; background:radial-gradient(circle at 50% 34%,#111418,#07080a 72%); display:flex; align-items:center; justify-content:center; overflow:hidden; transition:opacity .6s ease, transform .6s ease}
+  #gate::before{content:""; position:absolute; inset:0; background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px); background-size:56px 56px; opacity:.4; mask-image:radial-gradient(circle at 50% 40%,#000,transparent 74%)}
+  #gate.lift{opacity:0; transform:translateY(-26px) scale(1.01); pointer-events:none}
+  .gate-scan{position:absolute; left:0; right:0; height:130px; background:linear-gradient(180deg,transparent,rgba(53,210,154,.10),transparent); animation:scan 5.5s linear infinite; pointer-events:none}
+  @keyframes scan{0%{top:-150px}100%{top:100%}}
+  .gate-inner{position:relative; z-index:2; width:min(440px,90vw); text-align:center; padding:20px}
+  .gate-wm{font-family:var(--disp); font-style:italic; font-size:26px; letter-spacing:-.03em; margin-bottom:14px}
+  .gate-wm span{color:var(--up)}
+  .gate-eyebrow{font-family:var(--mono); font-size:10.5px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); margin-bottom:2px}
+  .gate-art{width:260px; height:250px; margin:0 auto 4px}
+  .gate-art svg{width:100%; height:100%; overflow:visible}
+  .bobwrap{animation:bob 2.9s ease-in-out infinite; transform-box:fill-box; transform-origin:center}
+  @keyframes bob{0%,100%{transform:translateY(-5px)}50%{transform:translateY(7px)}}
+  .ring{transition:transform .55s cubic-bezier(.34,1.56,.64,1); transform-box:fill-box; transform-origin:center}
+  .field{stroke:var(--up); stroke-width:1.4; stroke-dasharray:3 7; fill:none; opacity:.45; animation:flow 1s linear infinite}
+  @keyframes flow{to{stroke-dashoffset:-20}}
+  .shock{fill:none; stroke:var(--up); stroke-width:2; opacity:0; transform-box:fill-box; transform-origin:center}
+  .flare{opacity:0; transform-box:fill-box; transform-origin:center}
+  .gate-art.snapped .ring{transform:translateY(100px) scale(.96)}
+  .gate-art.snapped .bobwrap{animation:none}
+  .gate-art.snapped .field{opacity:0; transition:opacity .3s}
+  .gate-art.snapped .base{stroke:var(--up); filter:drop-shadow(0 0 12px rgba(53,210,154,.55)); transition:.3s}
+  .gate-art.snapped .shock{animation:shock .75s ease-out .3s}
+  .gate-art.snapped .flare{animation:flare .8s ease-out .3s}
+  @keyframes shock{0%{opacity:.75; transform:scale(.25)}100%{opacity:0; transform:scale(3.2)}}
+  @keyframes flare{0%{opacity:.9; transform:scale(.4)}100%{opacity:0; transform:scale(2)}}
+  .gate-art.repel .ring{transform:translateY(-42px) rotate(-9deg); transition:transform .16s cubic-bezier(.5,-.6,.5,1.6)}
+  .gate-art.repel .bobwrap{animation:none}
+  .gate-art.repel .field{stroke:var(--down); opacity:.9}
+  .gate-art.nudge .ring{transform:translateY(7px); transition:transform .1s ease}
+  .gate-label{display:block; font-family:var(--mono); font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); margin-bottom:12px}
+  .gate-row{display:flex; gap:8px; justify-content:center}
+  .gate-row.shake{animation:shk .5s}
+  @keyframes shk{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-7px)}40%,60%{transform:translateX(7px)}}
+  #gate-input{flex:1; max-width:250px; background:var(--panel); border:1px solid var(--line2); border-radius:30px; padding:14px 20px; color:var(--fg); font-family:var(--mono); font-size:15px; letter-spacing:.18em; text-align:center; outline:none; transition:.2s}
+  #gate-input::placeholder{color:var(--dim); letter-spacing:.3em}
+  #gate-input:focus{border-color:var(--up); box-shadow:0 0 0 3px rgba(53,210,154,.16)}
+  .gate-btn{font-family:var(--mono); font-weight:700; font-size:13px; letter-spacing:.1em; text-transform:uppercase; padding:14px 24px; border-radius:30px; border:none; background:var(--up); color:#04140d; cursor:pointer; transition:.2s}
+  .gate-btn:hover{filter:brightness(1.08); transform:translateY(-1px)}
+  .gate-btn:active{transform:translateY(0)}
+  .gate-msg{min-height:20px; margin-top:16px; font-family:var(--mono); font-size:12px; letter-spacing:.1em}
+  .gate-msg.grant{color:var(--up)} .gate-msg.deny{color:var(--down)}
+  .gate-foot{margin-top:26px; font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--dim)}
+  @media(prefers-reduced-motion:reduce){.bobwrap,.gate-scan,.field{animation:none!important}.ring{transition:none}}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate">
+  <div class="gate-scan"></div>
+  <div class="gate-inner">
+    <div class="gate-wm">oh<span>|</span>snap<span>.</span></div>
+    <div class="gate-eyebrow">Confidential · Retention Engagement</div>
+    <div id="gate-art" class="gate-art">
+      <svg viewBox="0 0 260 250" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <radialGradient id="gflare" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#35d29a" stop-opacity=".8"/>
+            <stop offset="100%" stop-color="#35d29a" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle class="flare" cx="130" cy="200" r="62" fill="url(#gflare)"/>
+        <rect class="base" x="72" y="200" width="116" height="42" rx="12" fill="#181b21" stroke="#3a3f48" stroke-width="2"/>
+        <circle cx="130" cy="200" r="22" fill="none" stroke="#3a3f48" stroke-width="2"/>
+        <path class="field" d="M112,134 Q106,170 124,198"/>
+        <path class="field" d="M130,136 L130,198"/>
+        <path class="field" d="M148,134 Q154,170 136,198"/>
+        <circle class="shock" cx="130" cy="200" r="22"/>
+        <g class="bobwrap">
+          <g class="ring">
+            <circle cx="130" cy="100" r="32" fill="none" stroke="#eef0f3" stroke-width="6"/>
+            <path d="M130,68 A32,32 0 0 1 162,100" fill="none" stroke="#35d29a" stroke-width="6" stroke-linecap="round"/>
+            <circle cx="130" cy="100" r="15" fill="none" stroke="#8b929c" stroke-width="3"/>
+            <circle cx="130" cy="100" r="4" fill="#35d29a"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div id="gate-form">
+      <label class="gate-label" for="gate-input">Enter access key</label>
+      <div id="gate-row" class="gate-row">
+        <input id="gate-input" type="password" inputmode="text" placeholder="••••••••" aria-label="Access key" autocomplete="off">
+        <button id="gate-btn" type="button" class="gate-btn">Unlock</button>
+      </div>
+      <div id="gate-msg" class="gate-msg">&nbsp;</div>
+    </div>
+    <div class="gate-foot">Authorized recipients only</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var KEY='ohsnap2026';
+  var gate=document.getElementById('gate'), art=document.getElementById('gate-art'),
+      btn=document.getElementById('gate-btn'), input=document.getElementById('gate-input'),
+      row=document.getElementById('gate-row'), msg=document.getElementById('gate-msg');
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  document.documentElement.classList.add('gate-lock');
+  setTimeout(function(){ try{input.focus();}catch(e){} },350);
+  var AC;
+  function tone(f,type,dur,vol){ try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    var o=AC.createOscillator(),g=AC.createGain(); o.type=type; o.frequency.value=f;
+    o.connect(g); g.connect(AC.destination); var t=AC.currentTime;
+    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(vol||0.14,t+0.005);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur); o.start(t); o.stop(t+dur+0.02);
+  }catch(e){} }
+  function snap(){ tone(80,'sine',0.10,0.20); setTimeout(function(){ tone(440,'triangle',0.05,0.08); },45); }
+  function buzz(){ tone(150,'sawtooth',0.14,0.12); }
+  function success(){
+    art.classList.remove('repel'); art.classList.add('snapped');
+    msg.textContent='ACCESS GRANTED'; msg.className='gate-msg grant';
+    try{input.blur();}catch(e){} snap();
+    setTimeout(function(){ gate.classList.add('lift'); document.documentElement.classList.remove('gate-lock'); },1050);
+    setTimeout(function(){ gate.style.display='none'; },1750);
+  }
+  function fail(){
+    art.classList.remove('snapped'); void art.offsetWidth; art.classList.add('repel'); row.classList.add('shake');
+    msg.textContent='ACCESS DENIED — TRY AGAIN'; msg.className='gate-msg deny'; input.value=''; buzz();
+    setTimeout(function(){ art.classList.remove('repel'); row.classList.remove('shake'); },620);
+  }
+  function attempt(){ var v=(input.value||'').trim().toLowerCase(); if(v===KEY) success(); else fail(); }
+  btn.addEventListener('click',attempt);
+  input.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); attempt(); } });
+  input.addEventListener('input',function(){ if(reduce||!input.value) return;
+    art.classList.add('nudge'); setTimeout(function(){ art.classList.remove('nudge'); },110); });
+})();
+</script>
+
+<div id="rail"></div>
+
+<nav id="nav">
+  <a href="#hero" data-s="hero"><span>Open</span></a>
+  <a href="#scope" data-s="scope"><span>How it works</span></a>
+  <a href="#included" data-s="included"><span>Included</span></a>
+  <a href="#timeline" data-s="timeline"><span>Timeline</span></a>
+</nav>
+
+<!-- BRANDBAR -->
+<div class="brandbar">
+  <div class="wrap">
+    <div class="wordmark">oh<span>|</span>snap<span style="color:var(--up)">.</span></div>
+    <div class="tag">Retention Engagement · 2026</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- HERO -->
+<!-- ============================================================ -->
+<header id="hero">
+  <div class="wrap">
+    <div class="hero-kick rv"><b>DigitsUp</b> · Confidential</div>
+    <h1 class="rv d1">Retention.<br>Built <span class="thin">to</span><br>hold.</h1>
+    <p class="hero-thesis rv d2">JD asked for a program that runs the full lifecycle — campaigns, flows, copy, and design — as one system through Black Friday and the holiday peak. This is it.</p>
+    <div class="hero-meta rv d3">
+      <div><b>$8,570 / month</b> · all-in</div>
+      <div><b>Aug 1 start</b> · 5 months</div>
+      <div><b>16 campaigns</b> / month</div>
+      <div><b>24 emails</b> / month cap</div>
+    </div>
+    <div class="scrollcue rv d4"><div class="dot"></div> Scroll to explore</div>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- PART 01 — HOW IT WORKS -->
+<!-- ============================================================ -->
+<section id="scope">
+  <div class="wrap">
+    <div class="eyebrow rv">How it works</div>
+    <h2 class="rv d1">One program.<br>One number.</h2>
+    <p class="lede rv d2">Flat monthly, no build fee. The full flow rebuild folds into the engagement instead of a separate charge up front. Campaigns run from day one while flows are built underneath.</p>
+
+    <ul class="spec-list rv d3">
+      <li><div><b>Flat monthly, no build fee.</b> The full flow rebuild folds into the engagement instead of a separate charge up front.</div></li>
+      <li><div><b>16 campaigns a month, from day one.</b> The business never goes quiet while flows are rebuilt underneath.</div></li>
+      <li><div><b>Flows rebuilt and staggered by complexity.</b> All of them live before Black Friday.</div></li>
+      <li><div><b>Everything inside a 24-email monthly cap.</b> Bounded volume keeps copy sharp on every send.</div></li>
+    </ul>
+
+    <!-- Volume math -->
+    <div class="vol-math rv d4">
+      <div class="vol-box">
+        <div class="vol-box-label">Campaigns</div>
+        <div class="vol-box-val">16 / month</div>
+      </div>
+      <div class="vol-op">+</div>
+      <div class="vol-box">
+        <div class="vol-box-label">Flow builds</div>
+        <div class="vol-box-val">Staggered</div>
+      </div>
+      <div class="vol-op">=</div>
+      <div class="vol-box accent">
+        <div class="vol-box-label">Total, capped</div>
+        <div class="vol-box-val">24 emails / month</div>
+      </div>
+    </div>
+
+    <!-- BFCM callout -->
+    <div class="callout rv d4">
+      <div class="lab">BFCM</div>
+      <p><b>November is the exception.</b> Through Black Friday and Cyber Monday the cap comes off and we send as many emails as your biggest month needs. We staff up to cover it, and your rate does not change.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PART 02 — WHAT'S INCLUDED -->
+<!-- ============================================================ -->
+<section id="included">
+  <div class="wrap">
+    <div class="eyebrow rv">What's included</div>
+    <h2 class="rv d1">Full stack.<br>Every send.</h2>
+    <p class="lede rv d2">Strategy, copy, design, build, and management. Not pieces of the program — the whole thing.</p>
+
+    <div class="ledger rv d3">
+      <div class="ledger-row">
+        <div class="ledger-key">Strategy &amp; Lifecycle</div>
+        <div class="ledger-val">Monthly strategy sessions, lifecycle roadmap, segmentation architecture, and campaign planning. Senior, CMO-level direction — not an account manager relaying tickets.</div>
+      </div>
+      <div class="ledger-row">
+        <div class="ledger-key">Campaign Production</div>
+        <div class="ledger-val">All 16 campaigns a month, end to end: strategy, copy, design, build, segmentation, A/B testing, scheduling, and QA.</div>
+      </div>
+      <div class="ledger-row">
+        <div class="ledger-key">Flow Build &amp; Management</div>
+        <div class="ledger-val">The full flow set rebuilt and staggered across the term: welcome, abandoned cart, abandoned checkout, browse, win-back, post-purchase, and a returning-customer track. Then managed, optimized, and kept clean.</div>
+      </div>
+      <div class="ledger-row">
+        <div class="ledger-key">SMS</div>
+        <div class="ledger-val">Layered into the high-value flows and key campaign moments, written to work with email — not bolted on.</div>
+      </div>
+      <div class="ledger-row">
+        <div class="ledger-key">Reporting &amp; Optimization</div>
+        <div class="ledger-val">Monthly performance reporting, A/B test readouts, deliverability monitoring, and list hygiene.</div>
+      </div>
+    </div>
+
+    <!-- Copy + design callout -->
+    <div class="callout rv d4">
+      <div class="lab">Included</div>
+      <p><b>Copy and design, on every send.</b> Built into every campaign and every flow email. No separate design line, no per-asset fees. This is the part most agencies charge for on the side.</p>
+    </div>
+
+    <!-- All-in dark band -->
+    <div class="allin rv d4">
+      <div class="allin-left">Everything above,<br>one number.</div>
+      <div class="allin-right">
+        <div class="allin-price">$8,570</div>
+        <div class="allin-per">per month · all-in</div>
+      </div>
+      <div class="allin-divider"></div>
+      <div class="allin-note">Most shops bill the flow rebuild as a separate <b>$2,000 to $5,000</b> project on top of the retainer. Here it is folded in. Copy and design too.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PART 03 — TIMELINE -->
+<!-- ============================================================ -->
+<section id="timeline">
+  <div class="wrap">
+    <div class="eyebrow rv">Timeline</div>
+    <h2 class="rv d1">Aug 1<br>to Jan 1.</h2>
+    <p class="lede rv d2">Five months. Campaigns live from the first week. Flows staggered and complete before Black Friday. The quiet stretch after mid-December shipping cutoff is optional loyalty build time.</p>
+
+    <div class="month-track rv d3">
+      <div class="month-box">
+        <div class="month-name">AUG</div>
+        <div class="month-label">Kickoff, campaigns live</div>
+      </div>
+      <div class="month-box">
+        <div class="month-name">SEP</div>
+        <div class="month-label">Flows staggering</div>
+      </div>
+      <div class="month-box">
+        <div class="month-name">OCT</div>
+        <div class="month-label">Flows live</div>
+      </div>
+      <div class="month-box highlight">
+        <div class="month-name">NOV</div>
+        <div class="month-label">BFCM, cap off</div>
+      </div>
+      <div class="month-box">
+        <div class="month-name">DEC</div>
+        <div class="month-label">Ship cutoff, then quiet</div>
+      </div>
+      <div class="month-box optional">
+        <div class="month-name">JAN</div>
+        <div class="month-label">Loyalty launch</div>
+      </div>
+    </div>
+
+    <div class="term-line rv d4">
+      <div class="term-big">$8,570</div>
+      <div class="term-per">/ month</div>
+    </div>
+    <div class="term-text rv d4"><b>Five months</b>, Aug 1 to Jan 1. Everything built and running through the holiday.</div>
+
+    <!-- Loyalty callout -->
+    <div class="callout rv d4" style="margin-top:36px">
+      <div class="lab">Loyalty</div>
+      <p><b>Optional.</b> The quiet stretch after the mid-December shipping cutoff is ideal build time. We can soft-launch in October so customers bank points through BFCM without redeeming, then switch it live around the New Year with balances already waiting. Setup ($2,000) waived, and if launch carries into January we add a sixth month to Feb 1.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PART 04 — NOT INCLUDED -->
+<!-- ============================================================ -->
+<section id="terms">
+  <div class="wrap">
+    <div class="eyebrow rv">Scope</div>
+    <h2 class="rv d1">Not included.</h2>
+
+    <div class="excl rv d2">
+      <span class="x">Paid ad management</span>
+      <span class="x">Photo &amp; video production</span>
+      <span class="x">Site &amp; landing page development</span>
+      <span class="x">Over-cap volume outside November</span>
+    </div>
+    <div class="excl-note rv d3">Each is available as its own scope whenever you want it.</div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PART 05 — TERMS -->
+<!-- ============================================================ -->
+<section id="billing">
+  <div class="wrap">
+    <div class="eyebrow rv">Terms</div>
+    <h2 class="rv d1">The essentials.</h2>
+
+    <div class="terms-grid rv d2">
+      <div class="term-card">
+        <div class="term-card-label">Billing</div>
+        <div class="term-card-body">Monthly, <b>net 15</b>. First invoice on start.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-card-label">Volume</div>
+        <div class="term-card-body"><b>24 emails a month</b>. 16 campaigns plus staggered flow builds. Lifted for November.</div>
+      </div>
+      <div class="term-card">
+        <div class="term-card-label">Fees</div>
+        <div class="term-card-body">No build fee. Loyalty setup waived if you add it.</div>
+      </div>
+    </div>
+
+    <!-- Audit link -->
+    <div class="audit-strip rv d3">
+      <div class="txt">
+        <div class="lab">The audit</div>
+        <p>This scope is drawn directly from the <b>H1 2026 Signal Audit</b>.</p>
+      </div>
+      <a href="https://digitsup.github.io/proposals/ohsnap/" class="audit-link">View the audit →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- FOOTER -->
+<!-- ============================================================ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-inner">
+      <div class="foot-left">
+        <b>OhSnap · Retention Engagement</b><br>
+        Prepared by DigitsUp<br>
+        OHS-RET-02 · Jul 2026
+      </div>
+      <div class="signoff">Confidential · Authorized Recipients Only</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* progress rail + nav dots */
+  var rail=document.getElementById('rail');
+  var dots=[].slice.call(document.querySelectorAll('#nav a'));
+  var secs=[].slice.call(document.querySelectorAll('section,header#hero'));
+  function onScroll(){
+    var h=document.documentElement;
+    var p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    rail.style.width=(p*100)+'%';
+    var mid=window.scrollY+window.innerHeight*0.4, cur='hero';
+    secs.forEach(function(s){ if(s.offsetTop<=mid) cur=s.id; });
+    dots.forEach(function(d){ d.classList.toggle('on',d.dataset.s===cur); });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  /* scroll reveal */
+  var obs=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('in'); });
+  },{threshold:.12});
+  document.querySelectorAll('.rv').forEach(function(el){ obs.observe(el); });
+})();
+</script>
+</body>
+</html>
